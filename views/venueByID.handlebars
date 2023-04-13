@@ -1,0 +1,20 @@
+{{!
+This page will be rendered when the following route is hit: GET http://localhost:3000/venuedetails/:id
+This page will respond with a valid HTML document. The title of the document should be "Venue Details". You should have
+the title set as the <title> element of the HTML document and as an h1 in your document inside a header element .
+
+    Your page should reference a CSS file, /public/css/main-styles.css; this file should have at least 5 rulesets that
+    apply to this page; these 5 rules can also apply to elements on /, or be unique to this page.
+
+    You should have a main element, and inside of the main element have a div tag, inside the div tag you have the
+    following children elements: In an h2 element, you will display the name of the venue, an img element that contains
+    the image of the venue, you will set the source of the img to be the url for the venue image contained in the
+    data(shown below in the images array) and set the alt attribute to the venue name (as shown below in sample HTML),
+    an a element that will link to the venue's website in a new tab with the text "Venue Information on Ticketmaster",
+    an address element that contains the text "Address:" and then display the address, the city, state, and postal code
+    for that venue (in the data, these are the address.line1, city.name, state.stateCode and postalCode fields), and
+    finally another address element that contains the text "Phone:" and then display the venue's phone number field
+    (boxOfficeInfo.phoneNumberDetail field in the data). IF ANY OF THIS DATA IS MISSING FROM THE API, YOU WILL DISPLAY
+    "N/A" FOR THE FIELDS THAT DO NOT HAVE DATA, IF THERE IS NO IMAGE FOR A VENUE, USE A "NO PHOTO" DEFAULT IMAGE (I have
+    supplied one in the /public/images directory in the code stub)
+    }}

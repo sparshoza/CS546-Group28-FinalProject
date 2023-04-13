@@ -2,14 +2,19 @@
   "name": "cs546-project",
   "version": "1.0.0",
   "description": "StudyBuddy",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "seed": "node seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
-  "author": "Aditya, Sparsh, Tiffany, Robbert",
+  "author": "Aditya, Sparsh, Tiffany, Robert",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mongodb": "^5.2.0"
+    "express-handlebars": "^7.0.6",
+    "mongodb": "^5.2.0",
+    "nodemon": "^2.0.22"
   }
 }

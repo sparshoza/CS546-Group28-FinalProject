@@ -13,7 +13,7 @@ const getCollectionFn = (collection) => {
   };
 };
 
-// Note: You will need to change the code below to have the collection required by the assignment!
+//collections below 
 
-export const bands = getCollectionFn('bands');
+// export const bands = getCollectionFn('bands');
 
