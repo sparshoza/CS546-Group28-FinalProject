@@ -1,0 +1,13 @@
+TODO:
+    Users:
+Must Hash passwords where necessary in users (I have added comments for this, look for 'HASH')
+Look at the comments of create to decide whether the error checking is good enough
+Validate Emails with stevens database?
+Will profile picture always be a link with a .com? Add error checking then
+
+    Reviews:
+Check that '$pull' is done correctly in remove
+Kind of last minute I changed the reviews in courses to not just be an ID so that it was easier to calculate the overall rating for the course, check to see if that works
+
+    Courses: 
+    Discuss section and its purpose
