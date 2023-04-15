@@ -10,4 +10,10 @@ Check that '$pull' is done correctly in remove
 Kind of last minute I changed the reviews in courses to not just be an ID so that it was easier to calculate the overall rating for the course, check to see if that works
 
     Courses: 
-    Discuss section and its purpose
+Discuss section and its purpose
+
+    Groups:
+TODO ALL
+
+    Comments:
+TODO ALL
