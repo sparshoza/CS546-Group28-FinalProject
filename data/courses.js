@@ -53,7 +53,7 @@ export const get = async (id) =>{
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
     const coursesCollection = await courses();
-    let aCourse = await coursesCollection.findONe({_id: new ObjectId(id)});
+    const aCourse = await coursesCollection.findONe({_id: new ObjectId(id)});
     if(aCourse === null){throw 'no course with that id';}
     aCourse._id = aCourse._id.toString();
     return aCourse;
@@ -108,7 +108,7 @@ export const update = async (
         name : name,
         professorNames: professorNames
     };
-    let updatedInfo = await coursesCollection.findOneAndUpdate(
+    const updatedInfo = await coursesCollection.findOneAndUpdate(
         {_id: new ObjectId(id)},
         {$set : updatedCourse},
         {returnDocument : 'after'}

@@ -77,7 +77,7 @@ export const get = async (id) =>{
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
     const userCollection = await users();
-    let aUser = await userCollection.findOne({_id: new ObjectId(id)});
+    const aUser = await userCollection.findOne({_id: new ObjectId(id)});
     if(aUser === null){throw 'no user with that id';}
     aUser._id = aUser._id.toString();
     return aUser;
@@ -91,7 +91,7 @@ export const remove = async (id) =>{ //in case user logs out
     const userCollection = await users();
     const deleteInfo = await userCollection.findOneAndDelete({
         _id: new ObjectId(id)});
-    if(deleteInfo.lastErrorObject.n === 0){throw `Could not delete band with id of ${id}`;}
+    if(deleteInfo.lastErrorObject.n === 0){throw `Could not delete user with id of ${id}`;}
     return `${deleteInfo.value.name} has been successfully deleted!`; 
 };
 
@@ -139,7 +139,7 @@ export const update = async (
         department : department, 
         graduationYear 
     };
-    let updatedInfo = await userCollection.findOneAndUpdate(
+    const updatedInfo = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(id)},
         {$set : updatedUser},
         {returnDocument : 'after'}

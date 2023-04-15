@@ -128,7 +128,7 @@ export const get = async(id) =>{
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
     const reviewCollection = await reviews();
-    let aReview = await reviewCollection.findONe({_id : new ObjectId(id)});
+    const aReview = await reviewCollection.findONe({_id : new ObjectId(id)});
     if(aReview === null){throw 'no review with that id';}
     aReview._id = aReview._id.toString();
     return aReview;

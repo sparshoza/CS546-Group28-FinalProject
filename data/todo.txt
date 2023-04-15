@@ -13,7 +13,17 @@ Kind of last minute I changed the reviews in courses to not just be an ID so tha
 Discuss section and its purpose
 
     Groups:
-TODO ALL
+Do we need multiple 'get all' functions for the corresponding courseId's
+MAKE SURE THE GET ALL BY COURSES ACTUALLY WORKS!!!
+Do we have to make sure that the department is still the same? if so we have to add the department to the data functions - MAIN FEATURE SO WE HAVE TO DECIDE!!!
 
     Comments:
-TODO ALL
+Everything looks good I think
+Not doing update, probably?
+
+
+Overall:
+Scheudling - Where would that go? is that a data function (probably is)
+
+Extra: would have add friends to users and requests/outgoing requests or something
+analytics would have to be added as well
