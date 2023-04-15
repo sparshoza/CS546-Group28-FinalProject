@@ -15,5 +15,7 @@ const getCollectionFn = (collection) => {
 
 //collections below 
 
-// export const bands = getCollectionFn('bands');
-
+export const users = getCollectionFn('users');
+export const comments = getCollectionFn('comments');
+export const groups = getCollectionFn('groups');
+export const courses = getCollectionFn('courses');
