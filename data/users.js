@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections";
+import { users } from "../config/mongoCollections.js";
 import {ObjectId} from 'mongodb';
 
 export const create = async(
@@ -14,7 +14,7 @@ export const create = async(
 ) =>{
     if(!firstName || !lastName || !department || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
     if(typeof firstName !== 'string' ||typeof department !== 'string'|| typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || department.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof graduationYear !== 'number' || graduation === NaN){throw "graduationYear must be a non-zero number";}
+    if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     firstName = firstName.trim();
     lastName = lastName.trim();
@@ -25,11 +25,14 @@ export const create = async(
     if(department === 'CS'){throw 'Only CS department is support right now';}
     //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
     if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
-    if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
+    //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
+    if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu"){throw "Stevens Email must follow format";}
     // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
     const date = new Date();
     if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
-    const userCollection = users();
+    const userCollection = await users();
+    
+    /* because throwing error 
     let users = await getAll();
     let check = false;
     users.forEach(acct =>{
@@ -39,7 +42,7 @@ export const create = async(
     });
     if(check){
         throw 'Email already exists in another account!';
-    }
+    } */
     let newUser = {
         firstName: firstName,
         lastName: lastName,

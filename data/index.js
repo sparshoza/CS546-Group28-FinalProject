@@ -4,8 +4,9 @@ import groupsFunctions from './groups.js';
 import reviewFunctions from './reviews.js';
 import userFunctions from './users.js';
 
-export const commentData = commentFunctions;
+
 export const coursesData = coursesFunctions;
 export const groupData = groupsFunctions;
 export const reviewData = reviewFunctions;
 export const userData = userFunctions;
+//export const commentData = commentFunctions;
