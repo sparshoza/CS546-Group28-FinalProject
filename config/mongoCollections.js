@@ -19,3 +19,4 @@ export const users = getCollectionFn('users');
 export const comments = getCollectionFn('comments');
 export const groups = getCollectionFn('groups');
 export const courses = getCollectionFn('courses');
+export const reviews = getCollectionFn('reviews');

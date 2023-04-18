@@ -1,4 +1,4 @@
-import { comments, users, reviews } from "../config/mongoCollections";
+import { comments, users } from "../config/mongoCollections.js";
 import {userData, reviewData} from "./index.js"
 import {ObjectId} from 'mongodb';
 
@@ -138,4 +138,4 @@ export const remove = async (id) => {
 
 
 
-export default {create, getAllUser, getAllReview, get, remove};
+export default {createUserComment, getAllUser, getAllReview, get, remove};
