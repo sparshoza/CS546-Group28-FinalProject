@@ -1,0 +1,118 @@
+{{!
+Registration Page 
+First Name
+Last Name
+Stevens Email address
+Four or three courses 
+Password 
+Confirm password
+}}
+
+
+<html lang=en>
+     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration page</title>
+
+        <link rel="stylesheet" href="../public/css/lab10.css" >
+    </head>
+
+  
+  <body>
+    <header><h1>Signup Page</h1></header>
+    <main>
+      
+         
+      <form action="/register" method="POST" id="registration-form">
+        <label class="search-label" for="firstNameInput">First Name</label>
+        <input
+          type="text"
+          class="text-area"
+          name="firstNameInput"
+          id="firstNameInput"
+          placeholder="first name"
+          value= "{{firstName}}"
+        />
+         <div id="errorFirstName" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
+
+        
+        <br />
+        
+
+        <label class="search-label" for="lastNameInput">Last Name</label>
+        <input
+          type="text"
+          class="text-area"
+          name="lastNameInput"
+          id="lastNameInput"
+          placeholder="last name"
+          value= "{{lastName}}"
+        />
+        <div id="errorLastName" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
+        <br />
+        <label class="search-label" for="emailAdressInput">Email</label>
+        <input
+          type="email"
+          class="text-area"
+          name="emailAddressInput"
+          id="emailAddressInput"
+          placeholder="type here"
+          value= "{{email}}"
+        />
+        <div id="errorEmail" class="error"    hidden >I'm an error. I will change through Client-Side JS </div>
+        <br />
+        <label class="search-label" for="passwordInput">Password</label>
+        <input
+          type="password"
+          class="text-area"
+          name="passwordInput"
+          id="passwordInput"
+          placeholder="type here"
+        />
+        {{#if errorPassword}}
+        <div id="errorPassword" class="error"  >{{error}}</div>
+        {{/if}}
+        <br />
+
+        <label class="search-label" for="confirmPasswordInput">Confirm Password</label>
+        <input
+          type="password"
+          class="text-area"
+          name="confirmPasswordInput"
+          id="confirmPasswordInput"
+          placeholder="type here"
+        />
+        <div id="errorConfirmPassword" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
+
+        <br />
+
+        <select name="roleInput" id="roleInput">
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+
+        </select>
+        <div id="errorRole" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
+        <br />
+
+
+
+        <input class="submit-button" type="submit" />
+
+
+
+      </form>
+
+        <a  href="login">Already have an account? Login here</a>
+
+
+
+    </main>
+    {{!-- <script src="../public/js/lab10.js"></script> --}}
+     
+       
+
+    <footer><h2> Lab 10</h2></footer>
+  </body>
+
+</html>
