@@ -87,13 +87,54 @@ Confirm password
 
         <br />
 
-        <select name="roleInput" id="roleInput">
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-
-        </select>
-        <div id="errorRole" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
+{{!-- <label class="search-label" for="course1">course1</label>
+          <input
+          type="text"
+          class="text-area"
+          name="course1"
+          id="course1"
+          placeholder="type here"
+        />
         <br />
+        <label class="search-label" for="course2">course2</label>
+         <input
+          type="text"
+          class="text-area"
+          name="course2"
+          id="course2"
+          placeholder="type here"
+        />
+        <br />
+        <label class="search-label" for="course3">course3</label>
+         <input
+          type="text"
+          class="text-area"
+          name="course3"
+          id="course3"
+          placeholder="type here"
+        />
+        <br />
+        <label class="search-label" for="course4">course4</label>
+         <input
+          type="text"
+          class="text-area"
+          name="course4"
+          id="course4"
+          placeholder="type here"
+        /> --}}
+
+    <br />
+
+    	<label for="courseFields">Select number of courses:</label>
+		<select id="courseFields" onchange="showFields()">
+			<option value="">--Select Courses--</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+		<div id="fieldsContainer"></div>
+
 
 
 
@@ -108,7 +149,7 @@ Confirm password
 
 
     </main>
-    {{!-- <script src="../public/js/lab10.js"></script> --}}
+    <script src="../public/js/dropdown.js"></script>
      
        
 

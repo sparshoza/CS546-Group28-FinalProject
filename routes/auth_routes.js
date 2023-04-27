@@ -8,11 +8,10 @@ import user from "../data/users.js";
 const router = Router();
 
 router.route("/").get(async (req, res) => {
-  //code here for GET THIS ROUTE SHOULD NEVER FIRE BECAUSE OF MIDDLEWARE #1 IN SPECS.
 
   try
   {
-  return res.json({ error: "YOU SHOULD NOT BE HERE!" });
+  return res.json({ error: "in / route" });
   }
   catch(e)
   {
@@ -38,7 +37,11 @@ router
       const email = regData.emailAddressInput; 
       const password = regData.passwordInput;
       const confirmPassword = regData.confirmPasswordInput;
-      const role = regData.roleInput;
+      const course1 = regData.course1;
+      const course2 = regData.course2;
+      const course3 = regData.course3;
+      const course4 = regData.course4;
+
 
       //error handling server side including handlebars
       if (!firstName || !lastName || !email || !password || !confirmPassword || !role) {
@@ -104,13 +107,13 @@ router
 
 
 
-      const createReg = await user.createUser(
-        firstName,
-        lastName,
-        email,
-        password,
-        role
-      );
+      // const createReg = await user.createUser(
+      //   firstName,
+      //   lastName,
+      //   email,
+      //   password,
+      //   role
+      // );
 
       
       if (createReg.insertedUser === true) {
