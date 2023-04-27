@@ -5,7 +5,7 @@ export const create = async(
     //fields of input here
     firstName, // does the size need to  be checked
     lastName,  // does the size need to be checked
-    stevensEmail, //find duplicates of the email //NO DUPLICATES
+    stevensEmail, //find duplicates of the email //NO DUPLICATES //stored as lowercase
     hashedPassword, //has to be hashed here 
     profilePicture, //will it be a link?
     department, //only supports CS right now
