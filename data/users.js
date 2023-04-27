@@ -110,7 +110,7 @@ export const update = async (
 ) =>{
     if(!id || !firstName || !lastName || !department || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
     if(typeof id !== 'string' || id.trim().length === 0 || typeof firstName !== 'string' ||typeof department !== 'string'|| typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || department.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof graduationYear !== 'number' || graduation === NaN){throw "graduationYear must be a non-zero number";}
+    if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     id = id.trim();
     firstName = firstName.trim();
