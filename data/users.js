@@ -1,4 +1,6 @@
-import { users } from "../config/mongoCollections.js";
+import { users, emails, courses } from "../config/mongoCollections.js";
+import bcrypt from 'bcrypt';
+const saltRounds = 3;
 import {ObjectId} from 'mongodb';
 
 export const create = async(
@@ -8,21 +10,23 @@ export const create = async(
     stevensEmail, //find duplicates of the email //NO DUPLICATES
     hashedPassword, //has to be hashed here 
     profilePicture, //will it be a link?
-    department, //only supports CS right now
+    courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
+    // department, //only supports CS right now
+    // courseNumber, //must be a number
     graduationYear 
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
     if(!firstName || !lastName || !department || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
     if(typeof firstName !== 'string' ||typeof department !== 'string'|| typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || department.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
+    if(typeof graduationYear !== 'number' || graduationYear === NaN || courseNumber !== 'number' || courseNumber === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     firstName = firstName.trim();
     lastName = lastName.trim();
-    stevensEmail = stevensEmail.trim();
+    stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
     department = department.trim();
     hashedPassword = hashedPassword.trim();
     profilePicture = profilePicture.trim();
-    if(department === 'CS'){throw 'Only CS department is support right now';}
+    if(department !== 'CS'){throw 'Only CS department is support right now';}
     //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
     if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
     //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
@@ -31,23 +35,20 @@ export const create = async(
     const date = new Date();
     if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
     const userCollection = await users();
-    
-    /* because throwing error 
-    let users = await getAll();
-    let check = false;
-    users.forEach(acct =>{
-        if(acct.stevensEmail === stevensEmail){
-           check = true; 
-        }
-    });
-    if(check){
-        throw 'Email already exists in another account!';
-    } */
+    let hashedPassword = await bcrypt.hash(password, saltRounds);
+    const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
+    if(aUser !== null){throw 'Email is already linked to an account!'};
+    let emailCollection = await emails();
+    let valid = await emailCollection.findOne({email : stevensEmail});
+    if(valid === null){throw 'Email is not a valid stevens email address!'};
+    let courseCollection = await courses();
+    let validCourse = await courseCollection.findOne({number : courseNumber});
+    if(validCourse !== null){throw 'course number is not a valid number!'};
     let newUser = {
         firstName: firstName,
         lastName: lastName,
         stevensEmail: stevensEmail,
-        hashedPassword: hashedPassword,
+        password: hashedPassword,
         profilePicture: profilePicture,
         department: department,
         graduationYear,
@@ -152,4 +153,40 @@ export const update = async (
     return updatedInfo.value;
 };
 
-export default {create, getAll, get, remove, update};
+export const checkUser = async (emailAddress, password) => {
+    if(!emailAddress || !password) {throw 'all inputs must be provided';}
+    if(typeof emailAddress !== 'string' || typeof password !== 'string' || emailAddress.trim().length === 0 || password.trim().length === 0) {throw 'both inputs must be non-empty string';}
+    //trim strings
+    emailAddress = emailAddress.trim().toLowerCase();
+    password = password.trim();
+    //email check
+    let check = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; //regex I found that fulfills email address requirements
+    if(!emailAddress.match(check)){throw 'emailaddress input must follow the standard email address pattern';}
+    let emailCollection = await emails();
+    let anEmail = emails.findONe({email : emailAddress});
+    if(anEmail === null){'this is not a valid email'};
+    //password check
+    let upperCheck = /[A-Z]/;
+    let numberCheck = /[0-9]/;
+    let specialCheck = /[!@#$%^&*-?]/; //allows for the special characters in number row and ?
+    if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck)){throw 'password must contain at least one uppercase letter, one number and one special character';}
+    //validating done
+    const userCollection = await users();
+    const aUser = await userCollection.findOne({emailAddress : emailAddress}); //ask TA?
+    if(!aUser){throw 'Either the email address or password is incorrect';}
+    let compareToMatch = false;
+    try {
+      compareToMatch = await bcrypt.compare(password, aUser.password); //compare hash to password provided
+    } catch (error) {
+     //no op 
+     throw 'internel server error'
+    }
+    if(compareToMatch){
+      let new_user = {firstName : aUser.firstName, lastName: aUser.lastName, emailAddress: aUser.emailAddress, role: aUser.role};
+      return new_user;
+    } else {
+      throw 'Either the email address or password is incorrect';
+    }
+  };
+
+export default {create, getAll, get, remove, update, checkUser};
