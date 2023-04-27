@@ -35,7 +35,7 @@ export const create = async(
     const date = new Date();
     if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
     const userCollection = await users();
-    let hashedPassword = await bcrypt.hash(password, saltRounds);
+    // let hashedPassword = await bcrypt.hash(password, saltRounds);
     const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
     if(aUser !== null){throw 'Email is already linked to an account!'};
     let emailCollection = await emails();

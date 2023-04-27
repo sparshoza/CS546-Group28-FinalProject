@@ -1,5 +1,5 @@
 
-
+import authRoutes from "./auth_routes.js";
 
 import express from "express";
 
