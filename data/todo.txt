@@ -27,3 +27,5 @@ Scheudling - Where would that go? is that a data function (probably is)
 
 Extra: would have add friends to users and requests/outgoing requests or something
 analytics would have to be added as well
+
+For stevens registration : should we create another collection for verifying student's email address during registration?

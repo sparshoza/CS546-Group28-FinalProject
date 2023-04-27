@@ -11,7 +11,7 @@ export const create = async(
     //comments will be set as an empty array
 ) =>{
     if(!courseId || !rating || userId || !professorName){throw 'all fields must be present!';}
-    if(typeof userId !== 'string' || userId.trim().lenghth === 0 ||typeof courseId !== 'string' || typeof professorName !== 'string' || courseId.trim().length === 0 || professorName.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    if(typeof userId !== 'string' || userId.trim().length === 0 ||typeof courseId !== 'string' || typeof professorName !== 'string' || courseId.trim().length === 0 || professorName.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof rating !== 'number' || rating === NaN){throw 'rating must be a valid number!';}
     //trim strings
     courseId = courseId.trim();
