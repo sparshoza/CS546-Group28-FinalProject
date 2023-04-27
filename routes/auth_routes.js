@@ -2,9 +2,7 @@
 
 import { Router } from "express";
 import * as helpers from "../helpers.js";
-
 import user from "../data/users.js";
-
 const router = Router();
 
 router.route("/").get(async (req, res) => {
