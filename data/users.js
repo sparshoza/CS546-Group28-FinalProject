@@ -42,7 +42,7 @@ export const create = async(
     let valid = await emailCollection.findOne({email : stevensEmail});
     if(valid === null){throw 'Email is not a valid stevens email address!'};
     let courseCollection = await courses();
-    let validCourse = await courseCollection.findOne({number : courseNumber});
+    let validCourse = await courseCollection.findOne({courseCode : courseNumber});
     if(validCourse !== null){throw 'course number is not a valid number!'};
     let newUser = {
         firstName: firstName,
