@@ -22,6 +22,9 @@
       
       const loginForm = document.getElementById('login-form');
 
+
+	
+
       if (loginForm){
         loginForm.addEventListener('submit', (event) => {
           const emailAddressInput = document.getElementById('emailAddressInput').value.trim();
