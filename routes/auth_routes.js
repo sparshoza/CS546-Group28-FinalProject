@@ -5,6 +5,7 @@ import * as helpers from "../helpers.js";
 import user from "../data/users.js";
 const router = Router();
 
+
 router.route("/").get(async (req, res) => {
 
   try
@@ -30,6 +31,7 @@ router
       //getting data from the form
       const regData = req.body;
       //data params
+
       const firstName = regData.firstNameInput;
       const lastName = regData.lastNameInput;
       const email = regData.emailAddressInput; 
@@ -40,13 +42,30 @@ router
       const course3 = req.body.field3;
       const course4 = req.body.field4;
 
+      const course = [course1, course2, course3, course4]
+
+
+
+      const createUser = await user.create(firstName, lastName, email, password)
+
+
+    
+
+      if (createUser)
+      {
+        
+        let id = createUser._id
+        const addCourse = await user.addCourse(id, course);
+        console.log("here");
+      }
+
 
 
       
       //error handling server side including handlebars
-      if (!firstName || !lastName || !email || !password || !confirmPassword ) {
-        return res.status(400).render('error', {error: "enter something"});
-      }
+      // if (!firstName || !lastName || !email || !password || !confirmPassword ) {
+      //   return res.status(400).render('error', {error: "enter something"});
+      // }
       // if (!helpers.validateEmail(email))
       // {
       //   return res.status(400).render('error',{error:"wrong email format"})
