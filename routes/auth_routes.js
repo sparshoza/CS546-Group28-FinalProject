@@ -2,17 +2,15 @@
 
 import { Router } from "express";
 import * as helpers from "../helpers.js";
-
 import user from "../data/users.js";
-
 const router = Router();
 
+
 router.route("/").get(async (req, res) => {
-  //code here for GET THIS ROUTE SHOULD NEVER FIRE BECAUSE OF MIDDLEWARE #1 IN SPECS.
 
   try
   {
-  return res.json({ error: "YOU SHOULD NOT BE HERE!" });
+  return res.json({ error: "in / route" });
   }
   catch(e)
   {
@@ -33,97 +31,121 @@ router
       //getting data from the form
       const regData = req.body;
       //data params
+
       const firstName = regData.firstNameInput;
       const lastName = regData.lastNameInput;
       const email = regData.emailAddressInput; 
       const password = regData.passwordInput;
       const confirmPassword = regData.confirmPasswordInput;
-      const role = regData.roleInput;
+      const course1 = req.body.field1;
+      const course2 = req.body.field2;
+      const course3 = req.body.field3;
+      const course4 = req.body.field4;
 
-      //error handling server side including handlebars
-      if (!firstName || !lastName || !email || !password || !confirmPassword || !role) {
-        return res.status(400).render('error', {error: "enter something"});
-      }
-      if (!helpers.validateEmail(email))
+      const course = [course1, course2, course3, course4]
+
+
+
+      const createUser = await user.create(firstName, lastName, email, password)
+
+
+    
+
+      if (createUser)
       {
-        return res.status(400).render('error',{error:"wrong email format"})
-      }
-
-      if (typeof firstName !== "string" || typeof lastName !== "string") {
-        return res.status(400).render('error',{ error: "bad data type" });
-      }
-
-      if (helpers.checkSymbols(firstName) || helpers.checkSymbols(lastName)) {
-        return res.status(400).render('error',{ error: "No symbols in names" });
-      }
-      if (helpers.checkNumbers(firstName) || helpers.checkNumbers(lastName)) {
-        return res.status(400).render('error',{ error: "no numbers in names" });
-      }
-      if (firstName.length < 2 || firstName.length > 25) {
-        return res
-          .status(400)
-          .render('error',{ error: "First name length betwween 2 and 25" });
-      }
-      if (lastName.length < 2 || lastName.length > 25) {
-        return res
-          .status(400)
-          .render('error',{ error: "Last Name length between 2 and 25" });
-      }
-
-      if (password.length < 8) {
-        return res.status(400).render('register',{ errorPassword: "password length less than 8" });
-      }
-
-      if (!helpers.checkSymbols(password)) {
-        return res
-          .status(400)
-          .render('register',{ errorPassword: "enter atleast one special character" });
-      }
-
-      if (!helpers.checkNumbers(password)) {
-        return res.status(400).render('register',{ errorPassword: "Enter atleast one number" });
-      }
-      if (!helpers.checkLowerCase(password)) {
-        return res.status(400).render('register',{ errorPassword: "Enter atleast one lower case" });
-      }
-      if (!helpers.checkUpperCase(password)) {
-        return res.status(400).render('register',{ errorPassword: "Enter atleast one uppercase" });
-      }
-
-      if (helpers.checkBlankChars(password)) {
-        return res.status(400).render('register',{ errorPassword: "blank in password" });
-      }
-
-      if (password !== confirmPassword) {
-        return res.status(400).render('register',{ errorPassword: "password did not match" });
-      }
-
-      if (!role) {
-        return res.status(400).render('error',{ error: "enter role" });
+        
+        let id = createUser._id
+        const addCourse = await user.addCourse(id, course);
+        console.log("here");
       }
 
 
-
-      const createReg = await user.createUser(
-        firstName,
-        lastName,
-        email,
-        password,
-        role
-      );
 
       
-      if (createReg.insertedUser === true) {
-        res.render("login");
-      }
-      else if (createReg.insertedUser === false)
-      {
-        res.render('error',{error: "user already exists"} )
-      }
+      //error handling server side including handlebars
+      // if (!firstName || !lastName || !email || !password || !confirmPassword ) {
+      //   return res.status(400).render('error', {error: "enter something"});
+      // }
+      // if (!helpers.validateEmail(email))
+      // {
+      //   return res.status(400).render('error',{error:"wrong email format"})
+      // }
+
+      // if (typeof firstName !== "string" || typeof lastName !== "string") {
+      //   return res.status(400).render('error',{ error: "bad data type" });
+      // }
+
+      // if (helpers.checkSymbols(firstName) || helpers.checkSymbols(lastName)) {
+      //   return res.status(400).render('error',{ error: "No symbols in names" });
+      // }
+      // if (helpers.checkNumbers(firstName) || helpers.checkNumbers(lastName)) {
+      //   return res.status(400).render('error',{ error: "no numbers in names" });
+      // }
+      // if (firstName.length < 2 || firstName.length > 25) {
+      //   return res
+      //     .status(400)
+      //     .render('error',{ error: "First name length betwween 2 and 25" });
+      // }
+      // if (lastName.length < 2 || lastName.length > 25) {
+      //   return res
+      //     .status(400)
+      //     .render('error',{ error: "Last Name length between 2 and 25" });
+      // }
+
+      // if (password.length < 8) {
+      //   return res.status(400).render('register',{ errorPassword: "password length less than 8" });
+      // }
+
+      // if (!helpers.checkSymbols(password)) {
+      //   return res
+      //     .status(400)
+      //     .render('register',{ errorPassword: "enter atleast one special character" });
+      // }
+
+      // if (!helpers.checkNumbers(password)) {
+      //   return res.status(400).render('register',{ errorPassword: "Enter atleast one number" });
+      // }
+      // if (!helpers.checkLowerCase(password)) {
+      //   return res.status(400).render('register',{ errorPassword: "Enter atleast one lower case" });
+      // }
+      // if (!helpers.checkUpperCase(password)) {
+      //   return res.status(400).render('register',{ errorPassword: "Enter atleast one uppercase" });
+      // }
+
+      // if (helpers.checkBlankChars(password)) {
+      //   return res.status(400).render('register',{ errorPassword: "blank in password" });
+      // }
+
+      // if (password !== confirmPassword) {
+      //   return res.status(400).render('register',{ errorPassword: "password did not match" });
+      // }
+
+      // if (!role) {
+      //   return res.status(400).render('error',{ error: "enter role" });
+      // }
+
+
+
+      // const createReg = await user.createUser(
+      //   firstName,
+      //   lastName,
+      //   email,
+      //   password,
+      //   role
+      // );
+
+      
+      // if (createReg.insertedUser === true) {
+      //   res.render("login");
+      // }
+      // else if (createReg.insertedUser === false)
+      // {
+      //   res.render('error',{error: "user already exists"} )
+      // }
     
-      else {
-        return res.status(500).render('register',{ firstName: firstName, lastName: lastName , email: email, role:role });
-      }
+      // else {
+      //   return res.status(500).render('register',{ firstName: firstName, lastName: lastName , email: email, role:role });
+      // }
     } catch (e) {
      
       res.status(400).render('error', { error: e });

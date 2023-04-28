@@ -74,10 +74,12 @@ export const create = async(
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
         throw 'User could not be added';
     }
+
     const newId = insertInfo.insertedId.toString();
     const user = await get(newId);
     return user;
 };
+
 
 export const getAll = async () =>{
     const userCollection = await users();
@@ -281,7 +283,7 @@ export const addCourse = async (id, newCourses) =>{
     if(updatedInfo.lastErrorObject.n === 0){throw 'could not update user courses successfully'};
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return aUser;
-}
+};
 
 export const removeCourse = async (id, removeCourses) =>{
     if(!id, !removeCourses){throw 'id and removeCourses must be provided!'};
@@ -335,6 +337,6 @@ export const removeCourse = async (id, removeCourses) =>{
         if(updatedInfo.lastErrorObject.n === 0){throw 'could not update user courses successfully'};
         updatedInfo.value._id = updatedInfo.value._id.toString();
         return aUser;
-}
+};
 
 export default {create, getAll, get, remove, update, addCourse, removeCourse, checkUser};
