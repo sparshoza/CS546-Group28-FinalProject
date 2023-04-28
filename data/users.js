@@ -9,60 +9,84 @@ export const create = async(
     lastName,  // does the size need to be checked
     stevensEmail, //find duplicates of the email //NO DUPLICATES
     hashedPassword, //has to be hashed here 
-    profilePicture, //will it be a link?
-    courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
+   // profilePicture, //will it be a link?
+    //courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
     // department, //only supports CS right now
     // courseNumber, //must be a number
-    graduationYear 
+    //graduationYear 
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
-    if(!firstName || !lastName || !department || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
-    if(typeof firstName !== 'string' ||typeof department !== 'string'|| typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || department.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof graduationYear !== 'number' || graduationYear === NaN || courseNumber !== 'number' || courseNumber === NaN){throw "graduationYear must be a non-zero number";}
-    //trim the strings
-    firstName = firstName.trim();
-    lastName = lastName.trim();
-    stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
-    department = department.trim();
-    hashedPassword = hashedPassword.trim();
-    profilePicture = profilePicture.trim();
-    if(department !== 'CS'){throw 'Only CS department is support right now';}
-    //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
-    if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
-    //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
-    if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu"){throw "Stevens Email must follow format";}
-    // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
-    const date = new Date();
-    if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
+    // if(!firstName || !lastName || !department || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
+    // if(typeof firstName !== 'string' ||typeof department !== 'string'|| typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || department.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    // if(typeof graduationYear !== 'number' || graduationYear === NaN || courseNumber !== 'number' || courseNumber === NaN){throw "graduationYear must be a non-zero number";}
+    // //trim the strings
+    // firstName = firstName.trim();
+    // lastName = lastName.trim();
+    // stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
+    // department = department.trim();
+    // hashedPassword = hashedPassword.trim();
+    // profilePicture = profilePicture.trim();
+    // if(department !== 'CS'){throw 'Only CS department is support right now';}
+    // //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
+    // if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
+    // //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
+    // if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu"){throw "Stevens Email must follow format";}
+    // // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
+    // const date = new Date();
+    // if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
     const userCollection = await users();
-    // let hashedPassword = await bcrypt.hash(password, saltRounds);
-    const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
-    if(aUser !== null){throw 'Email is already linked to an account!'};
-    let emailCollection = await emails();
-    let valid = await emailCollection.findOne({email : stevensEmail});
-    if(valid === null){throw 'Email is not a valid stevens email address!'};
-    let courseCollection = await courses();
-    let validCourse = await courseCollection.findOne({number : courseNumber});
-    if(validCourse !== null){throw 'course number is not a valid number!'};
+    // // let hashedPassword = await bcrypt.hash(password, saltRounds);
+    // const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
+    // if(aUser !== null){throw 'Email is already linked to an account!'};
+    // let emailCollection = await emails();
+    // let valid = await emailCollection.findOne({email : stevensEmail});
+    // if(valid === null){throw 'Email is not a valid stevens email address!'};
+    // let courseCollection = await courses();
+    // let validCourse = await courseCollection.findOne({number : courseNumber});
+    // if(validCourse !== null){throw 'course number is not a valid number!'};
     let newUser = {
         firstName: firstName,
         lastName: lastName,
         stevensEmail: stevensEmail,
         password: hashedPassword,
-        profilePicture: profilePicture,
-        department: department,
-        graduationYear,
-        reviews: [], //empty
-        comments: [] //empty
+        courses : []
+        //profilePicture: profilePicture,
+        //department: department,
+        //graduationYear,
+       // reviews: [], //empty
+       // comments: [] //empty
     };
     const insertInfo = await userCollection.insertOne(newUser);
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
         throw 'User could not be added';
     }
+
     const newId = insertInfo.insertedId.toString();
     const user = await get(newId);
     return user;
 };
+
+export const addCourse = async (id, coursess) => {
+
+       
+        id = id.toString();
+        const userss = await get(id)
+
+        for (let c of coursess)
+        {
+            userss.courses.push(c);
+        }
+        const userCollection = await users();
+        const updatedInfo = await userCollection.findOneAndUpdate(
+            {_id: new ObjectId(id)},
+            {$set : userss},
+            {returnDocument : 'after'}
+        )
+        console.log("here in added courses");
+
+
+
+}
 
 export const getAll = async () =>{
     const userCollection = await users();
@@ -189,4 +213,4 @@ export const checkUser = async (emailAddress, password) => {
     }
   };
 
-export default {create, getAll, get, remove, update, checkUser};
+export default {create, getAll, get, remove, update, checkUser, addCourse};
