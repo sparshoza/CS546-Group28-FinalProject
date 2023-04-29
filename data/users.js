@@ -68,7 +68,7 @@ export const create = async(
 
 export const addCourse = async (id, coursess) => {
 
-       
+        //taking id and coursess array from req body auth routes from post /register
         id = id.toString();
         const userss = await get(id)
 
@@ -77,6 +77,9 @@ export const addCourse = async (id, coursess) => {
             userss.courses.push(c);
         }
         const userCollection = await users();
+        //till here everything works
+
+        //updatedInfo is not getting updated i dont why. 
         const updatedInfo = await userCollection.findOneAndUpdate(
             {_id: new ObjectId(id)},
             {$set : userss},
