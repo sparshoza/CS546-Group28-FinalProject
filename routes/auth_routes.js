@@ -42,22 +42,26 @@ router
       const course3 = req.body.field3;
       const course4 = req.body.field4;
 
-      const course = [course1, course2, course3, course4]
+      const courses = [course1, course2, course3, course4]
 
 
 
-      const createUser = await user.create(firstName, lastName, email, password)
+      const createUser = await user.create(firstName, lastName, email, password, courses)
 
 
     
 
       if (createUser)
       {
-        
-        let id = createUser._id
-        const addCourse = await user.addCourse(id, course);
-        console.log("here");
+
+        console.log(createUser);
+        res.render("login");
       }
+      else
+      {
+        res.render('error',{error: "user already exists"} )
+      }
+
 
 
 

@@ -8,68 +8,76 @@ export const create = async(
     firstName, // does the size need to  be checked
     lastName,  // does the size need to be checked
     stevensEmail, //find duplicates of the email //NO DUPLICATES
-    hashedPassword, //has to be hashed here 
-    profilePicture, //will it be a link?
+    password, //has to be hashed here 
+   // profilePicture, //will it be a link?
     courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
-    // department, //only supports CS right now
+    // department, //i think we dont need this parameter as it is implied that we are only accepting cs students
     // courseNumber, //must be a number
-    graduationYear 
+   // graduationYear // i dont think we need graduation year but open to discussion
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
-    if(!firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
-    if(typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
-    //trim the strings
-    firstName = firstName.trim();
-    lastName = lastName.trim();
-    stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
-    hashedPassword = hashedPassword.trim();
-    profilePicture = profilePicture.trim();
-    //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
-    if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
-    //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
-    if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu"){throw "Stevens Email must follow format";}
-    // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
-    const date = new Date();
-    if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
-    const userCollection = await users();
+
+    //error handling 
+    // if(!firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
+    // if(typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    // if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
+    // //trim the strings
+    // firstName = firstName.trim();
+    // lastName = lastName.trim();
+    // stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
+    // password = password.trim();
+    // profilePicture = profilePicture.trim();
+    // //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
+    // if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
+    // //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
+    // if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu"){throw "Stevens Email must follow format";}
+    // // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
+    // const date = new Date();
+    // if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
+    
+    // const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
+    // if(aUser !== null){throw 'Email is already linked to an account!'};
+    // let emailCollection = await emails();
+    // let valid = await emailCollection.findOne({email : stevensEmail});
+    // if(valid === null){throw 'Email is not a valid stevens email address!'};
+    // if(!Array.isArray(courses) || courses.length === 0){throw 'courses input must be a non-empty array'}
+    // let courseCollection = await courses();
+    // let index = 0;
+    // let toValidArr = [];
+    // courses.array.forEach(element => {
+    //     if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
+    //     courses[index] = element.trim();
+    //     element = element.trim();
+    //     if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
+    //     if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
+    //     toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
+    //     index += 1;
+    // });
+    // let counter = 0;
+    // //validate all course codes
+    // while(counter < index){
+    //     let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
+    //     if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
+    //     counter += 1;
+    // }
+
+    //main program starts
+
     let hashedPassword = await bcrypt.hash(password, saltRounds);
-    const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
-    if(aUser !== null){throw 'Email is already linked to an account!'};
-    let emailCollection = await emails();
-    let valid = await emailCollection.findOne({email : stevensEmail});
-    if(valid === null){throw 'Email is not a valid stevens email address!'};
-    if(!Array.isArray(courses) || courses.length === 0){throw 'courses input must be a non-empty array'}
-    let courseCollection = await courses();
-    let index = 0;
-    let toValidArr = [];
-    courses.array.forEach(element => {
-        if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
-        courses[index] = element.trim();
-        element = element.trim();
-        if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
-        if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
-        toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
-        index += 1;
-    });
-    let counter = 0;
-    //validate all course codes
-    while(counter < index){
-        let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
-        if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
-        counter += 1;
-    }
+
     let newUser = {
         firstName: firstName,
         lastName: lastName,
         stevensEmail: stevensEmail,
         password: hashedPassword,
-        profilePicture: profilePicture,
+        // profilePicture: profilePicture,
         courses : courses,
-        graduationYear,
+       // graduationYear,
         reviews: [], //empty
         comments: [] //empty
     };
+    const userCollection = await users();
+
     const insertInfo = await userCollection.insertOne(newUser);
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
         throw 'User could not be added';
@@ -245,31 +253,33 @@ export const checkUser = async (emailAddress, password) => {
   };
 
 export const addCourse = async (id, newCourses) =>{
-    if(!id, !newCourses){throw 'id and newCourses must be provided!'};
-    if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!'};
-    id = id.trim();
-    if(!ObjectId.isValid(id)){throw 'id must be valid!';}
-    if(Array.isArray(newCourses)){throw 'newCourses must be an array'};
-    if(newCourses.length === 0){throw 'newCourses cannot be empty!'};
+
+    // if(!id, !newCourses){throw 'id and newCourses must be provided!'};
+    // if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!'};
+    // id = id.trim();
+    // if(!ObjectId.isValid(id)){throw 'id must be valid!';}
+    // if(Array.isArray(newCourses)){throw 'newCourses must be an array'};
+    // if(newCourses.length === 0){throw 'newCourses cannot be empty!'};
+
     let courseCollection = await courses();
     let index = 0;
     let toValidArr = [];
-    newCourses.array.forEach(element => {
-        if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
-        newCourses[index] = element.trim();
-        element = element.trim();
-        if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
-        if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
-        toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
-        index += 1;
-    });
-    let counter = 0;
-    //validate all course codes
-    while(counter < index){
-        let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
-        if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
-        counter += 1;
-    }
+    // newCourses.array.forEach(element => {
+    //     if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
+    //     newCourses[index] = element.trim();
+    //     element = element.trim();
+    //     if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
+    //     if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
+    //     toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
+    //     index += 1;
+    // });
+    // let counter = 0;
+    // //validate all course codes
+    // while(counter < index){
+    //     let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
+    //     if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
+    //     counter += 1;
+    // }
     //get the user
     const userCollection = await users();
     const aUser = await userCollection.findOne({_id: new ObjectId(id)});
