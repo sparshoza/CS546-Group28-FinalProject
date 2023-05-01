@@ -35,18 +35,25 @@ router
       const firstName = regData.firstNameInput;
       const lastName = regData.lastNameInput;
       const email = regData.emailAddressInput; 
+      const gradYear = regData.graduationYear;
       const password = regData.passwordInput;
+    
       const confirmPassword = regData.confirmPasswordInput;
       const course1 = req.body.field1;
       const course2 = req.body.field2;
       const course3 = req.body.field3;
       const course4 = req.body.field4;
+      const courseField = req.body.courseFields;
 
-      const courses = [course1, course2, course3, course4]
+      const profilePicture = regData.uploadPicture;
 
+      const courses = [course1, course2, course3, course4]  
 
+      console.log(courseField);
 
-      const createUser = await user.create(firstName, lastName, email, password, courses)
+      console.log(profilePicture);
+
+      const createUser = await user.create(firstName, lastName, email, password, courses, gradYear);
 
 
     

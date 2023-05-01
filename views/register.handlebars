@@ -60,6 +60,19 @@ Confirm password
           placeholder="type here"
           value= "{{email}}"
         />
+
+         <br />
+        <label class="search-label" for="graduationYear">Graduation Year</label>
+        <input
+          type="number"
+          class="text-area"
+          name="graduationYear"
+          id="graduationYear"
+          min = "2023"
+          max = "2028"
+         
+        />
+
         <div id="errorEmail" class="error"    hidden >I'm an error. I will change through Client-Side JS </div>
         <br />
         <label class="search-label" for="passwordInput">Password</label>
@@ -85,43 +98,7 @@ Confirm password
         />
         <div id="errorConfirmPassword" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
 
-        <br />
 
-{{!-- <label class="search-label" for="course1">course1</label>
-          <input
-          type="text"
-          class="text-area"
-          name="course1"
-          id="course1"
-          placeholder="type here"
-        />
-        <br />
-        <label class="search-label" for="course2">course2</label>
-         <input
-          type="text"
-          class="text-area"
-          name="course2"
-          id="course2"
-          placeholder="type here"
-        />
-        <br />
-        <label class="search-label" for="course3">course3</label>
-         <input
-          type="text"
-          class="text-area"
-          name="course3"
-          id="course3"
-          placeholder="type here"
-        />
-        <br />
-        <label class="search-label" for="course4">course4</label>
-         <input
-          type="text"
-          class="text-area"
-          name="course4"
-          id="course4"
-          placeholder="type here"
-        /> --}}
 
     <br />
 
@@ -134,6 +111,18 @@ Confirm password
 			<option value="4">4</option>
 		</select>
 		<div id="fieldsContainer"></div>
+
+    <br/>
+     <label class="search-label" for="uploadPicture">Upload Profile <Picture></Picture></label>
+        <input
+          type="file"
+          class="text-area"
+          name="uploadPicture"
+          id="uploadPicture"
+          
+        />
+
+        <br/>
 
 
 

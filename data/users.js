@@ -72,7 +72,7 @@ export const create = async(
         password: hashedPassword,
         // profilePicture: profilePicture,
         courses : courses,
-       // graduationYear,
+       graduationYear,
         reviews: [], //empty
         comments: [] //empty
     };
