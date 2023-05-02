@@ -8,12 +8,9 @@ const router = Router();
 
 router.route("/").get(async (req, res) => {
 
-  try
-  {
+  try {
   return res.json({ error: "in / route" });
-  }
-  catch(e)
-  {
+  } catch(e){
     return res.json({error: "error in error"});
   }
 });
@@ -22,8 +19,8 @@ router
   .route("/register")
   .get(async (req, res) => {
     //code here for GET
-
     res.render("register");
+    
   })
   .post(async (req, res) => {
     //code here for POST
@@ -55,24 +52,14 @@ router
 
       const createUser = await user.create(firstName, lastName, email, password, courses, gradYear);
 
-
-    
-
-      if (createUser)
-      {
-
+      if (createUser) {
         console.log(createUser);
         res.render("login");
+
+      } else {
+        res.render('error',{error: "User already exists."} )
       }
-      else
-      {
-        res.render('error',{error: "user already exists"} )
-      }
 
-
-
-
-      
       //error handling server side including handlebars
       // if (!firstName || !lastName || !email || !password || !confirmPassword ) {
       //   return res.status(400).render('error', {error: "enter something"});
@@ -158,7 +145,7 @@ router
       //   return res.status(500).render('register',{ firstName: firstName, lastName: lastName , email: email, role:role });
       // }
     } catch (e) {
-     
+      console.log(e);
       res.status(400).render('error', { error: e });
     }
   });
@@ -171,16 +158,42 @@ router
   })
   .post(async (req, res) => {
     //code here for POST
+    const {email, password} = req.body;
+
+    if (!email || !password) {
+      return res.status(400).render('login', {errorMessage: 'Please provide a valid email address and password.'});
+    }
+
+    const emailAddress = emailAddressInput.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)) {
+      return res.status(400).render('login', {errorMessage: 'Please provide a valid email address.'});
+    }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(passwordInput)) {
+      return res.status(400).render('login', {errorMessage: 'Please provide a valid password (at least 8 characters long, with one uppercase letter, one number and one special character).'});
+    }
 
     try {
+      const result = await checkUser(emailAddressInput, passwordInput);
+      if(result) {
+        req.session.user = result;
+        if(result.role === 'admin'){
+          return res.status(200).redirect('/admin');
+        } else if (result.role === 'user'){
+          return res.status(200).redirect('/protected');
+        }
+      }
+    } catch (e) {
+      return res.status(400).render('login', {title: 'Login', hasError: true});
+    }
+  });
+
+    /*try {
       const loginData = req.body;
 
       const email = loginData.emailAddressInput.toLowerCase();
       const password = loginData.passwordInput;
-
-      
-
-
 
       if (!email || !password) {
         return res.status(400).render('error',{ error: "enter email or password" });
@@ -201,9 +214,6 @@ router
 
       req.session.user = authUserobj
       
-      
-      
-
       if (authUserobj.role === "user") {
         res.redirect("/protected");
       }
@@ -211,18 +221,17 @@ router
         res.redirect("/admin");
       }
 
-   
     } catch (e) {
       
       return res.status(400).render('error',{ error: e });
     }
   });
+  */
 
 router.route("/protected").get(async (req, res) => {
   //code here for GET
 
-  try 
-  {
+  try {
     if (req.session.user.role === 'user' || req.session.user.role === 'admin')
     {
   const date = new Date();
