@@ -5,14 +5,13 @@ import {ObjectId} from 'mongodb';
 
 export const create = async(
     //fields of input here
+    //username to be added
     firstName, // does the size need to  be checked
     lastName,  // does the size need to be checked
     stevensEmail, //find duplicates of the email //NO DUPLICATES
     hashedPassword, //has to be hashed here 
     profilePicture, //will it be a link?
     courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
-    // department, //only supports CS right now
-    // courseNumber, //must be a number
     graduationYear 
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
