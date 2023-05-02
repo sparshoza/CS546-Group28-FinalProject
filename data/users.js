@@ -134,7 +134,7 @@ export const update = async ( //wont be used to add courses, so I will omit that
     courses,
     graduationYear 
 ) =>{
-    if(!id || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
+    if(!id || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear) {throw 'all fields must be present';}
     if(typeof id !== 'string' || id.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
