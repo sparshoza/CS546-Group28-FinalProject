@@ -16,7 +16,7 @@ export const create = async(
     graduationYear 
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
-    if(!firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
+    if(!firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
     if(typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
@@ -24,7 +24,11 @@ export const create = async(
     lastName = lastName.trim();
     stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
     hashedPassword = hashedPassword.trim();
-    profilePicture = profilePicture.trim();
+    let noPic = false;
+    if( !profilePicture ) {noPic = true;}
+    if(!noPic){
+        profilePicture = profilePicture.trim();
+    }
     //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
     if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
     //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
@@ -126,7 +130,7 @@ export const update = async ( //wont be used to add courses, so I will omit that
     courses,
     graduationYear 
 ) =>{
-    if(!id || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !profilePicture || !graduationYear){throw 'all fields must be present';}
+    if(!id || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
     if(typeof id !== 'string' || id.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings

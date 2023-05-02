@@ -1,8 +1,5 @@
 TODO:
     Users:
-Must Hash passwords where necessary in users (I have added comments for this, look for 'HASH')
-Look at the comments of create to decide whether the error checking is good enough
-Validate Emails with stevens database?
 Will profile picture always be a link with a .com? Add error checking then
 
     Reviews:
