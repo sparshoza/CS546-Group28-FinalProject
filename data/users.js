@@ -246,7 +246,7 @@ export const checkUser = async (emailAddress, password) => {
     }
     if(compareToMatch){
       let new_user = {firstName : aUser.firstName, lastName: aUser.lastName, emailAddress: aUser.emailAddress, role: aUser.role};
-      return new_user;
+      return true;
     } else {
       throw 'Either the email address or password is incorrect';
     }
