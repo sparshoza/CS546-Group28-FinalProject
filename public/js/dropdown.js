@@ -149,6 +149,14 @@ function showFields() {
 	var fieldsContainer = document.getElementById("fieldsContainer");
 	fieldsContainer.innerHTML = "";
 	for (var i = 1; i <= courseFields; i++) {
-		fieldsContainer.innerHTML += "Field " + i + ": <input type='text' name='field" + i + "'><br>";
+		fieldsContainer.innerHTML += "Field " + i + ": <input type='text'  name='field" + i + "'><br>";
 	}
+  document.getElementById("courseFieldsInput").value = courseFields;
 }
+
+
+let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+
+document.getElementById("graduationYear").setAttribute("min", currentYear )
+document.getElementById("graduationYear").setAttribute("max", currentYear+5 )

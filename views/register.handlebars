@@ -20,11 +20,13 @@ Confirm password
 
   
   <body>
+    
     <header><h1>Signup Page</h1></header>
     <main>
+
       
          
-      <form action="/register" method="POST" id="registration-form" enctype="multipart/form-data">
+      <form action="/register" method="POST" id="registration-form" enctype="multipart/form-data" >
         <label class="search-label" for="firstNameInput">First Name</label>
         <input
           type="text"
@@ -34,6 +36,13 @@ Confirm password
           placeholder="first name"
           value= "{{firstName}}"
         />
+           {{#if error}}
+        <div id="error" class="error"  >{{error}}</div>
+        {{/if}}
+
+         {{#if errorFirstName}}
+        <div id="error" class="error"  >{{errorFirstName}}</div>
+        {{/if}}
          <div id="errorFirstName" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
 
         
@@ -49,6 +58,9 @@ Confirm password
           placeholder="last name"
           value= "{{lastName}}"
         />
+           {{#if error}}
+        <div id="error" class="error"  >{{error}}</div>
+        {{/if}}
         <div id="errorLastName" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
         <br />
         <label class="search-label" for="emailAdressInput">Email</label>
@@ -60,6 +72,9 @@ Confirm password
           placeholder="type here"
           value= "{{email}}"
         />
+           {{#if error}}
+        <div id="error" class="error"  >{{error}}</div>
+        {{/if}}
 
          <br />
         <label class="search-label" for="graduationYear">Graduation Year</label>
@@ -68,10 +83,12 @@ Confirm password
           class="text-area"
           name="graduationYear"
           id="graduationYear"
-          min = "2023"
-          max = "2028"
+         
          
         />
+           {{#if graduationYearerror}}
+        <div id="error" class="error"  >{{graduationYearerror}}</div>
+        {{/if}}
 
         <div id="errorEmail" class="error"    hidden >I'm an error. I will change through Client-Side JS </div>
         <br />
@@ -84,7 +101,7 @@ Confirm password
           placeholder="type here"
         />
         {{#if errorPassword}}
-        <div id="errorPassword" class="error"  >{{error}}</div>
+        <div id="error" class="error"  >{{errorPassword}}</div>
         {{/if}}
         <br />
 
@@ -96,6 +113,10 @@ Confirm password
           id="confirmPasswordInput"
           placeholder="type here"
         />
+           {{#if errorConfirmPassword}}
+        <div id="error" class="error"  >{{errorConfirmPassword}}</div>
+        {{/if}}
+        
         <div id="errorConfirmPassword" class="error" hidden >I'm an error. I will change through Client-Side JS</div>
 
 
@@ -104,16 +125,23 @@ Confirm password
 
     	<label for="courseFields">Select number of courses:</label>
 		<select id="courseFields" onchange="showFields()">
-			<option value="">--Select Courses--</option>
+			<option value="0">--Select Courses--</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
 			<option value="4">4</option>
 		</select>
+     {{#if courseError}}
+        <div id="courseError" class="error"  >{{courseError}}</div>
+        {{/if}}
+    <input type="hidden" id="courseFieldsInput" name="courseFieldsInput">
+
 		<div id="fieldsContainer"></div>
 
+
+
     <br/>
-     <label class="search-label" for="uploadPicture">Upload Profile <Picture></Picture></label>
+     <label class="search-label" for="uploadPicture" >Upload Profile </label>
         <input
           type="file"
           class="text-area"
