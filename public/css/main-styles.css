@@ -36,9 +36,48 @@ body {
     padding: 0;
 }
 
-input[type="submit"] {
-    background-color: #333;
-    color: #fff;
+#registration-form,
+#login-form {
+	background-color: #ffffff;
+	border-radius: 10px;
+	padding: 20px;
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #4F4F4F;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: 15px;
+	background-color: #ffffff;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+	outline: none;
+	border: 1px solid #8B4513;
+}
+
+.loginPageButton {
+    background-color: #424242;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -48,6 +87,19 @@ input[type="submit"] {
     margin-top: 20px;
 }
 
+input[type="submit"] {
+    background-color: #424242;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/*
 input[type="text"] {
     padding: 10px;
     border: 1px solid #ccc;
@@ -56,8 +108,8 @@ input[type="text"] {
     margin-bottom: 10px;
     width: 100%;
     box-sizing: border-box;
-
 }
+*/
 
 p {
     font-size: 18px;
