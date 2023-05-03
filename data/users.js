@@ -13,7 +13,7 @@ export const create = async(
     courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
     // department, //i think we dont need this parameter as it is implied that we are only accepting cs students
     // courseNumber, //must be a number
-   // graduationYear // i dont think we need graduation year but open to discussion
+   graduationYear // i dont think we need graduation year but open to discussion
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
 
@@ -72,7 +72,7 @@ export const create = async(
         password: hashedPassword,
         // profilePicture: profilePicture,
         courses : courses,
-       graduationYear,
+       graduationYear: graduationYear,
         reviews: [], //empty
         comments: [] //empty
     };
@@ -204,7 +204,7 @@ export const update = async ( //wont be used to add courses, so I will omit that
         hashedPassword : newHashedPassword, //IT MUST BE HASHED BEFORE THIS
         profilePicture : profilePicture, 
         courses : courses,
-        graduationYear 
+        graduationYear: graduationYear
     };
     const updatedInfo = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(id)},

@@ -51,7 +51,11 @@ app.set('view engine', 'handlebars');
 //app.get('/logout', logoutMiddleware);
 //app.use(loggingMiddleware)
 
-configRoutes(app);
+
+
+  configRoutes(app);
+
+
 
 app.listen(3000, () => {
     console.log("We've now got a server!");

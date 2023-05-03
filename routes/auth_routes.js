@@ -5,6 +5,26 @@ import * as helpers from "../helpers.js";
 import user from "../data/users.js";
 const router = Router();
 
+import multer from "multer";
+
+const storage = multer.diskStorage({  destination: (req, file, cb )=> 
+  {cb(null, 'images')}
+  ,
+filename: (req, file, cb)=> {
+console.log(file)
+cb(null, Date.now()+"here" )
+}})
+
+
+const upload = multer({storage: storage});
+
+// app.post('/register', upload.single('uploadPicture'), (req, res, next) => {
+//     res.send("image uploaded");
+//     next();
+//   }  )
+
+
+
 
 router.route("/").get(async (req, res) => {
 
@@ -22,7 +42,7 @@ router
     res.render("register");
     
   })
-  .post(async (req, res) => {
+  .post( async (req, res,next) => {
     //code here for POST
     try {
       //getting data from the form
@@ -41,16 +61,24 @@ router
       const course3 = req.body.field3;
       const course4 = req.body.field4;
       const courseField = req.body.courseFields;
-
-      const profilePicture = regData.uploadPicture;
+      console.log(req.file);
 
       const courses = [course1, course2, course3, course4]  
+      console.log("here1")
 
-      console.log(courseField);
+      
+  
+      
+   
+       
+      
+    
 
-      console.log(profilePicture);
 
-      const createUser = await user.create(firstName, lastName, email, password, courses, gradYear);
+
+
+      // const createUser = await user.create(firstName, lastName, email, password, courses, gradYear);
+
 
       if (createUser) {
         console.log(createUser);
@@ -144,11 +172,43 @@ router
       // else {
       //   return res.status(500).render('register',{ firstName: firstName, lastName: lastName , email: email, role:role });
       // }
+      next()
     } catch (e) {
       console.log(e);
       res.status(400).render('error', { error: e });
     }
-  });
+  }, upload.single('uploadPicture'));
+
+//   router.route("/pic").post(async (req,res) => {
+
+//     try {
+// var multer = require('multer');
+// var upload = multer({dest:'images/'});
+// upload.single('profile')
+
+//   res.send(req.file);
+//   console.log("here in pic");
+
+//   var storage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './upload');
+//      },
+//     filename: function (req, file, cb) {
+//         cb(null , file.originalname);
+//     }
+// });
+
+//     }
+
+   
+
+
+// catch(err) {
+//   res.send(400);
+// }
+
+
+//   })
 
 router
   .route("/login")

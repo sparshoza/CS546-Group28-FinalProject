@@ -3,12 +3,23 @@ import authRoutes from "./auth_routes.js";
 
 import express from "express";
 
+
+
 const app = express();
 
 
 
+
+
 const constructorMethod = (app) => {
+  
   app.use('/', authRoutes);
+
+  
+
+
+
+  
 
 
   app.use('*', (req, res) => {
