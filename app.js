@@ -8,6 +8,7 @@ import exphbs from 'express-handlebars';
 import cookieParser from 'cookie-parser';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 import { rootMiddleware,
     loginMiddleware,
     registerMiddleware,
@@ -16,7 +17,8 @@ import { rootMiddleware,
     logoutMiddleware,
     loggingMiddleware } from './middleware.js'
 
-app.use(cookieParser());
+app.use(express.json());
+
 
 const staticDir = express.static(__dirname + '/public');
 
@@ -37,7 +39,6 @@ app.use
     }));
 
 app.use('/public', staticDir);
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
