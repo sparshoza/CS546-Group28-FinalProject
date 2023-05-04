@@ -1,11 +1,12 @@
 <form action="/login" method="POST" id="login-form">
     <label for="emailAddressInput">Username:</label>
-    <input type="text" id="emailAddressInput" name="emailAddressInput">
+    <input type="email" id="emailAddressInput" name="emailAddressInput">
 
     <label for="passwordInput">Password:</label>
     <input type="password" id="passwordInput" name="passwordInput">
 
-    <button type="submit">Login</button>
+    <button id="loginButton" class="loginPageButton" type="submit">Login</button>
 </form>
-
-<a href="/register">Click here to register!</a>
+<div class="register-login">
+    <a href="/register">Click here to register!</a>
+</div>

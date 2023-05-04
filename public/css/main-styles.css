@@ -1,1 +1,151 @@
 /*This file should have CSS rulesets */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 50%;
+    font-family: Arial, sans-serif;
+}
+
+.image-class
+{
+    
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+      
+        object-fit: cover;
+        object-position: center right;
+      
+    
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+#registration-form,
+#login-form {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4F4F4F;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #8B4513;
+}
+
+.loginPageButton {
+    background-color: #424242;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+input[type="submit"] {
+    background-color: #424242;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/*
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+*/
+
+p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.register-login {
+    text-align: center;
+}
+
+.registerPage {
+    background-color: #ddd;
+}
+
+.error {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    color: #D63301;
+    background-color: #FFCCBA;
+    background-image: url('https://i.imgur.com/GnyDvKN.png');
+}

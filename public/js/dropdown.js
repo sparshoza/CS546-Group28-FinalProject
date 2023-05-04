@@ -22,9 +22,6 @@
       
       const loginForm = document.getElementById('login-form');
 
-
-	
-
       if (loginForm){
         loginForm.addEventListener('submit', (event) => {
           const emailAddressInput = document.getElementById('emailAddressInput').value.trim();
@@ -81,7 +78,7 @@
           const emailAddressInput = document.getElementById('emailAddressInput').value.trim();
           const passwordInput = document.getElementById('passwordInput').value.trim();
           const confirmPasswordInput = document.getElementById('confirmPasswordInput').value.trim();
-          const roleInput = document.getElementById('roleInput').value;
+          const courseField = document.getElementById('courseField').value;
           const errorDiv = document.getElementById('error');
           const missingDiv = document.getElementById('missing');
         
@@ -91,7 +88,7 @@
         
           if (firstName === '') {
             isValid = false;
-            missingFields.push('Missing First Name');
+            alert('Missing First Name');
           }
           if (lastName === '') {
             isValid = false;
@@ -109,9 +106,9 @@
             isValid = false;
             missingFields.push('Missing Confirm Password');
           }
-          if (role === '') {
+          if (course === '') {
             isValid = false;
-            missingFields.push('Missing Role');
+            missingFields.push('Missing Course');
           }
           if (!/^[a-zA-Z]+$/.test(firstName)) invalidFields.push('First name must only contain letters');
           if (firstName.length < 2 || firstName.length > 25) invalidFields.push('First name must be between 2 and 25 characters');
@@ -129,10 +126,6 @@
           if (!checkPassword(password)) {
             isValid = false;
             invalidFields.push('Invalid Password Format')
-          }
-          if (role !== 'user' && role !== 'admin') {
-            isValid = false;
-            invalidFields.push('Invalid Role');
           }
         
           missingFields = missingFields.join(", ");
@@ -156,6 +149,23 @@ function showFields() {
 	var fieldsContainer = document.getElementById("fieldsContainer");
 	fieldsContainer.innerHTML = "";
 	for (var i = 1; i <= courseFields; i++) {
-		fieldsContainer.innerHTML += "Field " + i + ": <input type='text' name='field" + i + "'><br>";
+		fieldsContainer.innerHTML += "Field " + i + ": <input type='text'  name='field" + i + "'><br>";
 	}
+  document.getElementById("courseFieldsInput").value = courseFields;
+}
+
+
+let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+
+document.getElementById("graduationYear").setAttribute("min", currentYear )
+document.getElementById("graduationYear").setAttribute("max", currentYear+5 )
+
+function showPassword1() {
+  var tempPass = document.getElementById("passwordInput");
+  if (tempPass.type === "password") {
+    tempPass.type = "text";
+  } else {
+    tempPass.type = "password";
+  }
 }

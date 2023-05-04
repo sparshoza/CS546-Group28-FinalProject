@@ -9,8 +9,8 @@ const db = await dbConnection();//creating connection
 
 
 
-const aditya = await users.create('Aditya','Gupta','adityagupta@stevens.edu','lololol','anylink.com','cs', 2024)
-console.log(aditya);
+// const aditya = await users.create('Aditya','Gupta','adityagupta@stevens.edu','lololol','anylink.com','cs', 2024)
+// console.log(aditya);
 
 
 
@@ -19,7 +19,7 @@ console.log(aditya);
 
 
 
-//await db.dropDatabase();//dropping database
+await db.dropDatabase();//dropping database
 
 await closeConnection();
 console.log("Done!!");
