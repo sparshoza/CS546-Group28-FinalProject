@@ -83,7 +83,6 @@ export const create = async(
     return user;
 };
 
-
 export const getAll = async () =>{
     const userCollection = await users();
     let userList = await userCollection.find({}).toArray();

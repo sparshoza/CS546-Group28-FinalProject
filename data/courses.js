@@ -6,6 +6,7 @@ export const create = async(
     courseCode,
     name,
     professorNames,
+    //need to contain a list of the people in the course
     //rating is initially 0;
     //reviews is initially an empty list
 ) =>{
