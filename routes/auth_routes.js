@@ -10,7 +10,7 @@ import multer from "multer";
 //middlware and initialization for image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "images");
+    cb(null, "public/images");
   },
   filename: (req, file, cb) => {
     console.log(file);
