@@ -38,18 +38,18 @@ body {
 
 #registration-form,
 #login-form {
-	background-color: #ffffff;
-	border-radius: 10px;
-	padding: 20px;
-	max-width: 500px;
-	margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 label {
-	display: block;
-	margin-bottom: 5px;
-	font-weight: bold;
-	color: #4F4F4F;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4F4F4F;
 }
 
 input[type="text"],
@@ -57,13 +57,13 @@ input[type="number"],
 input[type="email"],
 input[type="password"],
 select {
-	display: block;
-	width: 100%;
-	padding: 10px;
-	border-radius: 5px;
-	border: 1px solid #ddd;
-	margin-bottom: 15px;
-	background-color: #ffffff;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    background-color: #ffffff;
 }
 
 input[type="text"]:focus,
@@ -71,8 +71,8 @@ input[type="number"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 select:focus {
-	outline: none;
-	border: 1px solid #8B4513;
+    outline: none;
+    border: 1px solid #8B4513;
 }
 
 .loginPageButton {
@@ -116,4 +116,23 @@ p {
     line-height: 1.5;
     margin-bottom: 20px;
     font-family: Arial, sans-serif;
+}
+
+.register-login {
+    text-align: center;
+}
+
+.registerPage {
+    background-color: #ddd;
+}
+
+.error {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    color: #D63301;
+    background-color: #FFCCBA;
+    background-image: url('https://i.imgur.com/GnyDvKN.png');
 }
