@@ -9,6 +9,19 @@ form {
     font-family: Arial, sans-serif;
 }
 
+.image-class
+{
+    
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+      
+        object-fit: cover;
+        object-position: center right;
+      
+    
+}
+
 h1 {
     font-size: 36px;
     font-weight: bold;
