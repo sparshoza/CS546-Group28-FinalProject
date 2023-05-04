@@ -88,7 +88,7 @@
         
           if (firstName === '') {
             isValid = false;
-            missingFields.push('Missing First Name');
+            alert('Missing First Name');
           }
           if (lastName === '') {
             isValid = false;
@@ -160,3 +160,12 @@ let currentYear = currentDate.getFullYear();
 
 document.getElementById("graduationYear").setAttribute("min", currentYear )
 document.getElementById("graduationYear").setAttribute("max", currentYear+5 )
+
+function showPassword1() {
+  var tempPass = document.getElementById("passwordInput");
+  if (tempPass.type === "password") {
+    tempPass.type = "text";
+  } else {
+    tempPass.type = "password";
+  }
+}
