@@ -216,41 +216,97 @@ export const update = async ( //wont be used to add courses, so I will omit that
     return updatedInfo.value;
 };
 
+// export const checkUser = async (emailAddress, password) => {
+
+//     if(!emailAddress || !password) {throw 'all inputs must be provided';}
+//     if(typeof emailAddress !== 'string' || typeof password !== 'string' || emailAddress.trim().length === 0 || password.trim().length === 0) {throw 'both inputs must be non-empty string';}
+//     //trim strings
+//     emailAddress = emailAddress.trim().toLowerCase();
+//     password = password.trim();
+//     //email check
+//     let check = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; //regex I found that fulfills email address requirements
+//     if(!emailAddress.match(check)){throw 'emailaddress input must follow the standard email address pattern';}
+//     let emailCollection = await emails();
+//     let anEmail = emails.findONe({email : emailAddress});
+//     if(anEmail === null){'this is not a valid email'};
+//     //password check
+//     let upperCheck = /[A-Z]/;
+//     let numberCheck = /[0-9]/;
+//     let specialCheck = /[!@#$%^&*-?]/; //allows for the special characters in number row and ?
+//     if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck)){throw 'password must contain at least one uppercase letter, one number and one special character';}
+//     //validating done
+//     const userCollection = await users();
+//     const aUser = await userCollection.findOne({emailAddress : emailAddress}); //ask TA?
+//     if(!aUser){throw 'Either the email address or password is incorrect';}
+//     let compareToMatch = false;
+//     try {
+//       compareToMatch = await bcrypt.compare(password, aUser.password); //compare hash to password provided
+//     } catch (error) {
+//      //no op 
+//      throw 'internel server error'
+//     }
+//     if(compareToMatch){
+//       let new_user = {firstName : aUser.firstName, lastName: aUser.lastName, emailAddress: aUser.emailAddress, role: aUser.role};
+//       return true;
+//     } else {
+//       throw 'Either the email address or password is incorrect';
+//     }
+//   };
+
+
 export const checkUser = async (emailAddress, password) => {
-    if(!emailAddress || !password) {throw 'all inputs must be provided';}
-    if(typeof emailAddress !== 'string' || typeof password !== 'string' || emailAddress.trim().length === 0 || password.trim().length === 0) {throw 'both inputs must be non-empty string';}
-    //trim strings
-    emailAddress = emailAddress.trim().toLowerCase();
-    password = password.trim();
-    //email check
-    let check = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; //regex I found that fulfills email address requirements
-    if(!emailAddress.match(check)){throw 'emailaddress input must follow the standard email address pattern';}
-    let emailCollection = await emails();
-    let anEmail = emails.findONe({email : emailAddress});
-    if(anEmail === null){'this is not a valid email'};
-    //password check
-    let upperCheck = /[A-Z]/;
-    let numberCheck = /[0-9]/;
-    let specialCheck = /[!@#$%^&*-?]/; //allows for the special characters in number row and ?
-    if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck)){throw 'password must contain at least one uppercase letter, one number and one special character';}
-    //validating done
-    const userCollection = await users();
-    const aUser = await userCollection.findOne({emailAddress : emailAddress}); //ask TA?
-    if(!aUser){throw 'Either the email address or password is incorrect';}
-    let compareToMatch = false;
+    //error handling
     try {
-      compareToMatch = await bcrypt.compare(password, aUser.password); //compare hash to password provided
-    } catch (error) {
-     //no op 
-     throw 'internel server error'
+      if (!emailAddress) {
+        throw `Error: Enter email address`;
+      }
+      if (!password) {
+        throw `Error: Enter password`;
+      }
+      emailAddress = emailAddress.trim();
+      emailAddress = emailAddress.toLowerCase();
+      password = password.trim();
+
+      //program
+
+      let userCollection = await users();
+      let usersList = await userCollection
+        .find({}, { projection: { stevensEmail: 1, password: 1, _id: 1 } })
+        .toArray();
+
+      for (let user of usersList) {
+        if (user.stevensEmail == emailAddress) {
+          const compare = await bcrypt.compare(password, user.password);
+
+          if (compare) {
+            let usersCollection = await users();
+            let returnUser = await usersCollection
+              .find(
+                { _id: user._id },
+                {
+                  projection: {
+                    firstName: 1,
+                    lastName: 1,
+                    stevensEmail: 1,
+                    courses:1
+                  },
+                }
+              )
+              .toArray();
+            return returnUser;
+          } else {
+            throw `Either the email address or password is invalid`;
+          }
+        }
+      }
+
+      throw `Either the email address or password is invalid`;
+    } catch (e) {
+      throw `Error in login page`
     }
-    if(compareToMatch){
-      let new_user = {firstName : aUser.firstName, lastName: aUser.lastName, emailAddress: aUser.emailAddress, role: aUser.role};
-      return true;
-    } else {
-      throw 'Either the email address or password is incorrect';
-    }
-  };
+  }
+
+
 
 export const addCourse = async (id, newCourses) =>{
 

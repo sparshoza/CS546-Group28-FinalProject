@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     console.log(file);
-    cb(null, req.body.firstNameInput + ".jpeg");
+    cb(null, req.body.emailAddressInput+".jpeg");
   },
   fileFilter: (req, file, cb) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -242,7 +242,6 @@ router
     // const { email, password } = req.body;
     let email = req.body.emailAddressInput
     let password = req.body.passwordInput
-    console.log(req.body)
 
     if (!email || !password) {
       return res
@@ -273,16 +272,20 @@ router
     }
 
     try {
-      const result = await user.checkUser(email, password);
-      if (result) {
+      const checkedUser = await user.checkUser(email, password);
+      if (checkedUser) {
+          const authUser = checkedUser[0]
+          console.log(authUser);
 
-        console.log("here after login")
+          req.session.user = authUser;
+
         // req.session.user = result;
         // if (result.role === "admin") {
         //   return res.status(200).redirect("/admin");
         // } else if (result.role === "user") {
         //   return res.status(200).redirect("/protected");
         // }
+        return res.redirect('protected')
       }
     } catch (e) {
       return res
@@ -334,13 +337,14 @@ router.route("/protected").get(async (req, res) => {
   //code here for GET
 
   try {
-    if (req.session.user.role === "user" || req.session.user.role === "admin") {
+    // if (req.session.user.role === "user" || req.session.user.role === "admin") {
       const date = new Date();
+      console.log(req.session.user + "in protected route")
       res.render("protected", {
         userData: req.session.user,
         currentTime: date,
       });
-    }
+    //}
   } catch (e) {
     console.log(e);
   }
