@@ -10,24 +10,19 @@ export const create = async(
     lastName,  // does the size need to be checked
     stevensEmail, //find duplicates of the email //NO DUPLICATES
     hashedPassword, //has to be hashed here 
-    profilePicture, //will it be a link?
     courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
     graduationYear 
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
     if(!firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
-    if(typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    if(typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     firstName = firstName.trim();
     lastName = lastName.trim();
     stevensEmail = stevensEmail.trim().toLowerCase(); //stored as lowercase string
     hashedPassword = hashedPassword.trim();
-    let noPic = false;
-    if( !profilePicture ) {noPic = true;}
-    if(!noPic){
-        profilePicture = profilePicture.trim();
-    }
+
     //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
     if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
     //if(stevensEmail.substring(stevensEmail.length -12) !== "@stevens.edu" || (stevensEmail[0] !== firstName.toLowerCase()) || stevensEmail.substring(1, lastName.length + 1) != lastName.toLowerCase()){throw "Stevens Email must follow format";}
@@ -67,7 +62,6 @@ export const create = async(
         lastName: lastName,
         stevensEmail: stevensEmail,
         password: hashedPassword,
-        profilePicture: profilePicture,
         courses : courses,
         graduationYear,
         reviews: [], //empty
@@ -124,12 +118,11 @@ export const update = async ( //wont be used to add courses, so I will omit that
     lastName,
     stevensEmail, 
     hashedPassword, //has to be unhashed
-    profilePicture, 
     courses,
     graduationYear 
 ) =>{
     if(!id || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
-    if(typeof id !== 'string' || id.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || typeof profilePicture !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || profilePicture.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    if(typeof id !== 'string' || id.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     id = id.trim();
@@ -137,7 +130,6 @@ export const update = async ( //wont be used to add courses, so I will omit that
     lastName = lastName.trim();
     stevensEmail = stevensEmail.trim().toLowerCase();
     hashedPassword = hashedPassword.trim();
-    profilePicture = profilePicture.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
     //The regex statement below replaces all non-alphabetical characters with blank spaces, leaving only non-alphabetical characters
     if(firstName.replace(/[a-z]/gi, "").length !== 0 || lastName.replace(/[a-z]/gi, "").length !== 0){throw 'First and Last name can only contain letters!';}
@@ -190,13 +182,12 @@ export const update = async ( //wont be used to add courses, so I will omit that
         check = true
         newHashedPassword = await bcrypt.hash(hashedPassword, saltRounds);
     };
-    if(preUp.firstName !== firstName || preUp.lastName !== lastName || !check || preUp.profilePicture !== profilePicture || preUp.graduationYear !== graduationYear) {throw 'at least one field must have changed!';}
+    if(preUp.firstName !== firstName || preUp.lastName !== lastName || !check || preUp.graduationYear !== graduationYear) {throw 'at least one field must have changed!';}
     let updatedUser = {
         firstName: firstName,
         lastName : lastName,
         stevensEmail : stevensEmail, 
         hashedPassword : newHashedPassword, //IT MUST BE HASHED BEFORE THIS
-        profilePicture : profilePicture, 
         courses : courses,
         graduationYear 
     };
