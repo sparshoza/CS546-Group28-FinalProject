@@ -16,9 +16,10 @@ export const create = async(
 ) =>{
 
     //error handling 
-    if(!username || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
-    if(typeof username !== 'string' || username.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
+    // reAdd username
+    if(!username || !firstName || !lastName || !courses || !stevensEmail || !password || !graduationYear){throw 'all fields must be present';}
+    if(typeof username !== 'string' || username.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof password !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || password.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    // if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     username = username.trim();
     firstName = firstName.trim();
@@ -60,14 +61,6 @@ export const create = async(
     while(counter < index){
         let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
         if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
-        let courseList = valid.students;
-        courseList.append(toValidArr[counter]);
-        let updateInfo = await courseCollection.findOneAndUpdate(
-            {courseCode : toValidArr[counter]},
-            {$set : {students : courseList}},
-            {returnDocument : 'after'}
-        );
-        if(updateInfo.lastErrorObject.n === 0){throw 'could not update courses successfulyl!';}
         counter += 1;
     }
 
@@ -94,6 +87,18 @@ export const create = async(
     }
 
     const newId = insertInfo.insertedId.toString();
+    counter = 0;
+    while(counter < index){
+        let courseList = valid.students; //grab the old list of course
+        courseList.append(newId); //add userId to the course list of students
+        let updateInfo = await courseCollection.findOneAndUpdate(
+            {courseCode : toValidArr[counter]},
+            {$set : {students : courseList}},
+            {returnDocument : 'after'}
+        );
+        if(updateInfo.lastErrorObject.n === 0){throw 'could not update courses successfulyl!';}
+        counter += 1;
+    }
     const user = await get(newId);
     return user;
 };
@@ -248,7 +253,7 @@ export const checkUser = async (emailAddress, password) => {
     if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck)){throw 'password must contain at least one uppercase letter, one number and one special character';}
     //validating done
     const userCollection = await users();
-    const aUser = await userCollection.findOne({emailAddress : emailAddress}); //ask TA?
+    const aUser = await userCollection.findOne({stevensEmail : emailAddress}); 
     if(!aUser){throw 'Either the email address or password is incorrect';}
     let compareToMatch = false;
     try {
@@ -364,7 +369,15 @@ export const removeCourse = async (id, removeCourses) =>{
         });
         if(!check){throw 'user is not in ' + remove};
     });
-    const updatedInfo = await findOneAndUpdate(
+    index = 0;
+    
+    while(index < removeCourses.length){
+        //find the course to remove its user
+        let aCourse = courseCollection.findOne({courseCode : removeCourses[index]});
+
+        index += 1;
+    }
+    const updatedInfo = await userCollection.findOneAndUpdate(
         {_id : new ObjectId(id)},
         {$set : {courses : courseList}},
         {returnDocument : 'after'});
