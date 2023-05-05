@@ -75,7 +75,6 @@ export const remove = async (id) =>{
     return `${deleteInfo.value.name} has been successfully deleted!`;
 };
 
-
 export const update = async (
     id,
     courseCode,

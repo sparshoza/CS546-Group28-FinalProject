@@ -60,14 +60,6 @@ export const create = async(
     while(counter < index){
         let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
         if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
-        let courseList = valid.students;
-        courseList.append(toValidArr[counter]);
-        let updateInfo = await courseCollection.findOneAndUpdate(
-            {courseCode : toValidArr[counter]},
-            {$set : {students : courseList}},
-            {returnDocument : 'after'}
-        );
-        if(updateInfo.lastErrorObject.n === 0){throw 'could not update courses successfulyl!';}
         counter += 1;
     }
 
@@ -94,6 +86,18 @@ export const create = async(
     }
 
     const newId = insertInfo.insertedId.toString();
+    counter = 0;
+    while(counter < index){
+        let courseList = valid.students; //grab the old list of course
+        courseList.append(newId); //add userId to the course list of students
+        let updateInfo = await courseCollection.findOneAndUpdate(
+            {courseCode : toValidArr[counter]},
+            {$set : {students : courseList}},
+            {returnDocument : 'after'}
+        );
+        if(updateInfo.lastErrorObject.n === 0){throw 'could not update courses successfulyl!';}
+        counter += 1;
+    }
     const user = await get(newId);
     return user;
 };
