@@ -1,11 +1,7 @@
 
 // Connect to the Socket.IO server
-const socket = io();
 
 // Listen for events from the server
-
-
-
 
 (function () {
     const checkPassword = (password) => {
