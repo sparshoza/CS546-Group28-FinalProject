@@ -268,8 +268,7 @@ export const checkUser = async (emailAddress, password) => {
     } else {
       throw 'Either the email address or password is incorrect';
     }
-  };
-
+  };            
 
 export const addCourse = async (id, newCourses) =>{
 
