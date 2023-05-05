@@ -90,10 +90,7 @@ export const create = async(
     while(counter < index){
         valid = await courseCollection.findOne({courseCode: toValidArr[counter]});
         let courseList = valid.students; //grab the old list of course
-        console.log(courseList);
         courseList.push(newId); //add userId to the course list of students
-        console.log(toValidArr[counter]);
-        console.log(courseList);
         let updateInfo = await courseCollection.findOneAndUpdate(
             {courseCode : toValidArr[counter]},
             {$set : {students : courseList}},
