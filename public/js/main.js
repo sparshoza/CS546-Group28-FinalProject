@@ -1,6 +1,45 @@
 
-// Connect to the Socket.IO server
-const socket = io();
+// // Connect to the Socket.IO server
+// import { io } from "socket.io-client";
+// // chat.js
+// const socket = io();
+
+// // When the user submits the message form
+// document.getElementById('message-form').addEventListener('submit', (event) => {
+//   event.preventDefault();
+
+//   // Get the message input value
+//   const messageInput = document.querySelector('input[name="message"]');
+//   const message = messageInput.value;
+
+//   // Send the message to the server
+//   socket.emit('message', message);
+
+//   // Clear the message input
+//   messageInput.value = '';
+// });
+
+// // When the server sends a message
+// socket.on('message', (message) => {
+//   // Create a new message element
+//   const messageElement = document.createElement('div');
+//   messageElement.innerText = message;
+
+//   // Add the message element to the messages container
+//   const messagesContainer = document.getElementById('messages');
+//   messagesContainer.appendChild(messageElement);
+// });
+
+// // When the user joins the chat room
+// socket.on('join', (messages) => {
+//   // Load previously sent messages
+//   const messagesContainer = document.getElementById('messages');
+//   messages.forEach((message) => {
+//     const messageElement = document.createElement('div');
+//     messageElement.innerText = message;
+//     messagesContainer.appendChild(messageElement);
+//   });
+// });
 
 // Listen for events from the server
 

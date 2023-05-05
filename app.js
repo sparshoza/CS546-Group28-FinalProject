@@ -6,7 +6,19 @@ import { dirname } from "path";
 import exphbs from "express-handlebars";
 import cookieParser from "cookie-parser";
 import http from 'http';
+import { Server } from "socket.io";
 
+import axios from 'axios';
+
+
+import { io } from 'socket.io-client';  
+
+const socket = io();
+
+
+// const {data } = await axios.get("https://https://38ddf9de62394b4f84aa642ad683052d.weavy.io/api/wys_4VYLIMS80xERXk6QnXpyyjd0jHPKWF2opG4T/myapp/members?top=10");
+
+// console.log(data);
 
 // your_app.js
 // import SendbirdChat from '@sendbird/chat';
@@ -79,7 +91,6 @@ import http from 'http';
 
 
 
-import { Server } from "socket.io";
 
 
 
@@ -97,14 +108,20 @@ const app = express();
 
  const server = http.createServer(app);
 
-const io = new Server(server);
+const ios = new Server(server);
 
 
 //config for web sockets 
-io.on('connection', socket => {
+ios.on('connection', socket => {
 
     console.log("web sockets connection")
 })
+
+socket.on('message', (message) => {
+  // Broadcast the message to all connected clients
+  io.emit('message', message);
+});
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -151,6 +168,15 @@ app.use(rewriteUnsupportedBrowserMethods);
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+app.use(express.static('public', {
+  extensions: ['html', 'handlebars'],
+  setHeaders: (res, path, stat) => {
+    if (path.endsWith('.handlebars')) {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    }
+  }
+}));
+
 //app.get('/', rootMiddleware);
 //app.get('/login', registerMiddleware);
 //app.get('/protected', protectedMiddleware);
@@ -162,7 +188,7 @@ configRoutes(app);
 
 
 
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log("We've now got a server!");
   console.log("Your routes will be running on http://localhost:3000");
 });
