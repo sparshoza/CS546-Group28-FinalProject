@@ -10,14 +10,14 @@ export const create = async(
     lastName,  // does the size need to be checked
     stevensEmail, //find duplicates of the email //NO DUPLICATES
     password, //has to be hashed here 
-    courses, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
+    coursesInput, //INPUT IS AN ARRAY CONTAINING THE LOWER PARTS
     graduationYear // i dont think we need graduation year but open to discussion
     //reviews and comment will be set to empty arrays, since a new account has done neither.
 ) =>{
 
     //error handling 
     // reAdd username
-    if(!username || !firstName || !lastName || !courses || !stevensEmail || !password || !graduationYear){throw 'all fields must be present';}
+    if(!username || !firstName || !lastName || !coursesInput || !stevensEmail || !password || !graduationYear){throw 'all fields must be present';}
     if(typeof username !== 'string' || username.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof password !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || password.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     // if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
@@ -42,14 +42,14 @@ export const create = async(
     if(aUser2 !== null){throw 'Username is already in use!'};
     let valid = await emailCollection.findOne({email : stevensEmail});
     if(valid === null){throw 'Email is not a valid stevens email address!'};
-    if(!Array.isArray(courses) || courses.length === 0){throw 'courses input must be a non-empty array'}
+    if(!Array.isArray(coursesInput) || coursesInput.length === 0){throw 'courses input must be a non-empty array'}
     let courseCollection = await courses();
     let index = 0;
     let toValidArr = [];
-    courses.array.forEach(element => {
+    coursesInput.forEach(element => {
         if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
-        courses[index] = element.trim();
-        element = element.trim();
+        element = element.trim().toUpperCase();
+        coursesInput[index] = element;
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
         if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
         toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
@@ -74,7 +74,7 @@ export const create = async(
         lastName: lastName,
         stevensEmail: stevensEmail,
         password: hashedPassword,
-        courses : courses,
+        courses : coursesInput,
         graduationYear: graduationYear,
         reviews: [], //empty
         comments: [] //empty
@@ -89,7 +89,7 @@ export const create = async(
     counter = 0;
     while(counter < index){
         let courseList = valid.students; //grab the old list of course
-        courseList.append(newId); //add userId to the course list of students
+        courseList.push(newId); //add userId to the course list of students
         let updateInfo = await courseCollection.findOneAndUpdate(
             {courseCode : toValidArr[counter]},
             {$set : {students : courseList}},
@@ -144,10 +144,10 @@ export const update = async ( //wont be used to add courses, so I will omit that
     lastName,
     stevensEmail, 
     hashedPassword, //has to be unhashed
-    courses,
+    coursesInput,
     graduationYear 
 ) =>{
-    if(!id || !username || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
+    if(!id || !username || !firstName || !lastName || !coursesInput || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
     if(typeof username !== 'string' || username .trim().length === 0 || typeof id !== 'string' || id.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' || firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
@@ -171,13 +171,13 @@ export const update = async ( //wont be used to add courses, so I will omit that
     if(valid === null){throw 'Email is not a valid stevens email address!'};
     const aUser2 = await userCollection.findOne({username : username});
     if(aUser2 !== null){throw 'Username is already in use!'};
-    if(!Array.isArray(courses) || courses.length === 0){throw 'courses input must be a non-empty array'}
+    if(!Array.isArray(coursesInput) || coursesInput.length === 0){throw 'courses input must be a non-empty array'}
     let courseCollection = await courses();
     let index = 0;
     let toValidArr = [];
-    courses.array.forEach(element => {
+    coursesInput.forEach(element => {
         if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
-        courses[index] = element.trim();
+        coursesInput[index] = element.trim();
         element = element.trim();
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
         if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
@@ -219,7 +219,7 @@ export const update = async ( //wont be used to add courses, so I will omit that
         lastName : lastName,
         stevensEmail : stevensEmail, 
         hashedPassword : newHashedPassword, //IT MUST BE HASHED BEFORE THIS
-        courses : courses,
+        courses : coursesInput,
         graduationYear: graduationYear
     };
     const updatedInfo = await userCollection.findOneAndUpdate(
@@ -282,7 +282,7 @@ export const addCourse = async (id, newCourses) =>{
     let courseCollection = await courses();
     let index = 0;
     let toValidArr = [];
-    newCourses.array.forEach(element => {
+    newCourses.forEach(element => {
         if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
         newCourses[index] = element.trim();
         element = element.trim();
@@ -295,7 +295,7 @@ export const addCourse = async (id, newCourses) =>{
     const aUser = await userCollection.findOne({_id: new ObjectId(id)});
     if(aUser === null){throw 'no user with that id';}
     let courseList = aUser.courses;
-    courseList.append(newCourses);
+    courseList.push(newCourses);
     if(new Set(courseList).size !== newCourses.length){throw 'User is already in one of these courses'};
 
     let counter = 0;
@@ -304,7 +304,7 @@ export const addCourse = async (id, newCourses) =>{
         let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
         if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
         let courseList = valid.students;
-        courseList.append(toValidArr[counter]);
+        courseList.push(toValidArr[counter]);
         let updateInfo = await courseCollection.findOneAndUpdate(
             {courseCode : toValidArr[counter]},
             {$set : {students : courseList}},
@@ -334,7 +334,7 @@ export const removeCourse = async (id, removeCourses) =>{
     let courseCollection = await courses();
     let index = 0;
     let toValidArr = [];
-    removeCourses.array.forEach(element => {
+    removeCourses.forEach(element => {
         if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
         removeCourses[index] = element.trim();
         element = element.trim();

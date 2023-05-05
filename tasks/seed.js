@@ -22,7 +22,7 @@ const email3 = await emails.create('phill@stevens.edu');
 
 
 
-await db.dropDatabase();//dropping database
+// await db.dropDatabase();//dropping database
 
 await closeConnection();
 console.log("Done!!");
