@@ -276,10 +276,10 @@ router
     try {
       const checkedUser = await user.checkUser(email, password);
       if (checkedUser) {
-          const authUser = checkedUser[0]
-          console.log(authUser);
+          // const authUser = checkedUser[0]
+          console.log(checkedUser);
 
-          req.session.user = authUser;
+          req.session.user = checkedUser;
 
         // req.session.user = result;
         // if (result.role === "admin") {
