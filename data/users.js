@@ -34,7 +34,7 @@ export const create = async(
     // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
     const date = new Date();
     if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
-    
+    const userCollection = await users();
     const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
     if(aUser !== null){throw 'Email is already linked to an account!'};
     let emailCollection = await emails();
@@ -79,8 +79,6 @@ export const create = async(
         reviews: [], //empty
         comments: [] //empty
     };
-    const userCollection = await users();
-
     const insertInfo = await userCollection.insertOne(newUser);
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
         throw 'User could not be added';
