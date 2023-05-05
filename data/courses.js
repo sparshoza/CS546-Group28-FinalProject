@@ -13,7 +13,7 @@ export const create = async(
 ) =>{
     if(!courseCode || !name || !professorNames){throw 'all inputs must exist!';}
     if(typeof courseCode !== 'string' || typeof name !== 'string' || courseCode.trim().length === 0 || name.trim().length === 0){throw 'All strings must be non-zero inputs';}
-    if(!professorNames.isArray()){throw 'professorNames must be an array';}
+    if(!Array.isArray(professorNames)){throw 'professorNames must be an array';}
     if(professorNames.length === 0){throw 'professorNames must not be empty!';}
     //trim strings
     courseCode = courseCode.trim();
@@ -34,9 +34,11 @@ export const create = async(
     };
     const coursesCollection = await courses();
     const insertInfo = await coursesCollection.insertOne(newCourse);
-    const newId = insertInfo.insertedId.toString();
-    const course = await get(newId);
-    return course;
+    if(!insertInfo.acknowledged || !insertInfo.insertedId){
+        throw 'course could not be added to database';
+    }
+    const insertedcourse = await get(courseCode); //get function for this collection uses the courseCode
+    return insertedcourse;
 };
 
 export const getAll = async () =>{
@@ -52,41 +54,37 @@ export const getAll = async () =>{
 
 export const get = async (courseCode) =>{
     if(!courseCode){throw 'course code!';}
-    if(typeof id !== 'string' || id.trim().length !== 0){throw 'id must be a non-empty string';}
-    id = id.trim();
-    if(!ObjectId.isValid(id)){throw 'id must be valid!';}
+    if(typeof courseCode !== 'string' || courseCode.trim().length === 0){throw 'courseCode must be a non-empty string';}
+    courseCode = courseCode.trim();
     const coursesCollection = await courses();
-    const aCourse = await coursesCollection.findONe({_id: new ObjectId(id)});
-    if(aCourse === null){throw 'no course with that id';}
+    const aCourse = await coursesCollection.findOne({courseCode: courseCode});
+    if(aCourse === null){throw 'no course with that code';}
     aCourse._id = aCourse._id.toString();
     return aCourse;
 };
 
-export const remove = async (id) =>{
-    if(!id){throw 'id must exist';}
-    if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string';}
-    id = id.trim();
-    if(!ObjectId.isValid(id)){throw 'id must be valid';}
+export const remove = async (courseCode) =>{
+    if(!courseCode){throw 'courseCode must exist';}
+    if(typeof courseCode !== 'string' || courseCode.trim().length === 0){throw 'courseCode must be a non-empty string';}
+    courseCode = courseCode.trim();
     const coursesCollection = await courses();
     const deleteInfo = await coursesCollection.findOneAndDelete({
-        _id: new ObjectId(id)
+        courseCode: courseCode
     });
-    if(deleteInfo.lastErrorObject.n === 0){throw `Could not delete course with id of ${id}`;}
+    if(deleteInfo.lastErrorObject.n === 0){throw `Could not delete course with code of ${courseCode}`;}
     return `${deleteInfo.value.name} has been successfully deleted!`;
 };
 
 export const update = async (
-    id,
     courseCode,
     name,
     professorNames,
 ) =>{
-    if(!id || !courseCode || !name ||!professorNames){throw 'all inputs must exist!';}
+    if(!courseCode || !name ||!professorNames){throw 'all inputs must exist!';}
     if(typeof courseCode !== 'string' || typeof name !== 'string' || courseCode.trim().length === 0 || name.trim().length === 0){throw 'All strings must be non-zero inputs';}
-    if(!professorNames.isArray()){throw 'professorNames must be an array';}
+    if(!Array.isArray(professorNames)){throw 'professorNames must be an array';}
     if(professorNames.length === 0){throw 'professorNames must not be empty!';}
     //trim strings
-    id = id.trim();
     courseCode = courseCode.trim();
     name = name.trim();
     let index = 0;
@@ -96,7 +94,7 @@ export const update = async (
         index += 1;
     });
     let check = false;
-    let aCourse = await get(id);
+    let aCourse = await get(courseCode);
     index = 0;
     if(aCourse.courseCode !== courseCode || aCourse.name !== name){check = true;}
     if(professorNames.length !== aCourse.professorNames.length){check = true;} //if there are more or less professors
@@ -111,7 +109,7 @@ export const update = async (
         professorNames: professorNames
     };
     const updatedInfo = await coursesCollection.findOneAndUpdate(
-        {_id: new ObjectId(id)},
+        {courseCode:courseCode},
         {$set : updatedCourse},
         {returnDocument : 'after'}
     );

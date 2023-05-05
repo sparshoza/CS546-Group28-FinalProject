@@ -87,6 +87,7 @@ export const create = async(
     }
 
     const newId = insertInfo.insertedId.toString();
+    
     counter = 0;
     while(counter < index){
         let courseList = valid.students; //grab the old list of course
@@ -277,7 +278,7 @@ export const addCourse = async (id, newCourses) =>{
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!'};
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
-    if(Array.isArray(newCourses)){throw 'newCourses must be an array'};
+    if(!Array.isArray(newCourses)){throw 'newCourses must be an array'};
     if(newCourses.length === 0){throw 'newCourses cannot be empty!'};
 
     let courseCollection = await courses();
