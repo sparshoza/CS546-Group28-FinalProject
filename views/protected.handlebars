@@ -3,44 +3,30 @@
 If the user is logged in , and 'GET /protected' endpoint is called, you will render this view based on the specs.
 
 --}}
-
-
-<!DOCTYPE html>
-<html lang = en>
-
-<title>protected page</title>   
+<title>Protected Page</title>
 <body>
-    <header><h1>protected page</h1></header>
+    <header>
+        <h1 class="page-title">Protected Page</h1>
+    </header>
     <main>
-        <p>
-     "Welcome to the group stupy portal, {{userData.firstName}} ". 
-     </p>
-     <div>
-           <ol>
+        <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
+        <div class="user-info">
+            <img src="../public/images/{{userData.emailAddress}}.jpeg" class="user-image"><p>{{userData.firstName}} {{userData.lastName}}</p>
+            <p>{{userData.emailAddress}}</p>
+            <a href="/logout" class="logout-link">Logout</a>
+        </div>
+        <div class="course-list">
+            <h2 class="section-title">Your Courses:</h2>
+            <ol>
                 {{#each userData.courses}}
-                 
                 <li>
-                    
-                    <a class="courses-link" href="courses/{{this}}"> {{this}} </a> 
-                  </li>  
-
-                  
-                  {{/each}}
-                
+                    <a class="course-link" href="courses/{{this}}">{{this}}</a>
+                </li>
+                {{/each}}
             </ol>
-     </div>
+        </div>
     </main>
-    
-    <div>
-         
-
-        <img src="../public/images/{{userData.emailAddress}}.jpeg" class="image-class">
-        
-        <a href="/logout">logout</a>
-     </div>
-
-    <footer><h2> protected page </h2></footer>
+    <footer>
+        <h2 class="page-title">Protected Page</h2>
+    </footer>
 </body>
-
-
-</html>
