@@ -248,7 +248,7 @@ export const checkUser = async (emailAddress, password) => {
     if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck)){throw 'password must contain at least one uppercase letter, one number and one special character';}
     //validating done
     const userCollection = await users();
-    const aUser = await userCollection.findOne({emailAddress : emailAddress}); //ask TA?
+    const aUser = await userCollection.findOne({stevensEmail : emailAddress}); 
     if(!aUser){throw 'Either the email address or password is incorrect';}
     let compareToMatch = false;
     try {
@@ -364,7 +364,15 @@ export const removeCourse = async (id, removeCourses) =>{
         });
         if(!check){throw 'user is not in ' + remove};
     });
-    const updatedInfo = await findOneAndUpdate(
+    index = 0;
+    
+    while(index < removeCourses.length){
+        //find the course to remove its user
+        let aCourse = courseCollection.findOne({courseCode : removeCourses[index]});
+
+        index += 1;
+    }
+    const updatedInfo = await userCollection.findOneAndUpdate(
         {_id : new ObjectId(id)},
         {$set : {courses : courseList}},
         {returnDocument : 'after'});
