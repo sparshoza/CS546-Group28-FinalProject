@@ -55,11 +55,14 @@ router
       const password = regData.passwordInput;
 
       const confirmPassword = regData.confirmPasswordInput;
+      const userName = regData.userNameInput;
 
-      //error handling for other fields
-      //error handling server side including handlebars
-      if (!firstName || !lastName || !email || !password || !confirmPassword) {
-        return res.status(400).render("register", { error: "enter something" });
+
+//error handling for other fields
+//error handling server side including handlebars
+      if (!firstName || !lastName || !email || !password || !confirmPassword  || !userName) {
+        return res.status(400).render('register', {error: "enter something"});
+
       }
       if (!helpers.validateEmail(email)) {
         return res
@@ -100,10 +103,7 @@ router
 
       if (!helpers.validatePassword(password)) {
         return res
-          .status(400)
-          .render("register", {
-            errorPassword: "enter atleast one special character",
-          });
+          .status(400).render('register',{ errorPassword: "enter at least one special character" });
       }
 
       if (!gradYear) {
@@ -210,6 +210,7 @@ router
 
       //inserting the requested body in db
       const createUser = await user.create(
+        userName,
         firstName,
         lastName,
         email,
@@ -269,10 +270,12 @@ router
     try {
       const checkedUser = await user.checkUser(email, password);
       if (checkedUser) {
-        const authUser = checkedUser[0];
-        console.log(authUser);
 
-        req.session.user = authUser;
+          // const authUser = checkedUser[0]
+          console.log(checkedUser);
+
+          req.session.user = checkedUser;
+
 
         // req.session.user = result;
         // if (result.role === "admin") {
