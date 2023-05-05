@@ -51,7 +51,7 @@ Confirm password
       {{/if}}
       <br />
 
- <label class="search-label" for="userNameInput">User Name</label>
+      <label class="search-label" for="userNameInput">User Name</label>
       <input type="text" class="text-area" name="userNameInput" id="userNameInput" placeholder="username"
         value="{{userNameInput}}" />
       {{#if error}}
@@ -82,7 +82,7 @@ Confirm password
       <label class="search-label" for="confirmPasswordInput">Confirm Password</label>
       <input type="password" class="text-area" name="confirmPasswordInput" id="confirmPasswordInput"
         placeholder="type here" />
-      Show Password<input type="checkbox" onclick="showPassword1()">
+      Show Password<input type="checkbox" onclick="showPassword2()">
       {{#if errorConfirmPassword}}
       <div id="error" class="error">{{errorConfirmPassword}}</div>
       {{/if}}
@@ -111,7 +111,7 @@ Confirm password
       <a href="login">Already have an account? Login here</a>
     </div>
   </main>
-  <script src="../public/js/dropdown.js"></script>
+  <script src="../public/js/main.js"></script>
 </body>
 
 </html>
