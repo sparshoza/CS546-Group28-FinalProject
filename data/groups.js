@@ -124,6 +124,7 @@ export const update = async(
     );
     if(updatedInfo.lastErrorObject.n === 0){throw 'could not update group successfully!';}
     updatedInfo.value._id = updatedInfo.value._id.toString();
+    return updatedInfo.value;
 };
 
 

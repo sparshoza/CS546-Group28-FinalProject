@@ -6,8 +6,10 @@ export const create = async(
     courseCode,
     name,
     professorNames,
+    //need to contain a list of the people in the course
     //rating is initially 0;
     //reviews is initially an empty list
+    //initially has nobody in the class
 ) =>{
     if(!courseCode || !name || !professorNames){throw 'all inputs must exist!';}
     if(typeof courseCode !== 'string' || typeof name !== 'string' || courseCode.trim().length === 0 || name.trim().length === 0){throw 'All strings must be non-zero inputs';}
@@ -26,6 +28,7 @@ export const create = async(
         courseCode : courseCode,
         name : name,
         professorNames , professorNames,
+        students : [],
         rating : 0,
         reviews : []
     };
