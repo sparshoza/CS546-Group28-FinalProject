@@ -168,4 +168,11 @@ function showPassword1() {
   } else {
     tempPass.type = "password";
   }
+}function showPassword2() {
+  var tempPass1 = document.getElementById("confirmPasswordInput");
+  if (tempPass1.type === "password") {
+    tempPass1.type = "text";
+  } else {
+    tempPass1.type = "password";
+  }
 }
