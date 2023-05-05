@@ -16,8 +16,8 @@ export const create = async(
 ) =>{
 
     //error handling 
-    if(!username || !firstName || !lastName || !courses || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
-    if(typeof username !== 'string' || username.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof hashedPassword !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || hashedPassword.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    if(!username || !firstName || !lastName || !courses || !stevensEmail || !password || !graduationYear){throw 'all fields must be present';}
+    if(typeof username !== 'string' || username.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof password !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || password.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
     username = username.trim();

@@ -50,8 +50,8 @@ export const getAll = async () =>{
     return coursesList;
 };
 
-export const get = async (id) =>{
-    if(!id){throw 'id must exist!';}
+export const get = async (courseCode) =>{
+    if(!courseCode){throw 'course code!';}
     if(typeof id !== 'string' || id.trim().length !== 0){throw 'id must be a non-empty string';}
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
