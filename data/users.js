@@ -34,7 +34,7 @@ export const create = async(
     // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
     const date = new Date();
     if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
-    
+    const userCollection = await users();
     const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
     if(aUser !== null){throw 'Email is already linked to an account!'};
     let emailCollection = await emails();
@@ -79,14 +79,13 @@ export const create = async(
         reviews: [], //empty
         comments: [] //empty
     };
-    const userCollection = await users();
-
     const insertInfo = await userCollection.insertOne(newUser);
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
         throw 'User could not be added';
     }
 
     const newId = insertInfo.insertedId.toString();
+    
     counter = 0;
     while(counter < index){
         let courseList = valid.students; //grab the old list of course
@@ -277,7 +276,7 @@ export const addCourse = async (id, newCourses) =>{
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!'};
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
-    if(Array.isArray(newCourses)){throw 'newCourses must be an array'};
+    if(!Array.isArray(newCourses)){throw 'newCourses must be an array'};
     if(newCourses.length === 0){throw 'newCourses cannot be empty!'};
 
     let courseCollection = await courses();
