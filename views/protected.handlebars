@@ -1,0 +1,45 @@
+{{!--
+
+If the user is logged in , and 'GET /protected' endpoint is called, you will render this view based on the specs.
+
+--}}
+
+
+<!DOCTYPE html>
+<html lang = en>
+
+<title>protected page</title>   
+<body>
+    <header><h1>protected page</h1></header>
+    <main>
+        <p>
+     "Welcome to the group stupy portal, {{userData.firstName}} ". 
+     </p>
+     <div>
+           <ol>
+                {{#each userData.courses}}
+                 
+                <li>
+                    
+                    <a class="courses-link" href="courses/{{this}}"> {{this}} </a> 
+                  </li>  
+
+                  
+                  {{/each}}
+                
+            </ol>
+     </div>
+    </main>
+    
+    <div>
+         
+        <img src="../public/images/{{userData.stevensEmail}}.jpeg" class="image-class">
+        
+        <a href="/logout">logout</a>
+     </div>
+
+    <footer><h2> protected page </h2></footer>
+</body>
+
+
+</html>

@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     console.log(file);
-    cb(null, req.body.emailAddressInput+".jpeg");
+    cb(null, req.body.emailAddressInput + ".jpeg");
   },
   fileFilter: (req, file, cb) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -56,62 +56,71 @@ router
 
       const confirmPassword = regData.confirmPasswordInput;
 
-//error handling for other fields
-//error handling server side including handlebars
-      if (!firstName || !lastName || !email || !password || !confirmPassword ) {
-        return res.status(400).render('register', {error: "enter something"});
+      //error handling for other fields
+      //error handling server side including handlebars
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        return res.status(400).render("register", { error: "enter something" });
       }
-      if (!helpers.validateEmail(email))
-      {
-        return res.status(400).render('register',{error:"wrong email format"})
+      if (!helpers.validateEmail(email)) {
+        return res
+          .status(400)
+          .render("register", { error: "wrong email format" });
       }
 
       if (typeof firstName !== "string" || typeof lastName !== "string") {
-        return res.status(400).render('register',{ error: "bad data type" });
+        return res.status(400).render("register", { error: "bad data type" });
       }
 
       if (helpers.checkSymbols(firstName) || helpers.checkSymbols(lastName)) {
-        return res.status(400).render('register',{ error: "No symbols in names" });
+        return res
+          .status(400)
+          .render("register", { error: "No symbols in names" });
       }
       if (helpers.checkNumbers(firstName) || helpers.checkNumbers(lastName)) {
-        return res.status(400).render('register',{ error: "no numbers in names" });
+        return res
+          .status(400)
+          .render("register", { error: "no numbers in names" });
       }
       if (firstName.length < 2 || firstName.length > 25) {
         return res
           .status(400)
-          .render('register',{ error: "First name length betwween 2 and 25" });
+          .render("register", { error: "First name length betwween 2 and 25" });
       }
       if (lastName.length < 2 || lastName.length > 25) {
         return res
           .status(400)
-          .render('register',{ error: "Last Name length between 2 and 25" });
+          .render("register", { error: "Last Name length between 2 and 25" });
       }
 
       if (password.length < 8) {
-        return res.status(400).render('register',{ errorPassword: "password length less than 8" });
+        return res
+          .status(400)
+          .render("register", { errorPassword: "password length less than 8" });
       }
 
       if (!helpers.validatePassword(password)) {
         return res
           .status(400)
-          .render('register',{ errorPassword: "enter atleast one special character" });
+          .render("register", {
+            errorPassword: "enter atleast one special character",
+          });
       }
 
-      if (!gradYear)
-      {
+      if (!gradYear) {
         return res
-        .status(400)
-        .render('register',{ graduationYearerror: "Enter Graduation Year" });
-        
+          .status(400)
+          .render("register", { graduationYearerror: "Enter Graduation Year" });
       }
 
-      
-      if ( gradYear < new Date().getFullYear() || gradYear > new Date().getFullYear() + 5)
-      {
+      if (
+        gradYear < new Date().getFullYear() ||
+        gradYear > new Date().getFullYear() + 5
+      ) {
         return res
-        .status(400)
-        .render('register',{ graduationYearerror: "Range within 5 years from now" });
-        
+          .status(400)
+          .render("register", {
+            graduationYearerror: "Range within 5 years from now",
+          });
       }
 
       // if (!helpers.checkNumbers(password)) {
@@ -129,16 +138,12 @@ router
       // }
 
       if (password !== confirmPassword) {
-        return res.status(400).render('register',{ errorConfirmPassword: "password did not match" });
+        return res
+          .status(400)
+          .render("register", {
+            errorConfirmPassword: "password did not match",
+          });
       }
-
-     
-
-      
-
-    
-
-
 
       //error handling for courses in array
       let courseField = req.body.courseFieldsInput; // taking in no of courses from 1-4
@@ -203,7 +208,6 @@ router
         return res.render("register", { courseError: "No same courses" });
       }
 
-
       //inserting the requested body in db
       const createUser = await user.create(
         firstName,
@@ -216,20 +220,17 @@ router
 
       if (createUser) {
         console.log(createUser);
-        return res.render("login",);
+        return res.render("login");
       } else {
         res.render("error", { error: "User already exists." });
       }
 
-      
       next();
     } catch (e) {
       console.log(e);
       res.status(400).render("error", { error: e });
     }
   });
-
-
 
 router
   .route("/login")
@@ -240,44 +241,38 @@ router
   .post(async (req, res) => {
     //code here for POST
     // const { email, password } = req.body;
-    let email = req.body.emailAddressInput
-    let password = req.body.passwordInput
+    let email = req.body.emailAddressInput;
+    let password = req.body.passwordInput;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .render("login", {
-          errorMessage: "Please provide a valid email address and password.",
-        });
+      return res.status(400).render("login", {
+        errorMessage: "Please provide a valid email address and password.",
+      });
     }
 
-     email = email.trim().toLowerCase();
-    if (! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res
-        .status(400)
-        .render("login", {
-          errorMessage: "Please provide a valid email address.",
-        });
+    email = email.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).render("login", {
+        errorMessage: "Please provide a valid email address.",
+      });
     }
 
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
-      return res
-        .status(400)
-        .render("login", {
-          errorMessage:
-            "Please provide a valid password (at least 8 characters long, with one uppercase letter, one number and one special character).",
-        });
+      return res.status(400).render("login", {
+        errorMessage:
+          "Please provide a valid password (at least 8 characters long, with one uppercase letter, one number and one special character).",
+      });
     }
 
     try {
       const checkedUser = await user.checkUser(email, password);
       if (checkedUser) {
-          const authUser = checkedUser[0]
-          console.log(authUser);
+        const authUser = checkedUser[0];
+        console.log(authUser);
 
-          req.session.user = authUser;
+        req.session.user = authUser;
 
         // req.session.user = result;
         // if (result.role === "admin") {
@@ -285,7 +280,7 @@ router
         // } else if (result.role === "user") {
         //   return res.status(200).redirect("/protected");
         // }
-        return res.redirect('protected')
+        return res.redirect("protected");
       }
     } catch (e) {
       return res
@@ -338,12 +333,12 @@ router.route("/protected").get(async (req, res) => {
 
   try {
     // if (req.session.user.role === "user" || req.session.user.role === "admin") {
-      const date = new Date();
-      console.log(req.session.user + "in protected route")
-      res.render("protected", {
-        userData: req.session.user,
-        currentTime: date,
-      });
+    const date = new Date();
+    console.log(req.session.user + "in protected route");
+    res.render("protected", {
+      userData: req.session.user,
+      currentTime: date,
+    });
     //}
   } catch (e) {
     console.log(e);
