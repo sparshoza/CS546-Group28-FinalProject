@@ -1,4 +1,5 @@
 
+// Connect to the Socket.IO server
 // // Connect to the Socket.IO server
 // import { io } from "socket.io-client";
 // // chat.js
@@ -42,9 +43,6 @@
 // });
 
 // Listen for events from the server
-
-
-
 
 (function () {
     const checkPassword = (password) => {
@@ -215,5 +213,13 @@ function showPassword1() {
     tempPass.type = "text";
   } else {
     tempPass.type = "password";
+  }
+}
+function showPassword2() {
+  var tempPass1 = document.getElementById("confirmPasswordInput");
+  if (tempPass1.type === "password") {
+    tempPass1.type = "text";
+  } else {
+    tempPass1.type = "password";
   }
 }
