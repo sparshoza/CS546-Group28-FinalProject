@@ -95,7 +95,7 @@ router
       if (!helpers.validatePassword(password)) {
         return res
           .status(400)
-          .render('register',{ errorPassword: "enter atleast one special character" });
+          .render('register',{ errorPassword: "enter at least one special character" });
       }
 
       if (!gradYear)
