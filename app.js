@@ -120,7 +120,6 @@ import {
   loggingMiddleware,
 } from "./middleware.js";
 import { Http2ServerRequest } from "http2";
-import { user } from "../../Agile solar project/team21/solar_management_backend/data/index.js";
 
 
 app.use(express.json());
