@@ -55,10 +55,11 @@ router
       const password = regData.passwordInput;
 
       const confirmPassword = regData.confirmPasswordInput;
+      const userName = regData.userNameInput;
 
 //error handling for other fields
 //error handling server side including handlebars
-      if (!firstName || !lastName || !email || !password || !confirmPassword ) {
+      if (!firstName || !lastName || !email || !password || !confirmPassword  || !userName) {
         return res.status(400).render('register', {error: "enter something"});
       }
       if (!helpers.validateEmail(email))
@@ -206,6 +207,7 @@ router
 
       //inserting the requested body in db
       const createUser = await user.create(
+        userName,
         firstName,
         lastName,
         email,

@@ -50,6 +50,21 @@ Confirm password
       <div id="error" class="error">{{error}}</div>
       {{/if}}
       <br />
+
+ <label class="search-label" for="userNameInput">User Name</label>
+      <input type="text" class="text-area" name="userNameInput" id="userNameInput" placeholder="username"
+        value="{{userNameInput}}" />
+      {{#if error}}
+      <div id="error" class="error">{{error}}</div>
+      {{/if}}
+      {{#if errorFirstName}}
+      <div id="error" class="error">{{erroruserNameInput}}</div>
+      {{/if}}
+      <div id="errorFirstName" class="error" hidden>I'm an error. I will change through Client-Side JS</div>
+      <br />
+
+
+
       <label class="search-label" for="graduationYear">Graduation Year</label>
       <input type="number" class="text-area" name="graduationYear" id="graduationYear" />
       {{#if graduationYearerror}}
