@@ -1,5 +1,5 @@
-import {users, courses, reviews} from '../config/mongoCollections.js';
-import {userData, coursesData} from './index.js'
+import { users, courses, reviews } from '../config/mongoCollections.js';
+import { userData, coursesData } from './index.js'
 import {ObjectId} from 'mongodb';
 
 export const create = async(
@@ -177,6 +177,6 @@ export const remove = async (id) =>{
     );
     if(updatedInfo3.lastErrorObject.n === 0){throw 'failed to update Courses overallRating';}
     `${deleteInfo3.value.name} has been successfully deleted!`; 
-    };
+};
 
-        export default {create, getAll, get, remove};
+export default {create, getAll, get, remove};
