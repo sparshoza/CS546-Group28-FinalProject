@@ -1,7 +1,6 @@
 TODO:
     Users:
-Will profile picture always be a link with a .com? Add error checking then
-
+    
     Reviews:
 Check that '$pull' is done correctly in remove
 Kind of last minute I changed the reviews in courses to not just be an ID so that it was easier to calculate the overall rating for the course, check to see if that works
@@ -13,10 +12,6 @@ Discuss section and its purpose
 Do we need multiple 'get all' functions for the corresponding courseId's
 MAKE SURE THE GET ALL BY COURSES ACTUALLY WORKS!!!
 Do we have to make sure that the department is still the same? if so we have to add the department to the data functions - MAIN FEATURE SO WE HAVE TO DECIDE!!!
-
-    Comments:
-Everything looks good I think
-Not doing update, probably?
 
 
 Overall:
