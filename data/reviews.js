@@ -137,20 +137,31 @@ export const remove = async (id) => {
     const coursesCollection = await courses();
     //remove either from users or courses first, THEN from reviews
     let aReview = await get(id);
-    let courseId = aReview.courseId;
+    if(aReview === null){throw 'no review with that Id';}
+    let courseCode = aReview.courseId;
     let userId = aReview.userId;
     const deleteInfo1 = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(userId)},{$pull: {reviews : {_id : new ObjectId(id)}}});
     if(deleteInfo1.lastErrorObject.n === 0){throw 'failed to remove Review from User';}
     // user done
-    const deleteInfo2 = await coursesCollection.findOneAndUpdate(
-        {_id: new ObjectId(courseId)}, {$pull: {reviews : {id}}});
+    const aCourse = await coursesCollection.findOne({courseCode: courseCode});
+        let index = 0;   
+    let reviewArr = aCourse.reviews;
+        reviewArr.forEach(rev =>{
+            if(rev._id.toString() === id){
+                reviewArr.splice(index, 1)
+            }
+            index += 1;
+        });
+        const deleteInfo2 = await coursesCollection.findOneAndUpdate(
+            {courseCode : courseCode},
+            {$set : {reviews : reviewArr}});
         if(deleteInfo2.lastErrorObject.n === 0){throw 'failed to remove Review from Courses';}
-    //courses "done" deleting
+        //courses "done" deleting
     const deleteInfo3 = await reviewCollection.findOneAndDelete({_id : new ObjectId(id)});
     if(deleteInfo3.lastErrorObject.n === 0){'throw failed to remove review from reviews';}
     //now to update overallRating for courses
-    let upCourse = await coursesData.get(courseId);
+    let upCourse = await coursesData.get(courseCode);
     let reviewList = upCourse.reviews;
     let total = 0;
     let len = 0;
@@ -164,12 +175,12 @@ export const remove = async (id) => {
     let overall = Math.floor(total / len * 10) / 10;
     //update the overAll
     const updatedInfo3 = await coursesCollection.findOneAndUpdate(
-        {_id : new ObjectId(courseId)},
+        {courseCode : courseCode},
         {$set : {rating : overall}},
         {returnDocument : 'after'}
     );
     if(updatedInfo3.lastErrorObject.n === 0){throw 'failed to update Courses overallRating';}
-    `${deleteInfo3.value.name} has been successfully deleted!`; 
+    return `${deleteInfo3.value._id} has been successfully deleted!`; 
 };
 
 export default {create, getAll, get, remove};

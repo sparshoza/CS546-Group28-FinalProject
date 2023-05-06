@@ -23,18 +23,20 @@ const email3 = await emails.create('phill@stevens.edu');
     Courses
     Emails
     Users
+    Reviews
+    lets say comments for now
 */
 let test = undefined;
 let user1 = await users.create('testName', 'Robert', 'Miller', 'rmiller6@stevens.edu', 'testTest2@', ['CS555', 'CS546'], 2024);
 let user2 = await users.create('HeresThis', 'Me', 'Miller', 'test@stevens.edu', 'testTest2@', ['CS555', 'CS546'], 2024);
 let review1 = await reviews.create('CS555', user1._id, "test", 1, "Hill");
 let review2 = await reviews.create('CS555', user2._id, "Review 2", 2, "Hill");
-
 try {
     test = await reviews.remove(review1._id.toString());
 } catch (error) {
     console.log(error);
 }
+    // let allReviews = await reviews.getAll('CS555');
 console.log(test);
 await db.dropDatabase();//dropping database
 await closeConnection();
