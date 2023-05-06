@@ -1,23 +1,11 @@
 TODO:
     Users:
-
     Reviews:
-Check that '$pull' is done correctly in remove
-Kind of last minute I changed the reviews in courses to not just be an ID so that it was easier to calculate the overall rating for the course, check to see if that works
-
     Courses: 
-Discuss section and its purpose
-change get function to take in a course code
     Groups:
-Do we need multiple 'get all' functions for the corresponding courseId's
-MAKE SURE THE GET ALL BY COURSES ACTUALLY WORKS!!!
-Do we have to make sure that the department is still the same? if so we have to add the department to the data functions - MAIN FEATURE SO WE HAVE TO DECIDE!!!
-
 
 Overall:
 Scheudling - Where would that go? is that a data function (probably is)
 
 Extra: would have add friends to users and requests/outgoing requests or something
 analytics would have to be added as well
-
-For stevens registration : should we create another collection for verifying student's email address during registration?

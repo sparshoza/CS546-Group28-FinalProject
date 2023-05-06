@@ -68,11 +68,28 @@ export const getAllByCourse = async (courseCode) =>{
         element._id = element._id.toString();
         return element;
     });
-    return groupList;
+    const groupList2 = groupList;
+    return groupList2;
 };
 
-//TODO another getAll by userId?
-
+export const getAllByUser = async (id) =>{
+    if(!id){throw 'id must exist!';}
+    if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
+    id = id.trim();
+    if(!ObjectId.isValid(id)){throw 'id must be valid!';}
+    const userCollection = await users();
+    let aUser = await userCollection.findOne({_id : new ObjectId(id)});
+    if(aUser === null){throw 'no user with this id'};
+    const groupCollection = await groups();
+    let groupList = await groupCollection.find({groupMembers :  id}).toArray();
+    if(groupList === null){throw 'could not find any groups with that id';}
+    groupList = groupList.map((element) =>{
+        element._id = element._id.toString();
+        return element;
+    });
+    const grouplist = groupList;
+    return grouplist;
+};
 export const get = async (id) =>{
     if(!id){throw 'id must exist!';}
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
@@ -208,4 +225,4 @@ export const removeMember = async(id, userId) =>{
         return updatedInfo.value;
 };
 
-export default {create, getAllByCourse, get, remove, update, addMember, removeMember};
+export default {create, getAllByCourse, getAllByUser, get, remove, update, addMember, removeMember};
