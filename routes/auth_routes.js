@@ -429,6 +429,13 @@ router.route("/error").get(async (req, res) => {
   res.render("error");
 });
 
+
+router.route("/index").get(async (req, res) => {
+  //code here for GET
+  res.render("index");
+});
+
+
 router.route("/logout").get(async (req, res) => {
   //code here for GET
   req.session.destroy();
