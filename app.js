@@ -5,25 +5,48 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import exphbs from "express-handlebars";
 import cookieParser from "cookie-parser";
-import http from 'http';
+import {
+  rootMiddleware,
+  loginMiddleware,
+  registerMiddleware,
+  protectedMiddleware,
+  adminMiddleware,
+  logoutMiddleware,
+  loggingMiddleware,
+} from "./middleware.js";
+
+import  chat from "./public/js/chat.js"
+
+import { createServer } from "http";
 import { Server } from "socket.io";
 
+const app = express();
+
+
+// import {Server, Socket} from 'socket.io'
 import axios from 'axios';
 
 
-import { io } from 'socket.io-client';  
+//websocket final config
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  // ...
+});
 
-const socket = io();
+io.on("connection", (socket) => {
+  
+
+    chat(io,socket)
+
+    console.log("new user connected")
+});
 
 
-// const {data } = await axios.get("https://https://38ddf9de62394b4f84aa642ad683052d.weavy.io/api/wys_4VYLIMS80xERXk6QnXpyyjd0jHPKWF2opG4T/myapp/members?top=10");
 
-// console.log(data);
 
-// your_app.js
-// import SendbirdChat from '@sendbird/chat';
 
-// import { GroupChannelModule } from "@sendbird/chat/groupChannel";
+
+
 
 
 
@@ -82,61 +105,9 @@ const socket = io();
 //   // Handle error.
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const app = express();
-
-
-//for web sockets 
-
- const server = http.createServer(app);
-
-const ios = new Server(server);
-
-
-//config for web sockets 
-ios.on('connection', socket => {
-
-    console.log("web sockets connection")
-})
-
-socket.on('message', (message) => {
-  // Broadcast the message to all connected clients
-  io.emit('message', message);
-});
-
-
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import {
-  rootMiddleware,
-  loginMiddleware,
-  registerMiddleware,
-  protectedMiddleware,
-  adminMiddleware,
-  logoutMiddleware,
-  loggingMiddleware,
-} from "./middleware.js";
-import { Http2ServerRequest } from "http2";
 
 
 app.use(express.json());
@@ -187,7 +158,7 @@ configRoutes(app);
 
 
 
-server.listen(3000, () => {
+httpServer.listen(3000, () => {
   console.log("We've now got a server!");
   console.log("Your routes will be running on http://localhost:3000");
 });
