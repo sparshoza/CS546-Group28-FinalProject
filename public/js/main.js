@@ -223,3 +223,89 @@ function showPassword2() {
     tempPass1.type = "password";
   }
 }
+
+// Lab 10 user registration examples
+// let loginForm = document.getElementById("login-form");
+// let error = document.getElementById("error");
+// let registerForm = document.getElementById('registration-form');
+// if(registerForm){
+//     registerForm.addEventListener("submit", (event)=>{
+//         error.hidden = true;
+//         let errorText = '';
+//         let firstNameInput = document.getElementById('firstNameInput');
+//         let lastNameInput = document.getElementById('lastNameInput');
+//         let emailAddressInput = document.getElementById('emailAddressInput');
+//         let passwordInput = document.getElementById('passwordInput');
+//         let confirmPasswordInput = document.getElementById('confirmPasswordInput');
+//         let roleInput = document.getElementById('roleInput');
+//         if(firstNameInput.value.trim().length !== 0 && lastNameInput.value.trim().length !== 0 && emailAddressInput.value.trim().length !== 0 && passwordInput.value.trim().length !== 0 && confirmPasswordInput.value.trim().length){
+//             //trim them
+//             let firstName = firstNameInput.value.trim();
+//             let lastName = lastNameInput.value.trim();
+//             let email = emailAddressInput.value.trim();
+//             let password = passwordInput.value.trim();
+//             let confirmPassword = confirmPasswordInput.value.trim();
+//             let role = roleInput.trim();
+//             if(firstName.length < 2 || lastName.length > 25){errorText = 'first name must be between 2 and 25 characters!';}
+//             if(lastName.length < 2 || firstName.length > 25){errorText = 'last name must be between 2 and 25 characters!';}
+//             let check = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; //regex I found that fulfills email address requirements
+//             if(!email.match(check)){errorText = 'emailaddress input must follow the standard email address pattern';}
+//             if(password.includes(' ') || password.length < 8){errorText= 'password must be at least 8 characters and cannot contain spaces';}
+//             //now to check for the password contents
+//             let upperCheck = /[A-Z]/;
+//             let numberCheck = /[0-9]/;
+//             let specialCheck = /[!@#$%^&*-?]/ //allows for the special characters in number row and ?
+//             if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck) || password.match(' ')){errorText= 'password must contain at least one uppercase letter, one number and one special character and no spaces';}
+//             if(password !== confirmPassword){errorText= 'password must match the confirm password';}
+//             if(role !== "admin" || role !== "user"){errorText= 'role must be either admin or user';}
+
+//             if (errorText !== ''){
+//                 event.preventDefault(); //prevent form from submitting
+//                 error.hidden = false; //show error on client side
+//                 error.innerHTML = errorText;
+//                 error.focus();
+//             }
+//         } else {
+//             event.preventDefault(); //prevent form from submitting
+//             error.hidden = false; //show error on client side
+//             error.innerHTML = 'You must enter values for all fields!';
+//             //error
+//             error.focus();
+//         }
+//     });
+// }
+
+// if(loginForm){
+//     loginForm.addEventListener("submit", (event)=>{
+//     error.hidden = true;
+//     let errorText = '';
+//     let emailInput = document.getElementById("emailAddressInput");
+//     let passwordInput = document.getElementById("passwordInput");
+//     if(emailInput.value.trim().length !== 0 && passwordInput.value.trim().length !== 0){
+//     let emailAddress = emailInput.value.trim();
+//     let password= passwordInput.value.trim();
+//     let check = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; //regex I found that fulfills email address requirements
+//     if(!emailAddress.match(check)){errorText = 'emailaddress input must follow the standard email address pattern';}
+//     if(password.includes(' ') || password.length < 8){errorText = 'password must be at least 8 characters and cannot contain spaces';}
+//     //now to check for the password contents
+//     let upperCheck = /[A-Z]/;
+//     let numberCheck = /[0-9]/;
+//     let specialCheck = /[!@#$%^&*-?]/ //allows for the special characters in number row and ?
+//     if(!password.match(upperCheck) || !password.match(numberCheck) || !password.match(specialCheck) || password.match(' ')){errorText =  'password must contain at least one uppercase letter, one number and one special character and no spaces';}
+
+//     if(errorText !== ''){
+//         event.preventDefault(); //prevent form from submitting
+//         error.hidden = false;
+//         error.innerHTML = errorText;
+//         error.focus();
+//     }
+// } else {
+//     event.preventDefault(); //prevent form from submitting
+//     error.hidden = false; //show error on client side
+//     error.innerHTML = 'You must enter values for both email and password!';
+//     //error
+//     error.focus();
+//     }
+//     });
+// }
+// // event.preventDefault(); //prevent form from submitting

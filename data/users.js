@@ -90,10 +90,7 @@ export const create = async(
     while(counter < index){
         valid = await courseCollection.findOne({courseCode: toValidArr[counter]});
         let courseList = valid.students; //grab the old list of course
-        console.log(courseList);
         courseList.push(newId); //add userId to the course list of students
-        console.log(toValidArr[counter]);
-        console.log(courseList);
         let updateInfo = await courseCollection.findOneAndUpdate(
             {courseCode : toValidArr[counter]},
             {$set : {students : courseList}},
@@ -129,16 +126,19 @@ export const get = async (id) =>{
     return aUser;
 };
 
-export const remove = async (id) =>{ //in case user logs out
+export const remove = async (id) =>{
     if(!id){throw 'id must exist!';}
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
     const userCollection = await users();
+    const aUser = await get(id);
+    let classList = aUser.courses;
+    let removedCourse = await removeCourse(id, classList);
     const deleteInfo = await userCollection.findOneAndDelete({
         _id: new ObjectId(id)});
     if(deleteInfo.lastErrorObject.n === 0){throw `Could not delete user with id of ${id}`;}
-    return `${deleteInfo.value.name} has been successfully deleted!`; 
+    return `${deleteInfo.value.firstName} has been successfully deleted!`; 
 };
 
 export const update = async ( //wont be used to add courses, so I will omit that update check from this function
@@ -148,7 +148,7 @@ export const update = async ( //wont be used to add courses, so I will omit that
     lastName,
     stevensEmail, 
     hashedPassword, //has to be unhashed
-    coursesInput,
+    coursesInput, //can be removed?
     graduationYear 
 ) =>{
     if(!id || !username || !firstName || !lastName || !coursesInput || !stevensEmail || !hashedPassword || !graduationYear){throw 'all fields must be present';}
@@ -169,12 +169,10 @@ export const update = async ( //wont be used to add courses, so I will omit that
     // if(website.substring(0,11) !== "http://www." || website.substring(website.length -4) !== ".com" || website.substring(11, website.length -4).trim().length < 5){throw "website must be a valid website!";} should we check url
     const date = new Date();
     if(graduationYear < date.getFullYear() || graduationYear > date.getFullYear() + 5){throw 'Date must be between current year and 5 in the future';}
-    const userCollection = users();
+    const userCollection = await users();
     const emailCollection = await emails();
     let valid = await emailCollection.findOne({email : stevensEmail});
     if(valid === null){throw 'Email is not a valid stevens email address!'};
-    const aUser2 = await userCollection.findOne({username : username});
-    if(aUser2 !== null){throw 'Username is already in use!'};
     if(!Array.isArray(coursesInput) || coursesInput.length === 0){throw 'courses input must be a non-empty array'}
     let courseCollection = await courses();
     let index = 0;
@@ -198,6 +196,8 @@ export const update = async ( //wont be used to add courses, so I will omit that
     //check now to see if a field has changed
     let check = false;
     let preUp = await get(id);
+    let aUser2 = await userCollection.findOne({username : username});
+    if(aUser2 !== null && preUp.username !== aUser2.username){throw 'Username is already in use!'};
     if(preUp.stevensEmail !== stevensEmail){ //do this check here SO IT DOESNT JUST FIND THE SAME EMAIL AGAIN IN THE DB
         const aUser = await userCollection.findOne({stevensEmail : stevensEmail});
         if(aUser !== null){throw 'Email is already linked to an account!'};
@@ -271,8 +271,7 @@ export const checkUser = async (emailAddress, password) => {
     } else {
       throw 'Either the email address or password is incorrect';
     }
-  };
-
+  };            
 
 export const addCourse = async (id, newCourses) =>{
 
@@ -299,32 +298,42 @@ export const addCourse = async (id, newCourses) =>{
     const aUser = await userCollection.findOne({_id: new ObjectId(id)});
     if(aUser === null){throw 'no user with that id';}
     let courseList = aUser.courses;
-    courseList.push(newCourses);
-    if(new Set(courseList).size !== newCourses.length){throw 'User is already in one of these courses'};
+    let length = courseList.length;
+    courseList = courseList.concat(newCourses);
+    if(new Set(courseList).size === length){throw 'User is already in one of these courses'};
 
     let counter = 0;
     //validate all course codes
     while(counter < index){
         let valid = await courseCollection.findOne({courseCode : toValidArr[counter]});
         if(valid === null){throw toValidArr[counter] + " is an invalid course code"};
-        let courseList = valid.students;
-        courseList.push(toValidArr[counter]);
-        let updateInfo = await courseCollection.findOneAndUpdate(
-            {courseCode : toValidArr[counter]},
-            {$set : {students : courseList}},
-            {returnDocument : 'after'}
-        );
-        if(updateInfo.lastErrorObject.n === 0){throw 'could not update courses successfulyl!';}
         counter += 1;
     }
+    //add user to courses list
+    index = 0;
+    while(index < newCourses.length){
+        //find the course to remove its user
+        let aCourse = await courseCollection.findOne({courseCode : newCourses[index]});
+        let studentArr = aCourse.students;
+        studentArr.push(id);
+        const updatedInfo1 = await courseCollection.findOneAndUpdate(
+            {courseCode : newCourses[index]},
+            {$set : {students : studentArr}},
+            {returnDocument : 'after'});
+            if(updatedInfo1.lastErrorObject.n === 0){throw 'could not update course'};
+        index += 1;
+    }
     //get the user
-    const updatedInfo = await findOneAndUpdate(
+
+    const updatedInfo = await userCollection.findOneAndUpdate(
     {_id : new ObjectId(id)},
     {$set : {courses : courseList}},
     {returnDocument : 'after'});
+    courseList.push(newCourses[counter]);
     if(updatedInfo.lastErrorObject.n === 0){throw 'could not update user courses successfully'};
     updatedInfo.value._id = updatedInfo.value._id.toString();
-    return aUser;
+    const newUser = await get(updatedInfo.value._id);
+    return newUser;
 };
 
 export const removeCourse = async (id, removeCourses) =>{
@@ -332,7 +341,7 @@ export const removeCourse = async (id, removeCourses) =>{
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!'};
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
-    if(Array.isArray(removeCourses)){throw 'removeCourses must be an array'};
+    if(!Array.isArray(removeCourses)){throw 'removeCourses must be an array'};
     if(removeCourses.length === 0){throw 'removeCourses cannot be empty!'};
     //check the courses
     let courseCollection = await courses();
@@ -373,19 +382,30 @@ export const removeCourse = async (id, removeCourses) =>{
         if(!check){throw 'user is not in ' + remove};
     });
     index = 0;
-    
+    let index2 = 0;
     while(index < removeCourses.length){
         //find the course to remove its user
-        let aCourse = courseCollection.findOne({courseCode : removeCourses[index]});
-
+        let aCourse = await courseCollection.findOne({courseCode : removeCourses[index]});
+        let studentArr = aCourse.students;
+        index2 = 0;
+        studentArr.forEach(student => {
+            if(student === id){
+                studentArr.splice(index2, 1);
+            }
+            index2 += 1;
+        });
+        const updatedInfo1 = await courseCollection.findOneAndUpdate(
+            {courseCode : removeCourses[index]},
+            {$set : {students : studentArr}},
+            {returnDocument : 'after'});
+            if(updatedInfo1.lastErrorObject.n === 0){throw 'could not update course'};
         index += 1;
     }
-    const updatedInfo = await userCollection.findOneAndUpdate(
-        {_id : new ObjectId(id)},
-        {$set : {courses : courseList}},
-        {returnDocument : 'after'});
-        if(updatedInfo.lastErrorObject.n === 0){throw 'could not update user courses successfully'};
-        updatedInfo.value._id = updatedInfo.value._id.toString();
+        const updatedInfo = await userCollection.findOneAndUpdate(
+            {_id : new ObjectId(id)},
+            {$set : {courses : courseList}},
+            {returnDocument : 'after'});
+            if(updatedInfo.lastErrorObject.n === 0){throw 'could not update user courses successfully'};
         return aUser;
 };
 

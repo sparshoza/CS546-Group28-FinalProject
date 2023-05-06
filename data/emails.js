@@ -35,9 +35,7 @@ export const get = async (id) =>{
     return anEmail;
 };
 
-export const remove = async(
-    id
-) => {
+export const remove = async(id) => {
     if(!id){throw 'id must exist!';}
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
     id = id.trim();
@@ -46,7 +44,7 @@ export const remove = async(
     const deleteInfo = await emailCollection.findOneAndDelete({
         _id: new ObjectId(id)});
     if(deleteInfo.lastErrorObject.n === 0){throw `Could not delete email with id of ${id}`;}
-    return `${deleteInfo.value.name} has been successfully deleted!`; 
+    return `${deleteInfo.value.email} has been successfully deleted!`; 
 }
 
 export default {create, remove};
