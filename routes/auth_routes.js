@@ -3,7 +3,9 @@
 import { Router } from "express";
 import * as helpers from "../helpers.js";
 import user from "../data/users.js";
+import {reviewData} from "../data/index.js";
 const router = Router();
+import xss from "xss";
 
 import multer from "multer";
 
@@ -48,14 +50,14 @@ router
 
       //storing individual fields data from the form
 
-      const firstName = regData.firstNameInput;
-      const lastName = regData.lastNameInput;
-      const email = regData.emailAddressInput;
-      const gradYear = regData.graduationYear;
-      const password = regData.passwordInput;
+      const firstName = xss(regData.firstNameInput);
+      const lastName = xss(regData.lastNameInput);
+      const email = xss(regData.emailAddressInput);
+      const gradYear = xss(regData.graduationYear);
+      const password = xss(regData.passwordInput);
 
-      const confirmPassword = regData.confirmPasswordInput;
-      const userName = regData.userNameInput;
+      const confirmPassword = xss(regData.confirmPasswordInput);
+      const userName = xss(regData.userNameInput);
 
 
 //error handling for other fields
@@ -245,6 +247,9 @@ router
     let email = req.body.emailAddressInput;
     let password = req.body.passwordInput;
 
+    email = xss(email);
+    password = xss(password);
+
     if (!email || !password) {
       return res.status(400).render("login", {
         errorMessage: "Please provide a valid email address and password.",
@@ -348,6 +353,63 @@ router.route("/protected").get(async (req, res) => {
   }
 });
 
+router
+  .route("/reviews")
+
+  //getting all reviews for a course
+  .get(async (req,res) => {
+    const courseId = req.params.id;
+    try {
+      const reviews = await reviewData.getAll(
+        courseId);
+
+      res.render("reviews", {reviews});
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ error: e.message });
+    }
+  })
+
+  //creating a new review
+  .post(async (req, res) => {
+    try {
+        const regData = req.body;
+
+      const courseId = xss(regData.courseIdInput);
+      const userId = xss(regData.userIdInput);
+      const reviewText = xss(regData.reviewTextInput);
+      const rating = xss(regData.ratingInput);
+      const professorName = xss(regData.professorNameInput);
+
+      if (!courseId || !userId || !reviewText || !rating || !professorName) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+      
+      // check rating is between 1 and 5
+      if (rating < 1 || rating > 5) {
+        return res.status(400).json({ error: "Rating must be between 1 and 5" });
+      }
+
+      const createReview = await reviewData.create(
+        courseId, 
+        userId, 
+        reviewText, 
+        rating, 
+        professorName
+      );
+
+      if (createReview) {
+        console.log(createReview);
+        return res.status(201).json({ message: "review created" });
+      } else {
+        return res.status(400).json({ error: "failed to create review" });
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ error: e.message });
+    }
+  })
+
 router.route("/admin").get(async (req, res) => {
   //code here for GET
   try {
@@ -366,6 +428,13 @@ router.route("/error").get(async (req, res) => {
   //code here for GET
   res.render("error");
 });
+
+
+router.route("/index").get(async (req, res) => {
+  //code here for GET
+  res.render("index");
+});
+
 
 router.route("/logout").get(async (req, res) => {
   //code here for GET
