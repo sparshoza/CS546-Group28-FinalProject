@@ -35,9 +35,7 @@ export const get = async (id) =>{
     return anEmail;
 };
 
-export const remove = async(
-    id
-) => {
+export const remove = async(id) => {
     if(!id){throw 'id must exist!';}
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
     id = id.trim();

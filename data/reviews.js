@@ -3,20 +3,22 @@ import { userData, coursesData } from './index.js'
 import {ObjectId} from 'mongodb';
 
 export const create = async(
-    courseId, //should be gotten from the HTML site, I think
+    courseCode, //should be gotten from the HTML site, I think
     userId,
     reviewText, //can be null
     rating, //rating will be between 1 and 5, no decimals
     professorName //perhaps name should be within a certain value?
     //comments will be set as an empty array
 ) =>{
-    if(!courseId || !rating || userId || !professorName){throw 'all fields must be present!';}
-    if(typeof userId !== 'string' || userId.trim().length === 0 ||typeof courseId !== 'string' || typeof professorName !== 'string' || courseId.trim().length === 0 || professorName.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    if(!courseCode || !rating || !userId || !professorName){throw 'all fields must be present!';}
+    if(typeof userId !== 'string' || userId.trim().length === 0 ||typeof courseCode !== 'string' || typeof professorName !== 'string' || courseCode.trim().length === 0 || professorName.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof rating !== 'number' || rating === NaN){throw 'rating must be a valid number!';}
     //trim strings
-    courseId = courseId.trim();
+    courseCode = courseCode.trim();
     professorName = professorName.trim();
-    if(!ObjectId.isValid(userId) || !ObjectId.isValid(courseId)){throw 'ids must be valid!';}
+    userId = userId.trim();
+    if(professorName.length > 25 || professorName.length < 2){throw 'professor Name has to be at least 2 characters long and less than 25 characters long';}
+    if(!ObjectId.isValid(userId)){throw 'userid must be valid!';}
     if(rating > 5 || rating < 1){throw 'rating must be an int between 1 and 5'};
     if(reviewText){ //since reviewText can be null, this is error checking in the case that it is given!
         if(typeof reviewText !== 'string' || typeof reviewText.trim().length === 0){throw 'since review is given, it cannot be an empty string!';}
@@ -32,14 +34,14 @@ export const create = async(
         throw 'no user with that Id';
     }
     try {
-            course = await coursesData.get(courseId);
+        course = await coursesData.get(courseCode);
     } catch (error) {
         throw 'no course with that Id';
     }
     let check = false;
     let userReviews = user.reviews;
     userReviews.forEach(rev =>{
-        if(rev.courseId === courseId){
+        if(rev.courseCode === courseCode){
             check = true;
         }
     });
@@ -49,12 +51,12 @@ export const create = async(
 
     //dont need to check courses as its array only contains the id's of the reviews
     let newReview = {
-        courseId : courseId,
+        courseId : courseCode,
         userId: userId,
         reviewText : reviewText,
         rating : rating,
         professorName : professorName,
-        comments : []
+        // comments : [] comments are not a core feature, so add I guess if needed
     };
     //INSERT IT FIRST INTO REVIEWS COLLECTION, use that ID to insert into other collections
     const reviewCollection = await reviews();
@@ -75,7 +77,7 @@ export const create = async(
     let coursesList = course.reviews;
     coursesList.push(newReview);
     const updatedInfo2 = await coursesCollection.findOneAndUpdate(
-        {_id : new ObjectId(courseId)},
+        {courseCode : courseCode},
         {$set : {reviews : coursesList}},
         {returnDocument : 'after'}
     );
@@ -93,7 +95,7 @@ export const create = async(
     let overall = Math.floor(total / len * 10) / 10;
     //update the overAll
     const updatedInfo3 = await coursesCollection.findOneAndUpdate(
-        {_id : new ObjectId(courseId)},
+        {courseCode : courseCode},
         {$set : {rating : overall}},
         {returnDocument : 'after'}
     );
@@ -102,24 +104,15 @@ export const create = async(
     return newReview;
 };
 
-export const getAll = async(courseId) =>{
-    if(!courseId){throw 'courseId must end'};
-    if(typeof courseId !== 'string' || courseId.trim().length === 0){throw 'id must be a non-empty string';}
-    courseId = courseId.trim();
-    if(!ObjectId.isValid(courseId)){throw 'id must be valid';}
+export const getAll = async(courseCode) =>{
+    if(!courseCode){throw 'courseId must end'};
+    if(typeof courseCode !== 'string' || courseCode.trim().length === 0){throw 'id must be a non-empty string';}
+    courseCode = courseCode.trim();
     const coursesCollection = await courses();
-    const course = await coursesCollection.get(courseId);
-    const courseList = course.reviews;
-    let returnArr= [];
-    let index = 0;
-    for (const id of courseList){
-        try {
-            returnArr[index] = await get(id); 
-        } catch (error) {
-            throw 'no review with that id!';
-        }
-    }
-    return returnArr;
+    const course = await coursesCollection.findOne({courseCode : courseCode});
+    if(course === null){throw 'Course does not exist';}
+    const list = course.reviews;
+    return list;
 };
 
 export const get = async(id) =>{
@@ -128,20 +121,20 @@ export const get = async(id) =>{
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
     const reviewCollection = await reviews();
-    const aReview = await reviewCollection.findONe({_id : new ObjectId(id)});
+    const aReview = await reviewCollection.findOne({_id : new ObjectId(id)});
     if(aReview === null){throw 'no review with that id';}
     aReview._id = aReview._id.toString();
     return aReview;
 };
 
-export const remove = async (id) =>{
-    if(!id){throw 'id must exist';}
-    if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string';}
+export const remove = async (id) => {
+    if(!id){throw 'id must exist!';}
+    if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
     id = id.trim();
     if(!ObjectId.isValid(id)){throw 'id must be valid!';}
-    const coursesCollection = await courses();
-    const userCollection = await users();
     const reviewCollection = await reviews();
+    const userCollection = await users();
+    const coursesCollection = await courses();
     //remove either from users or courses first, THEN from reviews
     let aReview = await get(id);
     let courseId = aReview.courseId;
@@ -149,7 +142,7 @@ export const remove = async (id) =>{
     const deleteInfo1 = await userCollection.findOneAndUpdate(
         {_id: new ObjectId(userId)},{$pull: {reviews : {_id : new ObjectId(id)}}});
     if(deleteInfo1.lastErrorObject.n === 0){throw 'failed to remove Review from User';}
-    //user done
+    // user done
     const deleteInfo2 = await coursesCollection.findOneAndUpdate(
         {_id: new ObjectId(courseId)}, {$pull: {reviews : {id}}});
         if(deleteInfo2.lastErrorObject.n === 0){throw 'failed to remove Review from Courses';}
@@ -158,10 +151,10 @@ export const remove = async (id) =>{
     if(deleteInfo3.lastErrorObject.n === 0){'throw failed to remove review from reviews';}
     //now to update overallRating for courses
     let upCourse = await coursesData.get(courseId);
-    let reviews = upCourse.reviews;
+    let reviewList = upCourse.reviews;
     let total = 0;
     let len = 0;
-    reviews.forEach(element =>{
+    reviewList.forEach(element =>{
         total += element.rating;
         len += 1;
     });
