@@ -41,7 +41,7 @@ export const create = async(
     let check = false;
     let userReviews = user.reviews;
     userReviews.forEach(rev =>{
-        if(rev.courseCode === courseCode){
+        if(rev.courseId === courseCode){
             check = true;
         }
     });
