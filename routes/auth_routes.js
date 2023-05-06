@@ -222,6 +222,8 @@ router
       );
 
       if (createUser) {
+        
+
         console.log(createUser);
         return res.render("login");
       } else {

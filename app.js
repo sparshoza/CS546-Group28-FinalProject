@@ -33,10 +33,13 @@ const io = new Server(httpServer, {
   // ...
 });
 
+let onlineUsers = {}
+let channels = {"General" : []};
+
 io.on("connection", (socket) => {
   
 
-    chat(io,socket)
+    chat(io,socket, onlineUsers, channels)
 
     console.log("new user connected")
 });
