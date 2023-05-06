@@ -31,8 +31,9 @@ let user1 = await users.create('testName', 'Robert', 'Miller', 'rmiller6@stevens
 let user2 = await users.create('HeresThis', 'Me', 'Miller', 'test@stevens.edu', 'testTest2@', ['CS555', 'CS546'], 2024);
 let review1 = await reviews.create('CS555', user1._id, "test", 1, "Hill");
 let review2 = await reviews.create('CS555', user2._id, "Review 2", 2, "Hill");
+let group1 = await groups.create('CS555', 'Sparkles', [user2._id.toString()]);
 try {
-    test = await reviews.remove(review1._id.toString());
+    test = await groups.removeMember(group1._id.toString(), user2._id.toString());
 } catch (error) {
     console.log(error);
 }
