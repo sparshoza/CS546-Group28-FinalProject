@@ -38,7 +38,6 @@ const email1 = await emails.create('rmiller6@stevens.edu');
 const email2 = await emails.create('test@stevens.edu');
 const email3 = await emails.create('phill@stevens.edu');
 
-
 /*ALL FUNCTIONS TESTED IN :
     Courses
     Emails

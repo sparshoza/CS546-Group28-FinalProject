@@ -7,6 +7,14 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
 <body>
     <header>
         <h1 class="page-title">Protected Page</h1>
+        <form id="searchForm">
+            <label for="searchTerm" class='head'>Search:</label>
+            <input type="text" name="searchTerm" id="searchTerm" value="{{searchTerm}}">
+            <button type="submit" id="search-submit">Search</button>
+            {{#with searchTerm}}
+            <button id="clearSearchResults"><a href="/dashboard">Back To All Tasks</a></button>
+            {{/with}}
+        </form>
     </header>
     <main>
         <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
@@ -21,6 +29,10 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
                 {{#each userData.courses}}
                 <li>
                     <a class="course-link" href="courses/{{this}}">{{this}}</a>
+                    <form class="search-form" action="search.php" method="get">
+                        <input type="search" name="search" placeholder="Search...">
+                        <button type="submit">Search</button>
+                    </form>
                 </li>
                 {{/each}}
             </ol>
