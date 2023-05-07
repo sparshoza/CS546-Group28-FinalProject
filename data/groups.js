@@ -90,6 +90,7 @@ export const getAllByUser = async (id) =>{
     const grouplist = groupList;
     return grouplist;
 };
+
 export const get = async (id) =>{
     if(!id){throw 'id must exist!';}
     if(typeof id !== 'string' || id.trim().length === 0){throw 'id must be a non-empty string!';}
