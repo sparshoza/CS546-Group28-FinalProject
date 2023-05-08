@@ -1,8 +1,10 @@
-{{!--
+{{!
 
 If the user is logged in , and 'GET /protected' endpoint is called, you will render this view based on the specs.
 
---}}
+}}
+<!DOCTYPE html>
+
 <title>Protected Page</title>
 <body>
     <header>
@@ -12,7 +14,6 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
             <input type="text" name="searchTerm" id="searchTerm" value="{{searchTerm}}">
             <button type="submit" id="search-submit">Search</button>
             {{#with searchTerm}}
-            <button id="clearSearchResults"><a href="/dashboard">Back To All Tasks</a></button>
             {{/with}}
         </form>
     </header>
@@ -23,28 +24,77 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
             <p>{{userData.emailAddress}}</p>
             <a href="/logout" class="logout-link">Logout</a>
         </div>
-        <div class="course-list">
-            <h2 class="section-title">Your Courses:</h2>
-            <ol>
-                {{#each userData.courses}}
-                <li>
-
-                    <a class="course-link" href="indexx/{{this}}">{{this}}</a>
-                  
-
-                </li>
-                {{/each}}
-            </ol>
-        </div>
     </main>
 
-    {{!-- <div class="profile-pic">
+    <div class="course-list">
+      <h2 class="section-title">Your Courses:</h2>
+      <ol>
+        {{#each userData.courses}}
+          <li>
+            <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
+            <form action="/reviews/new" method="POST">
+              <label for="courseIdInput">Course Code:</label>
+              <input type="text" id="courseIdInput" name="courseIdInput" /><br
+              />
+
+              <label for="userIdInput">User ID:</label>
+              <input type="text" id="userIdInput" name="userIdInput" /><br />
+
+              <label for="reviewTextInput">Review Text:</label>
+              <textarea
+                id="reviewTextInput"
+                name="reviewTextInput"
+              ></textarea><br />
+
+              <label for="ratingInput">Rating:</label>
+              <select id="ratingInput" name="ratingInput">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select><br />
+
+              <label for="professorNameInput">Professor Name:</label>
+              <input
+                type="text"
+                id="professorNameInput"
+                name="professorNameInput"
+              /><br />
+
+            <div class="reviews-list">
+              <h2 class="section-title">Course Reviews:</h2>
+              {{#if allReviews}}
+                <ul>
+                  {{#each allReviews}}
+                    <li>
+                      <p>Review by: {{this.userId}}</p>
+                      <p>Rating: {{this.rating}}</p>
+                      <p>Professor Name: {{this.professorName}}</p>
+                      <p>Review Text: {{this.reviewText}}</p>
+                    </li>
+                  {{/each}}
+                </ul>
+              {{else}}
+                <p>No reviews available.</p>
+              {{/if}}
+            </div>
+
+          </li>
+        {{/each}}
+      </ol>
+    </div>
+  </main>
+
+  {{! <div class="profile-pic">
   <label class="-label" for="file">
     <span class="glyphicon glyphicon-camera"></span>
     <span>Change Image</span>
   </label>
   <input id="file" type="file" onchange="loadFile(event)"/>
-</div> --}}
+</div> }}
 
-    <footer><h2> protected page </h2></footer>
+  <footer><h2> protected page </h2></footer>
+  <div id="results"></div>
+  <script src="../public/js/reviews.js"></script>
 </body>
