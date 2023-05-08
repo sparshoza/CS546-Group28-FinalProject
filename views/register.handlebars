@@ -61,7 +61,8 @@
 
       <label class="search-label" for="passwordInput">Password</label>
       <input type="password" class="text-area" name="passwordInput" id="passwordInput" placeholder="type here" />
-      Show Password<input type="checkbox" onclick="showPassword1()">
+      <label for="confirmPassword1" style="font-weight: 400;">Show Password</label>
+      <input type="checkbox" onclick="showPassword1()" id="confirmPassword1">
       {{#if errorPassword}}
       <div id="error" class="error">{{errorPassword}}</div>
       {{/if}}
@@ -70,9 +71,9 @@
 
 
       <label class="search-label" for="confirmPasswordInput">Confirm Password</label>
-      <input type="password" class="text-area" name="confirmPasswordInput" id="confirmPasswordInput"
-        placeholder="type here" />
-      Show Password<input type="checkbox" onclick="showPassword2()">
+      <input type="password" class="text-area" name="confirmPasswordInput" id="confirmPasswordInput" placeholder="type here"/>
+      <label for="confirmPassword2" style="font-weight: 400;">Show Password</label>
+      <input type="checkbox" onclick="showPassword2()" id="confirmPassword2">
       {{#if errorConfirmPassword}}
       <div id="error" class="error">{{errorConfirmPassword}}</div>
       {{/if}}

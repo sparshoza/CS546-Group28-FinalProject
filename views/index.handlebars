@@ -44,7 +44,9 @@
         <h1 class="brand">Make Chat</h1>
         <div class="channels">
             <h2 class="channels-label">Channels</h2>
-            <div class="new-channel-form"><input id="new-channel-input" placeholder="New Channel" /><button id="new-channel-btn">Create</button></div>
+            <div class="new-channel-form">
+              <label for="new-channel-input"></label>
+              <input id="new-channel-input" placeholder="New Channel" /><button id="new-channel-btn">Create</button></div>
             <div class="channel-current">General</div>
         </div>
         <h2>Online Users</h2>
@@ -56,7 +58,10 @@
               <h2>Messages</h2>
           </div>
           <div class="text-chat-divide"></div>
-          <div class="chat-box"><textarea id="chat-input" placeholder="Type a message"></textarea><button class="btn" id="send-chat-btn">Send</button></div>
+          <div class="chat-box">
+            <label for="chat-input">Enter your message</label>
+            <textarea id="chat-input" placeholder="Type a message"></textarea>
+            <button class="btn" id="send-chat-btn">Send</button></div>
         </div>
       </div>
     </div>
