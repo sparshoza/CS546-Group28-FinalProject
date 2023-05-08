@@ -3,6 +3,7 @@
 import { Router } from "express";
 import * as helpers from "../helpers.js";
 import user from "../data/users.js";
+import courseData from "../data/courses.js"
 import {reviewData} from "../data/index.js";
 const router = Router();
 import xss from "xss";
@@ -31,7 +32,9 @@ const upload = multer({ storage: storage });
 
 router.route("/").get(async (req, res) => {
   try {
-    return res.json({ error: "in / route" });
+
+    return res.render('homepage')
+    // return res.json({ error: "in / route" });
   } catch (e) {
     return res.json({ error: "error in error" });
   }
@@ -41,7 +44,7 @@ router
   .route("/register")
   .get(async (req, res) => {
     //code here for GET
-    res.render("register");
+    return res.render("register");
   })
   .post(upload.single("uploadPicture"), async (req, res, next) => {
     //code here for POST
@@ -58,6 +61,8 @@ router
 
       const confirmPassword = xss(regData.confirmPasswordInput);
       const userName = xss(regData.userNameInput);
+
+      console.log(typeof gradYear)
 
 
 //error handling for other fields
@@ -292,10 +297,15 @@ router
         // }
         return res.redirect("protected");
       }
+      else 
+      {
+        console.log("here")
+        return res.render('error', {error: "try again "})
+      }
     } catch (e) {
       return res
         .status(400)
-        .render("login", { title: "Login", hasError: true });
+        .render("error", { title: "Login", hasError: true });
     }
   });
 
@@ -344,7 +354,7 @@ router.route("/protected").get(async (req, res) => {
   try {
     // if (req.session.user.role === "user" || req.session.user.role === "admin") {
     const date = new Date();
-    console.log(req.session.user + "in protected route");
+    console.log(req.session.user );
     res.render("protected", {
       userData: req.session.user,
       currentTime: date,
@@ -431,7 +441,7 @@ router.route("/error").get(async (req, res) => {
   res.render("error");
 });
 
-
+//for chatroom
 router.route("/index").get(async (req, res) => {
   //code here for GET
   res.render("index");
@@ -445,5 +455,41 @@ router.route("/logout").get(async (req, res) => {
 
   res.render("logout");
 });
+
+router.route("/indexx/:cr").get (async (req, res)=> {
+
+  let paramcourse = req.params.cr;
+  // let newCourses = []
+  let newcourse;
+  const user = req.session.user
+
+  if (user)
+  {
+  for (let x of user.courses)
+  {
+    let addedCourse = await courseData.get(x)
+    if (paramcourse === addedCourse.courseCode)
+    {
+      newcourse = addedCourse
+    }
+    // newCourses.push(await courseData.get(x))
+    
+  }
+}
+else
+{
+  return res.render('error', {error : "login again"})
+}
+
+
+  
+  console.log(newcourse);
+  return res.render("index" , {user: user, newcourse:newcourse});
+ 
+
+
+})
+.post (async (req, res)=> {
+})
 
 export default router;

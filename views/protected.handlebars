@@ -20,7 +20,14 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
             <ol>
                 {{#each userData.courses}}
                 <li>
-                    <a class="course-link" href="courses/{{this}}">{{this}}</a>
+
+{{!-- 
+                     <form action="index" method="get">
+                        <input type="submit"/>
+                        </form> --}}
+
+                    <a class="course-link" href="/indexx/{{this}}" >{{this}}</a>
+                    
                 </li>
                 {{/each}}
             </ol>

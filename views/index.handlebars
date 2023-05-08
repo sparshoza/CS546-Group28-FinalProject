@@ -34,9 +34,9 @@
   </head>
   <body>
 
-    <form class="username-form">
-      <input id="username-input" placeholder="Username"></input>
-      <button id="create-user-btn">Join Chat</button>
+    <form class="username-form" action="/indexx" method="post">
+      <input id="username-input" placeholder="Username" value="{{user.username}}"></input>
+      <button id="create-user-btn" type="submit">Join Chat</button>
     </form>
 
     <div class="main-container">
@@ -45,7 +45,7 @@
         <div class="channels">
             <h2 class="channels-label">Channels</h2>
             <div class="new-channel-form"><input id="new-channel-input" placeholder="New Channel" /><button id="new-channel-btn">Create</button></div>
-            <div class="channel-current">General</div>
+            <div id = 'cid'class="channel-current" >{{newcourse.courseCode}}</div>
         </div>
         <h2>Online Users</h2>
         <div class="users-online"></div>
