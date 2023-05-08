@@ -427,20 +427,22 @@ router.get('/protected', async (req, res) => {
 
     //}
   } catch (e) {
-    console.log(e);
-  }
+    return res.render('error', {error: e})
+      }
 })
 
-.post('/reviews/new', async (req, res, next) => {
+.post(async (req, res) => {
   try {
-      const { courseName } = req.params;
-      const courseReviews = await coursesData.get(courseName);
 
-      res.render("reviews", {
-        title: `Reviews for ${courseName}`,
-        courseName,
-        reviews: courseReviews,
-      });
+    console.log("hre in protected post")
+      console.log(req.body);
+      // const courseReviews = await coursesData.get(courseName);
+
+      // res.render("reviews", {
+      //   title: `Reviews for ${courseName}`,
+      //   courseName,
+      //   reviews: courseReviews,
+      // });
     
   } catch (e) {
     console.log(e);
@@ -630,11 +632,75 @@ router.route("/error").get(async (req, res) => {
   res.render("error");
 });
 
-//for chatroom
-router.route("/index").get(async (req, res) => {
-  //code here for GET
-  res.render("index");
-});
+router.route("/test").post(async (req, res)=> {
+
+  try 
+  
+  {
+    let reqfield = req.body.searchTerm
+
+
+    reqfield = reqfield.toLowerCase();
+    reqfield = reqfield.trim();
+
+    if (!reqfield || typeof reqfield === "undefined") {
+      return res.render("reviews", {
+        courseError: "enter a CS course (CSXXX) XXX-> course codes",
+        coursefield: reqfield,
+      });
+    }
+    if (reqfield.length !== 5) {
+      return res.render("reviews", {
+        courseError: "incorrect code",
+        coursefield: reqfield,
+      });
+    }
+
+    if (reqfield.slice(0, 2) !== "cs") {
+      return res.render("reviews", {
+        courseError: "ONLY CS COURSES",
+        coursefield: reqfield,
+      });
+    }
+
+    let reqfieldCode = parseInt(reqfield.slice(2, 5));
+    console.log(typeof reqfieldCode);
+    if (typeof reqfieldCode !== "number") {
+      return res.render("reviews", {
+        courseError: "Only numbers as codes",
+        coursefield: reqfield,
+      });
+    }
+
+    if (reqfieldCode < 101 || reqfieldCode > 900) {
+      return res.render("reviews", {
+        courseError: "Code range between 101 and 900",
+        coursefield: reqfield,
+      });
+    }
+    console.log(typeof reqfield)
+
+    const getCourse = await coursesData.get(reqfield)
+
+    console.log(getCourse)
+
+    
+
+    
+
+
+  
+
+
+  
+  res.render('reviews', {reviews: getCourse.reviews, courseCode: getCourse.courseCode})
+  }
+  catch (e)
+  {
+    return res.render('error', {error: e})
+  }
+})
+
 
 router.route("/logout").get(async (req, res) => {
   //code here for GET
@@ -649,7 +715,7 @@ router.route("/logout").get(async (req, res) => {
     return res.status(400).render('error', {error: e})
   }
 });
-
+//for chatroom
 router
   .route("/indexx/:cr")
   .get(async (req, res) => {

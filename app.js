@@ -75,14 +75,13 @@ app.use(express.static('public', {
   }
 }));
 
-app.get('/', rootMiddleware);
-app.get('/login', registerMiddleware);
-app.get('/protected', protectedMiddleware);
-app.get('/admin', adminMiddleware);
-app.get('/logout', logoutMiddleware);
-app.use(loggingMiddleware)
+// app.get('/', rootMiddleware);
+// app.get('/login', registerMiddleware);
+// app.get('/protected', protectedMiddleware);
+// app.get('/admin', adminMiddleware);
+// app.get('/logout', logoutMiddleware);
+// app.use(loggingMiddleware)
 
-configRoutes(app);
 
 //websocket final config
 
@@ -112,6 +111,7 @@ io.on("connection", (socket) => {
     console.log("new user connected")
 });
 
+configRoutes(app);
 
 
 httpServer.listen(3000, () => {
