@@ -18,7 +18,7 @@ export const create = async(
     //trim strings
     courseCode = courseCode.trim();
     courseCode = courseCode.toLowerCase();
-
+    if(courseCode.substring(0,2) !== 'CS'){throw 'courseCode must start with CS';}
     name = name.trim();
     let index = 0;
     professorNames.forEach(element =>{
