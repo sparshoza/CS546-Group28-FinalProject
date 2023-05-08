@@ -1,70 +1,76 @@
-{{!-- <!DOCTYPE html>
+{{!--
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Make Chat</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-    <script src="/public/js/socket.js"></script>
-  </head>
-  <body>
 
-    <form class="username-form">
-      <input id="username-input" placeholder="Username"></input>
-      <button id="create-user-btn">Join Chat</button>
-    </form>
-    <h1>Socket.io</h1>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Make Chat</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/public/js/socket.js"></script>
+</head>
+
+<body>
+
+  <form class="username-form">
+    <input id="username-input" placeholder="Username"></input>
+    <button id="create-user-btn">Join Chat</button>
+  </form>
+  <h1>Socket.io</h1>
+</body>
+
 </html> --}}
 
 
 <!--index.handlebars-->
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Make Chat</title>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-    <script src="/public/js/socket.js"></script>
 
-   
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css'></link>
-    <link rel="stylesheet" href="/public/css/main-styles.css">
-  </head>
-  <body>
 
-    <form class="username-form">
-      <input id="username-input" placeholder="Username"></input>
-      <button id="create-user-btn">Join Chat</button>
-    </form>
+<head>
+  <meta charset="utf-8">
+  <title>Make Chat</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/public/js/socket.js"></script>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css'>
+  </link>
+  <link rel="stylesheet" href="/public/css/main-styles.css">
+</head>
+<body>
 
-    <div class="main-container">
-      <div class="channels-and-users-online-container">
-        <h1 class="brand">Make Chat</h1>
-        <div class="channels">
-            <h2 class="channels-label">Channels</h2>
-            <div class="new-channel-form">
-              <label for="new-channel-input"></label>
-              <input id="new-channel-input" placeholder="New Channel" /><button id="new-channel-btn">Create</button></div>
-            <div class="channel-current">General</div>
+  <form class="username-form">
+    <input id="username-input" placeholder="Username"></input>
+    <button id="create-user-btn">Join Chat</button>
+  </form>
+
+  <div class="main-container">
+    <div class="channels-and-users-online-container">
+      <h1 class="brand">Make Chat</h1>
+      <div class="channels">
+        <h2 class="channels-label">Channels</h2>
+        <div class="new-channel-form">
+          <label for="new-channel-input" style="color: white;">New channel</label>
+          <input id="new-channel-input" placeholder="New Channel" />
+          <button id="new-channel-btn">Create</button>
         </div>
-        <h2>Online Users</h2>
-        <div class="users-online"></div>
+        <div class="channel-current">General</div>
       </div>
-      <div class="chat-container">
-        <div class="chat-container-fluid">
-          <div class="message-container">
-              <h2>Messages</h2>
-          </div>
-          <div class="text-chat-divide"></div>
-          <div class="chat-box">
-            <label for="chat-input">Enter your message</label>
-            <textarea id="chat-input" placeholder="Type a message"></textarea>
-            <button class="btn" id="send-chat-btn">Send</button></div>
+      <h2>Online Users</h2>
+      <div class="users-online"></div>
+    </div>
+    <div class="chat-container">
+      <div class="chat-container-fluid">
+        <div class="message-container">
+          <h2>Messages</h2>
+        </div>
+        <div class="text-chat-divide"></div>
+        <div class="chat-box">
+          <label for="chat-input">Enter your message</label>
+          <textarea id="chat-input" placeholder="Type a message"></textarea>
+          <button class="btn" id="send-chat-btn">Send</button>
         </div>
       </div>
     </div>
+  </div>
 
-  </body>
-</html>
+</body>
+
