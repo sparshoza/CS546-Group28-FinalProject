@@ -1,10 +1,12 @@
 <form action="/login" method="POST" id="login-form">
     <label for="emailAddressInput">Username:</label>
     <input type="email" id="emailAddressInput" name="emailAddressInput">
+    <div id="loginErrorEmail" class="error" hidden>Please enter a vaild email address ( ends with @stevens.edu )</div>
 
     <label for="passwordInput">Password:</label>
     <input type="password" id="passwordInput" name="passwordInput">
     Show Password<input type="checkbox" onclick="showPassword1()">
+    <div id="loginErrorPassword" class="error" hidden>Error Invalid Password</div>
 
     <button id="loginButton" class="loginPageButton" type="submit">Login</button>
 </form>

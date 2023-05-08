@@ -75,12 +75,12 @@ app.use(express.static('public', {
   }
 }));
 
-//app.get('/', rootMiddleware);
-//app.get('/login', registerMiddleware);
-//app.get('/protected', protectedMiddleware);
-//app.get('/admin', adminMiddleware);
-//app.get('/logout', logoutMiddleware);
-//app.use(loggingMiddleware)
+app.get('/', rootMiddleware);
+app.get('/login', registerMiddleware);
+app.get('/protected', protectedMiddleware);
+app.get('/admin', adminMiddleware);
+app.get('/logout', logoutMiddleware);
+app.use(loggingMiddleware)
 
 configRoutes(app);
 

@@ -3,10 +3,12 @@
 import { Router } from "express";
 import * as helpers from "../helpers.js";
 import user from "../data/users.js";
-import courseData from "../data/courses.js";
-import { reviewData } from "../data/index.js";
-const router = Router();
+import courseData from "../data/courses.js"
+import {reviewData} from "../data/index.js";
+import {coursesData} from "../data/index.js";
+import {protectedMiddleware} from "../middleware.js";
 import xss from "xss";
+const router = Router();
 
 import multer from "multer";
 
@@ -336,7 +338,7 @@ router
     }
 
     const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       return res.status(400).render("login", {
         errorMessage:
@@ -414,13 +416,34 @@ router.route("/protected").get(async (req, res) => {
 
   try {
     // if (req.session.user.role === "user" || req.session.user.role === "admin") {
-    const date = new Date();
-    console.log(req.session.user);
-    res.render("protected", {
-      userData: req.session.user,
-      currentTime: date,
-    });
+
+      const date = new Date();
+      console.log(req.session.user + "in protected route");
+      res.render("protected", {
+        userData: req.session.user,
+        currentTime: date,
+      });
+
     //}
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router
+.route("/courses/:courseName")
+
+.get(protectedMiddleware, async (req, res) => {
+  try {
+      const { courseName } = req.params;
+      const courseReviews = await coursesData.get(courseName);
+
+      res.render("reviews", {
+        title: `Reviews for ${courseName}`,
+        courseName,
+        reviews: courseReviews,
+      });
+    
   } catch (e) {
     console.log(e);
   }
@@ -430,20 +453,21 @@ router
   .route("/reviews")
 
   //getting all reviews for a course
-  .get(async (req, res) => {
-    const courseId = req.params.id;
+  .get(async (req,res, next) => {
     try {
-      const reviews = await reviewData.getAll(courseId);
+      const reviewList = await reviewData.getAll();
+      res.render('reviews', {
+          title: 'Reviews',
+          allReviews: reviewList
+        });
 
-      res.render("reviews", { reviews });
-    } catch (e) {
-      console.log(e);
-      res.status(400).json({ error: e.message });
-    }
-  })
+      } catch (e) {
+          next(e);
+        }
+      })
 
   //creating a new review
-  .post(async (req, res) => {
+  .post(async (req,res) => {
     try {
       const regData = req.body;
 
@@ -479,8 +503,12 @@ router
         return res.status(400).json({ error: "failed to create review" });
       }
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ error: e.message });
+      next(e);
+      res.render('partials/reviews', {
+        title: "Reviews",
+        review: req.body,
+        error: e,
+      });
     }
   });
 
