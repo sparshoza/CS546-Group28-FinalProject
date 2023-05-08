@@ -1,6 +1,6 @@
 {{! 
 You can use this if they try to access a route that they should not be able to. Make sure to give a response status code of 400 on the page, and render a valid HTML page with a paragraph class called 'error'; this paragraph should describe the error.
 }}
-<p class="error">Error Page: You should not be here!</p>
+<p class="error">{{error}}</p>
 
 <a href="/login">Back to login</a>
