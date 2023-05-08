@@ -28,13 +28,11 @@
 <head>
   <meta charset="utf-8">
   <title>Make Chat</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/public/js/socket.js"></script>
-  <link href='https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css'>
+
   </link>
   <link rel="stylesheet" href="/public/css/main-styles.css">
 </head>
+
 <body>
 
   <form class="username-form">
@@ -48,7 +46,7 @@
       <div class="channels">
         <h2 class="channels-label">Channels</h2>
         <div class="new-channel-form">
-          <label for="new-channel-input" style="color: white;">New channel</label>
+          {{!-- <label for="new-channel-input" style="color: white;">New channel</label> --}}
           <input id="new-channel-input" placeholder="New Channel" />
           <button id="new-channel-btn">Create</button>
         </div>
@@ -73,4 +71,3 @@
   </div>
 
 </body>
-
