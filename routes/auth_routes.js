@@ -539,10 +539,16 @@ router.route("/index").get(async (req, res) => {
 
 router.route("/logout").get(async (req, res) => {
   //code here for GET
+  
+  try 
+  {
   req.session.destroy();
-  // res.send('Logged out');
-
   res.render("logout");
+  }
+  catch (e)
+  {
+    return res.status(400).render('error', {error: e})
+  }
 });
 
 router
