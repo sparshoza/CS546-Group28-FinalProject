@@ -32,8 +32,7 @@ Confirm password
       {{#if errorFirstName}}
       <div id="error" class="error">{{errorFirstName}}</div>
       {{/if}}
-      <div id="errorFirstName" class="error" hidden>I'm an error. I will
-        change through Client-Side JS</div>
+      <div id="errorFirstName" class="error" hidden>Invalid First Name</div>
       <br />
 
       <label class="search-label" for="lastNameInput">Last Name</label>
@@ -42,8 +41,7 @@ Confirm password
       {{#if errorLastName}}
       <div id="error" class="error">{{errorLastName}}</div>
       {{/if}}
-      <div id="errorLastName" class="error" hidden>I'm an error. I will change
-        through Client-Side JS</div>
+      <div id="errorLastName" class="error" hidden> Invalid last Name</div>
       <br />
 
       <label class="search-label" for="emailAddressInput">Email</label>
@@ -52,6 +50,7 @@ Confirm password
       {{#if errorEmail}}
       <div id="error" class="error">{{errorEmail}}</div>
       {{/if}}
+      <div id="errorEmail" class="error" hidden> Invalid Email</div>
       <br />
 
       <label class="search-label" for="userNameInput">User Name</label>
@@ -63,8 +62,7 @@ Confirm password
       {{!-- {{#if errorFirstName}}
       <div id="error" class="error">{{erroruserNameInput}}</div>
       {{/if}} --}}
-      <div id="errorFirstName" class="error" hidden>I'm an error. I will
-        change through Client-Side JS</div>
+      <div id="errorUsername" class="error" hidden>Invalid Username</div>
       <br />
 
       <label class="search-label" for="graduationYear">Graduation Year</label>
@@ -75,27 +73,27 @@ Confirm password
       {{!-- <div id="errorEmail" class="error" hidden>I'm an error. I will change
         through Client-Side JS
       </div> --}}
+
       <br />
 
       <label class="search-label" for="passwordInput">Password</label>
       <input type="password" class="text-area" name="passwordInput" id="passwordInput" placeholder="type here" />
       <label for="registerPassword2" style="font-size: 400;">Show Password</label>
-      <input type="checkbox" onclick="showPassword1()" id="registerPassword2"/>
+      <input type="checkbox" onclick="showPassword1()" id="registerPassword2" />
       {{#if errorPassword}}
       <div id="error" class="error">{{errorPassword}}</div>
       {{/if}}
+      <div id="errorPassword" class="error" hidden>Invalid Password</div>
       <br />
 
       <label class="search-label" for="confirmPasswordInput">Confirm Password</label>
-      <input type="password" class="text-area" name="confirmPasswordInput" id="confirmPasswordInput"
-        placeholder="type here" />
+      <input type="password" class="text-area" name="confirmPasswordInput" id="confirmPasswordInput" placeholder="type here"/>
       <label for="registerPassword1" style="font-size: 400;">Show Password</label>
       <input type="checkbox" onclick="showPassword2()" id="registerPassword1" />
       {{#if errorConfirmPassword}}
       <div id="error" class="error">{{errorConfirmPassword}}</div>
       {{/if}}
-      <div id="errorConfirmPassword" class="error" hidden>I'm an error. I will
-        change through Client-Side JS</div>
+      <div id="errorConfirmPassword" class="error" hidden>Password does not match</div>
       <br />
 
       <label for="courseFields">Select number of courses:</label>

@@ -289,8 +289,8 @@ router
       firstName = firstName.trim()
       lastName = lastName.trim()
       email = email.trim()
+      gradYear = gradYear.toString()
       gradYear = gradYear.trim()
-
       //inserting the requested body in db
       const createUser = await user.create(
         userName,
