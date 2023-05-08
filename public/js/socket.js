@@ -1,5 +1,5 @@
 
-//for frontend js 
+//for frontend js ajax stuff
 
 // $(document).ready( () => {
 //     //Connect to the socket.io server
@@ -27,13 +27,17 @@ $(document).ready(()=>{
 
   const socket = io.connect();
 
-  let currentUser;
+  let currentUser = $('#username-input').val() ;
   socket.emit('get online users');
   socket.emit('user changed channel', "General");
+
+
   //for creating the user and adding it
-  
-  $('#create-user-btn').click((e)=>{
-    e.preventDefault();
+
+  // $('#create-user-btn').click((e)=>{
+  //   e.preventDefault();
+    
+    console.log("in create user button")
     if($('#username-input').val().length > 0){
       socket.emit('new user', $('#username-input').val());
       // Save the current user when created
@@ -43,14 +47,44 @@ $(document).ready(()=>{
       $('.main-container').css('display', 'flex');
     }
 
+    // $.ajax({
+    //   url: `/indexx/${coursename}`,
+    //   type: 'GET',
+    //   success: function( response) {
+    //     console.log(response);
+    //     window.location.href = '/protected';
+    //   },
+    //   error: function(error) {
+    //     console.log('Error:', error);
+    //   }
+    // });
+  //   $.ajax({
+  //     url: '/transactions/' + transactionId,
+  //     type: 'PUT',
+  //     data: $('#edit-transaction-form').serialize(),
+  //     success: function (result) {
+  //         // Do something with the result
+  //         console.log('success in request yo')
+  //         window.location.href = '/transactions/seeAllTransaction';
+  //     },
+  //     error: function(error) {
+  //         console.log(error);
+  //     }
+  // });
+
     $(document).on('click', '.channel', (e)=>{
+
+      console.log("in .channel")
+
       let newChannel = e.target.textContent;
       socket.emit('user changed channel', newChannel);
     });
-  });
+  // });
 
   //for creating the channel 
   $('#new-channel-btn').click( () => {
+    console.log("in new channel button")
+
 
     let newChannel = $('#new-channel-input').val();
   
@@ -80,6 +114,9 @@ $(document).ready(()=>{
   // });
 
   $('#send-chat-btn').click((e) => {
+
+    console.log("in send chat button")
+
     e.preventDefault();
     // Get the client's channel
     let channel = $('.channel-current').text();
@@ -96,6 +133,10 @@ $(document).ready(()=>{
 
   //socket listeners
   socket.on('new user', (username) => {
+
+    console.log("in new user")
+
+
     console.log(`${username} has joined the chat`);
     // Add the new user to the online users div
     $('.users-online').append(`<div class="user-online">${username}</div>`);
@@ -110,6 +151,9 @@ $(document).ready(()=>{
   // })
 
   socket.on('new message', (data) => {
+
+    console.log("in new message")
+
     //Only append the message if the user is currently in that channel
     let currentChannel = $('.channel-current').text();
     if(currentChannel == data.channel) {
@@ -125,12 +169,15 @@ $(document).ready(()=>{
   socket.on('get online users', (onlineUsers) => {
     //You may have not have seen this for loop before. It's syntax is for(key in obj)
     //Our usernames are keys in the object of onlineUsers.
+    console.log("in online users")
+
     for(username in onlineUsers){
       $('.users-online').append(`<div class="user-online">${username}</div>`);
     }
   })
 
   socket.on('user has left', (onlineUsers) => {
+    console.log("in user has left")
     $('.users-online').empty();
     for(username in onlineUsers){
       $('.users-online').append(`<p>${username}</p>`);
@@ -138,12 +185,17 @@ $(document).ready(()=>{
   });
 
   socket.on('new channel', (newChannel) => {
+    console.log("in new channel")
+
     $('.channels').append(`<div class="channel">${newChannel}</div>`);
   });
   
   // Make the channel joined the current channel. Then load the messages.
   // This only fires for the client who made the channel.
   socket.on('user changed channel', (data) => {
+
+    console.log("in user changed channel")
+
     $('.channel-current').addClass('channel');
     $('.channel-current').removeClass('channel-current');
     $(`.channel:contains('${data.channel}')`).addClass('channel-current');

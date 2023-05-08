@@ -45,10 +45,11 @@ export const getAll = async () =>{
     const coursesCollection = await courses();
     let coursesList  = coursesCollection.find({}).toArray();
     if(!coursesList){throw 'could not find all courses';}
-    coursesList = coursesList.map((element) =>{
-        element._id = element._id.toString();
-        return element;
-    });
+
+    // coursesList = coursesList.map((element) =>{
+    //     element._id = element._id.toString();
+    //     return element;
+    // });
     return coursesList;
 };
 

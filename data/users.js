@@ -269,7 +269,7 @@ export const checkUser = async (emailAddress, password) => {
      throw 'internel server error'
     }
     if(compareToMatch){
-      let new_user = {firstName : aUser.firstName, lastName: aUser.lastName, emailAddress: aUser.stevensEmail, courses: aUser.courses};
+      let new_user = {firstName : aUser.firstName, lastName: aUser.lastName, emailAddress: aUser.stevensEmail, courses: aUser.courses, username: aUser.username};
       return new_user;
     } else {
       throw 'Either the email address or password is incorrect';
