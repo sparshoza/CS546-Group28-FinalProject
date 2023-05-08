@@ -12,7 +12,7 @@ export const create = async(
 ) =>{
     if(!courseCode || !rating || !userId || !professorName){throw 'all fields must be present!';}
     if(typeof userId !== 'string' || userId.trim().length === 0 ||typeof courseCode !== 'string' || typeof professorName !== 'string' || courseCode.trim().length === 0 || professorName.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
-    if(typeof rating !== 'number' || rating === NaN){throw 'rating must be a valid number!';}
+    //if(typeof rating !== 'number' || rating === NaN){throw 'rating must be a valid number!';}
     //trim strings
     courseCode = courseCode.trim();
     professorName = professorName.trim();
@@ -45,9 +45,9 @@ export const create = async(
             check = true;
         }
     });
-    if(check){
-        throw 'User already reviewed this course!';
-    }
+    // if(check){
+    //     throw 'User already reviewed this course!';
+    // }
 
     //dont need to check courses as its array only contains the id's of the reviews
     let newReview = {
@@ -105,7 +105,7 @@ export const create = async(
 };
 
 export const getAll = async(courseCode) =>{
-    if(!courseCode){throw 'courseId must end'};
+    if(courseCode === undefined || courseCode === null){throw 'courseId must end'};
     if(typeof courseCode !== 'string' || courseCode.trim().length === 0){throw 'id must be a non-empty string';}
     courseCode = courseCode.trim();
     const coursesCollection = await courses();

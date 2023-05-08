@@ -3,11 +3,12 @@
 import { Router } from "express";
 import * as helpers from "../helpers.js";
 import user from "../data/users.js";
-import courseData from "../data/courses.js"
 import {reviewData} from "../data/index.js";
 import {coursesData} from "../data/index.js";
 import {protectedMiddleware} from "../middleware.js";
 import xss from "xss";
+import path from 'path';
+const __dirname = path.resolve();
 const router = Router();
 
 import multer from "multer";
@@ -411,7 +412,7 @@ router
   });
   */
 
-router.route("/protected").get(async (req, res) => {
+router.get('/protected', async (req, res) => {
   //code here for GET
 
   try {
@@ -428,12 +429,9 @@ router.route("/protected").get(async (req, res) => {
   } catch (e) {
     console.log(e);
   }
-});
+})
 
-router
-.route("/courses/:courseName")
-
-.get(protectedMiddleware, async (req, res) => {
+.post('/reviews/new', async (req, res, next) => {
   try {
       const { courseName } = req.params;
       const courseReviews = await coursesData.get(courseName);
@@ -471,11 +469,11 @@ router
     try {
       const regData = req.body;
 
-      const courseId = xss(regData.courseIdInput);
-      const userId = xss(regData.userIdInput);
-      const reviewText = xss(regData.reviewTextInput);
-      const rating = xss(regData.ratingInput);
-      const professorName = xss(regData.professorNameInput);
+    const courseId = xss(regData.courseIdInput);
+    const userId = xss(regData.userIdInput);
+    const reviewText = xss(regData.reviewTextInput);
+    const rating = xss(regData.ratingInput);
+    const professorName = xss(regData.professorNameInput);
 
       if (!courseId || !userId || !reviewText || !rating || !professorName) {
         return res.status(400).json({ error: "Missing required fields" });
@@ -497,20 +495,121 @@ router
       );
 
       if (createReview) {
-        console.log(createReview);
-        return res.status(201).json({ message: "review created" });
+      const allReviews = await reviewData.getAll(courseId);
+      res.render('protected', {
+        title: 'Protected',
+        userData: req.session.user,
+        allReviews: allReviews,
+        message: 'Review created successfully'
+      });
       } else {
-        return res.status(400).json({ error: "failed to create review" });
+      return res.status(400).json({ error: "Failed to create review" });
       }
     } catch (e) {
       next(e);
-      res.render('partials/reviews', {
-        title: "Reviews",
-        review: req.body,
-        error: e,
-      });
     }
   });
+
+// router
+// .route("/courses/:courseName")
+
+// .get(protectedMiddleware, async (req, res) => {
+//   try {
+//       const { courseName } = req.params;
+//       const courseReviews = await coursesData.get(courseName);
+
+//       res.render("reviews", {
+//         title: `Reviews for ${courseName}`,
+//         courseName,
+//         reviews: courseReviews,
+//       });
+    
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
+
+
+// router
+// .get('/new', (req, res) => {
+//   res.render("reviews/new");
+// })
+
+// .post('/reviews', (req, res) => {
+//   const newReview = {
+//     courseCode: req.body.courseCode,
+//     userId: req.body.userId,
+//     review: req.body.review,
+//     rating: req.body.rating,
+//     professor: req.body.professor,
+//   };
+//   // save the new review to your database or file system
+//   // ...
+//   res.redirect('/reviews/new');
+// });
+
+// router
+//   .route("/review/create")
+
+  //getting all reviews for a course
+
+
+  // .get(async (req,res, next) => {
+  //   try {
+  //     const reviewList = await reviewData.getAll();
+  //     res.render('reviews', {
+  //         title: 'Reviews',
+  //         allReviews: reviewList
+  //       });
+
+  //     } catch (e) {
+  //         next(e);
+  //       }
+  //     })
+
+  // //creating a new review
+  // .post(async (req,res, next) => {
+  //   try {
+  //       const regData = req.body;
+
+  //     const courseId = xss(regData.courseIdInput);
+  //     const userId = xss(regData.userIdInput);
+  //     const reviewText = xss(regData.reviewTextInput);
+  //     const rating = xss(regData.ratingInput);
+  //     const professorName = xss(regData.professorNameInput);
+
+  //     if (!courseId || !userId || !reviewText || !rating || !professorName) {
+  //       return res.status(400).json({ error: "Missing required fields" });
+  //     }
+      
+  //     // check rating is between 1 and 5
+  //     if (rating < 1 || rating > 5) {
+  //       return res.status(400).json({ error: "Rating must be between 1 and 5" });
+  //     }
+
+  //     const newReview = await reviewData.create(
+  //       courseId, 
+  //       userId, 
+  //       reviewText, 
+  //       rating, 
+  //       professorName
+  //     );
+
+  //     if (newReview) {
+  //       const allReviews = await reviewData.getAll();
+  //       res.render('protected', {
+  //         title: 'Protected',
+  //         userData: req.session.user,
+  //         allReviews: allReviews,
+  //         message: 'Review created successfully'
+  //       });
+  //     } else {
+  //       return res.status(400).json({ error: "Failed to create review" });
+  //     }
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // });
 
 router.route("/admin").get(async (req, res) => {
   //code here for GET
@@ -561,7 +660,7 @@ router
 
     if (user) {
       for (let x of user.courses) {
-        let addedCourse = await courseData.get(x);
+        let addedCourse = await coursesData.get(x);
         if (paramcourse === addedCourse.courseCode) {
           newcourse = addedCourse;
         }
