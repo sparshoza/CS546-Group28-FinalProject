@@ -45,7 +45,14 @@ router
   .route("/register")
   .get(async (req, res) => {
     //code here for GET
+    try
+    {
     return res.render("register");
+    }
+    catch (e)
+    {
+      return res.status(400).render("error", {error:e})
+    }
   })
   .post(upload.single("uploadPicture"), async (req, res, next) => {
     //code here for POST
@@ -53,7 +60,7 @@ router
       const regData = req.body; // getting data from form
 
       //storing individual fields data from the form
-
+    
       let firstName = xss(regData.firstNameInput);
       let lastName = xss(regData.lastNameInput);
       let email = xss(regData.emailAddressInput);
@@ -719,16 +726,22 @@ router.route("/logout").get(async (req, res) => {
 router
   .route("/indexx/:cr")
   .get(async (req, res) => {
+
+    try{
     let paramcourse = req.params.cr;
     // let newCourses = []
     let newcourse;
     const user = req.session.user;
 
+    paramcourse = paramcourse.toLowerCase();
+
     if (user) {
       for (let x of user.courses) {
         let addedCourse = await coursesData.get(x);
-        if (paramcourse === addedCourse.courseCode) {
+        if (paramcourse === addedCourse.courseCode.toLowerCase()) {
           newcourse = addedCourse;
+          console.log(newcourse);
+          return res.render("index", { user: user, newcourse: newcourse });
         }
         // newCourses.push(await courseData.get(x))
       }
@@ -736,9 +749,16 @@ router
       return res.render("error", { error: "login again" });
     }
 
-    console.log(newcourse);
-    return res.render("index", { user: user, newcourse: newcourse });
+
+ 
+  }
+  catch(e)
+  {
+    return res.status(404).render("error", {error:e})
+  }
+ 
   })
+
   .post(async (req, res) => {});
 
 export default router;
