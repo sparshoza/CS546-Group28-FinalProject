@@ -47,6 +47,8 @@ export default function chat(io, socket, onlineUsers, channels) {
     //Emit only to sockets that are in that channel room.
     io.to(data.channel).emit("new message", data);
   });
+
+  
   socket.on("get online users", () => {
     //console.log("get online users")
 

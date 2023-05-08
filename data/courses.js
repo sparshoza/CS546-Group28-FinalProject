@@ -17,6 +17,8 @@ export const create = async(
     if(professorNames.length === 0){throw 'professorNames must not be empty!';}
     //trim strings
     courseCode = courseCode.trim();
+    courseCode = courseCode.toLowerCase();
+
     name = name.trim();
     let index = 0;
     professorNames.forEach(element =>{
@@ -57,6 +59,8 @@ export const get = async (courseCode) =>{
     if(!courseCode){throw 'course code!';}
     if(typeof courseCode !== 'string' || courseCode.trim().length === 0){throw 'courseCode must be a non-empty string';}
     courseCode = courseCode.trim();
+    courseCode = courseCode.toLowerCase();
+
     const coursesCollection = await courses();
     const aCourse = await coursesCollection.findOne({courseCode: courseCode});
     if(aCourse === null){throw 'no course with that code';}

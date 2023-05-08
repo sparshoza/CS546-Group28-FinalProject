@@ -77,6 +77,7 @@ $(document).ready(() => {
   // });
 
   //for creating the channel
+
   $("#new-channel-btn").click(() => {
     console.log("in new channel button");
 
@@ -173,11 +174,11 @@ $(document).ready(() => {
     }
   });
 
-  socket.on("new channel", (newChannel) => {
-    console.log("in new channel");
+  // socket.on("new channel", (newChannel) => {
+  //   console.log("in new channel");
 
-    $(".channels").append(`<div class="channel">${newChannel}</div>`);
-  });
+  //   $(".channels").append(`<div class="channel">${newChannel}</div>`);
+  // });
 
   // Make the channel joined the current channel. Then load the messages.
   // This only fires for the client who made the channel.
