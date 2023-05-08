@@ -3,8 +3,8 @@
 import { Router } from "express";
 import * as helpers from "../helpers.js";
 import user from "../data/users.js";
-import courseData from "../data/courses.js"
-import {reviewData} from "../data/index.js";
+import courseData from "../data/courses.js";
+import { reviewData } from "../data/index.js";
 const router = Router();
 import xss from "xss";
 
@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
     cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    console.log(file);
     cb(null, req.body.emailAddressInput + ".jpeg");
   },
   fileFilter: (req, file, cb) => {
@@ -32,11 +31,10 @@ const upload = multer({ storage: storage });
 
 router.route("/").get(async (req, res) => {
   try {
-
-    return res.render('homepage')
+    return res.render("homepage");
     // return res.json({ error: "in / route" });
   } catch (e) {
-    return res.json({ error: "error in error" });
+    return res.json({ error: "error" });
   }
 });
 
@@ -53,54 +51,115 @@ router
 
       //storing individual fields data from the form
 
-      const firstName = xss(regData.firstNameInput);
-      const lastName = xss(regData.lastNameInput);
-      const email = xss(regData.emailAddressInput);
-      const gradYear = xss(regData.graduationYear);
-      const password = xss(regData.passwordInput);
+      let firstName = xss(regData.firstNameInput);
+      let lastName = xss(regData.lastNameInput);
+      let email = xss(regData.emailAddressInput);
+      let gradYear = xss(regData.graduationYear);
+      let password = xss(regData.passwordInput);
 
-      const confirmPassword = xss(regData.confirmPasswordInput);
-      const userName = xss(regData.userNameInput);
+      let confirmPassword = xss(regData.confirmPasswordInput);
+      let userName = xss(regData.userNameInput);
 
-      console.log(typeof gradYear)
-
-
-//error handling for other fields
-//error handling server side including handlebars
-      if (!firstName || !lastName || !email || !password || !confirmPassword  || !userName) {
-        return res.status(400).render('register', {error: "enter something"});
+      //error handling for other fields
+      //error handling server side including handlebars
+      if (!firstName)
+      {
+        return res.status(400).render("register", {errorFirstName: "Enter First Name" });
 
       }
-      if (!helpers.validateEmail(email)) {
+      if (typeof firstName !== "string" ) {
+        return res.status(400).render("register", { errorFirstName: "Enter Only Strings" });
+      }
+
+      if (helpers.checkSymbols(firstName) ) {
         return res
           .status(400)
-          .render("register", { error: "wrong email format" });
+          .render("register", { errorFirstName: "No symbols in first name" });
       }
-
-      if (typeof firstName !== "string" || typeof lastName !== "string") {
-        return res.status(400).render("register", { error: "bad data type" });
-      }
-
-      if (helpers.checkSymbols(firstName) || helpers.checkSymbols(lastName)) {
+      if (helpers.checkSymbols(lastName) ) {
         return res
           .status(400)
-          .render("register", { error: "No symbols in names" });
+          .render("register", { errorLastName: "No symbols in last name" });
       }
-      if (helpers.checkNumbers(firstName) || helpers.checkNumbers(lastName)) {
+
+
+      if (helpers.checkNumbers(firstName)) {
         return res
           .status(400)
-          .render("register", { error: "no numbers in names" });
+          .render("register", { errorFirstName: "no numbers in name" });
       }
+      if (helpers.checkNumbers(lastName)) {
+        return res
+          .status(400)
+          .render("register", { errorLastName: "no numbers in name" });
+      }
+
+
       if (firstName.length < 2 || firstName.length > 25) {
         return res
           .status(400)
-          .render("register", { error: "First name length betwween 2 and 25" });
+          .render("register", { errorFirstName: "First name length betwween 2 and 25" });
       }
       if (lastName.length < 2 || lastName.length > 25) {
         return res
           .status(400)
-          .render("register", { error: "Last Name length between 2 and 25" });
+          .render("register", { errorLastName: "Last Name length between 2 and 25" });
       }
+
+
+      if (typeof lastName !== "string" ) {
+        return res.status(400).render("register", { errorLastName: "Enter Only Strings" });
+      }
+
+
+      if (!lastName)
+      {
+        return res.status(400).render("register", {errorLastName: "Enter Last Name" });
+
+      }
+
+
+      if (!password)
+      {
+        return res.status(400).render("register", {errorPassword: "Enter Password" });
+
+      }
+
+      if (!confirmPassword)
+      {
+        return res.status(400).render("register", {errorConfirmPassword: "Enter Confirm Password" });
+
+
+        
+      }
+
+      if (!userName)
+      {
+        return res.status(400).render("register", {errorUserName: "Enter Username" });
+
+      }
+
+
+      if (!email)
+      {
+        return res.status(400).render("register", {errorEmail: "Enter Email" });
+
+      }
+
+      
+
+  
+
+
+      if (!helpers.validateEmail(email)) {
+        return res
+          .status(400)
+          .render("register", { errorEmail: "wrong email format" });
+      }
+
+     
+
+     
 
       if (password.length < 8) {
         return res
@@ -110,46 +169,47 @@ router
 
       if (!helpers.validatePassword(password)) {
         return res
-          .status(400).render('register',{ errorPassword: "enter at least one special character" });
+          .status(400)
+          .render("register", {
+            errorPassword: "enter at least one special character",
+          });
       }
 
       if (!gradYear) {
         return res
           .status(400)
-          .render("register", { graduationYearerror: "Enter Graduation Year" });
+          .render("register", { gradYearerror: "Enter Graduation Year" });
       }
-
+      gradYear = parseInt(gradYear)
       if (
         gradYear < new Date().getFullYear() ||
         gradYear > new Date().getFullYear() + 5
       ) {
-        return res
-          .status(400)
-          .render("register", {
-            graduationYearerror: "Range within 5 years from now",
-          });
+        return res.status(400).render("register", {
+          gradYearerror: "Range within 5 years from now",
+        });
       }
 
-      // if (!helpers.checkNumbers(password)) {
-      //   return res.status(400).render('register',{ errorPassword: "Enter atleast one number" });
-      // }
-      // if (!helpers.checkLowerCase(password)) {
-      //   return res.status(400).render('register',{ errorPassword: "Enter atleast one lower case" });
-      // }
-      // if (!helpers.checkUpperCase(password)) {
-      //   return res.status(400).render('register',{ errorPassword: "Enter atleast one uppercase" });
-      // }
+      if (!helpers.checkNumbers(password)) {
+        return res.status(400).render('register',{ errorPassword: "Enter atleast one number" });
+      }
+      if (!helpers.checkLowerCase(password)) {
+        return res.status(400).render('register',{ errorPassword: "Enter atleast one lower case" });
+      }
+      if (!helpers.checkUpperCase(password)) {
+        return res.status(400).render('register',{ errorPassword: "Enter atleast one uppercase" });
+      }
 
-      // if (helpers.checkBlankChars(password)) {
-      //   return res.status(400).render('register',{ errorPassword: "blank in password" });
-      // }
+      if (helpers.checkBlankChars(password)) {
+        return res.status(400).render('register',{ errorPassword: "blank in password" });
+      }
+
+
 
       if (password !== confirmPassword) {
-        return res
-          .status(400)
-          .render("register", {
-            errorConfirmPassword: "password did not match",
-          });
+        return res.status(400).render("register", {
+          errorConfirmPassword: "password did not match",
+        });
       }
 
       //error handling for courses in array
@@ -215,6 +275,12 @@ router
         return res.render("register", { courseError: "No same courses" });
       }
 
+      userName = userName.trim()
+      firstName = firstName.trim()
+      lastName = lastName.trim()
+      email = email.trim()
+      gradYear = gradYear.trim()
+
       //inserting the requested body in db
       const createUser = await user.create(
         userName,
@@ -227,8 +293,6 @@ router
       );
 
       if (createUser) {
-        
-
         console.log(createUser);
         return res.render("login");
       } else {
@@ -237,6 +301,7 @@ router
 
       next();
     } catch (e) {
+
       console.log(e);
       res.status(400).render("error", { error: e });
     }
@@ -282,12 +347,10 @@ router
     try {
       const checkedUser = await user.checkUser(email, password);
       if (checkedUser) {
+        // const authUser = checkedUser[0]
+        console.log(checkedUser);
 
-          // const authUser = checkedUser[0]
-          console.log(checkedUser);
-
-          req.session.user = checkedUser;
-
+        req.session.user = checkedUser;
 
         // req.session.user = result;
         // if (result.role === "admin") {
@@ -296,11 +359,9 @@ router
         //   return res.status(200).redirect("/protected");
         // }
         return res.redirect("protected");
-      }
-      else 
-      {
-        console.log("here")
-        return res.render('error', {error: "try again "})
+      } else {
+        console.log("here");
+        return res.render("error", { error: "try again " });
       }
     } catch (e) {
       return res
@@ -354,7 +415,7 @@ router.route("/protected").get(async (req, res) => {
   try {
     // if (req.session.user.role === "user" || req.session.user.role === "admin") {
     const date = new Date();
-    console.log(req.session.user );
+    console.log(req.session.user);
     res.render("protected", {
       userData: req.session.user,
       currentTime: date,
@@ -369,13 +430,12 @@ router
   .route("/reviews")
 
   //getting all reviews for a course
-  .get(async (req,res) => {
+  .get(async (req, res) => {
     const courseId = req.params.id;
     try {
-      const reviews = await reviewData.getAll(
-        courseId);
+      const reviews = await reviewData.getAll(courseId);
 
-      res.render("reviews", {reviews});
+      res.render("reviews", { reviews });
     } catch (e) {
       console.log(e);
       res.status(400).json({ error: e.message });
@@ -385,7 +445,7 @@ router
   //creating a new review
   .post(async (req, res) => {
     try {
-        const regData = req.body;
+      const regData = req.body;
 
       const courseId = xss(regData.courseIdInput);
       const userId = xss(regData.userIdInput);
@@ -396,17 +456,19 @@ router
       if (!courseId || !userId || !reviewText || !rating || !professorName) {
         return res.status(400).json({ error: "Missing required fields" });
       }
-      
+
       // check rating is between 1 and 5
       if (rating < 1 || rating > 5) {
-        return res.status(400).json({ error: "Rating must be between 1 and 5" });
+        return res
+          .status(400)
+          .json({ error: "Rating must be between 1 and 5" });
       }
 
       const createReview = await reviewData.create(
-        courseId, 
-        userId, 
-        reviewText, 
-        rating, 
+        courseId,
+        userId,
+        reviewText,
+        rating,
         professorName
       );
 
@@ -420,7 +482,7 @@ router
       console.log(e);
       res.status(400).json({ error: e.message });
     }
-  })
+  });
 
 router.route("/admin").get(async (req, res) => {
   //code here for GET
@@ -447,7 +509,6 @@ router.route("/index").get(async (req, res) => {
   res.render("index");
 });
 
-
 router.route("/logout").get(async (req, res) => {
   //code here for GET
   req.session.destroy();
@@ -456,40 +517,29 @@ router.route("/logout").get(async (req, res) => {
   res.render("logout");
 });
 
-router.route("/indexx/:cr").get (async (req, res)=> {
+router
+  .route("/indexx/:cr")
+  .get(async (req, res) => {
+    let paramcourse = req.params.cr;
+    // let newCourses = []
+    let newcourse;
+    const user = req.session.user;
 
-  let paramcourse = req.params.cr;
-  // let newCourses = []
-  let newcourse;
-  const user = req.session.user
-
-  if (user)
-  {
-  for (let x of user.courses)
-  {
-    let addedCourse = await courseData.get(x)
-    if (paramcourse === addedCourse.courseCode)
-    {
-      newcourse = addedCourse
+    if (user) {
+      for (let x of user.courses) {
+        let addedCourse = await courseData.get(x);
+        if (paramcourse === addedCourse.courseCode) {
+          newcourse = addedCourse;
+        }
+        // newCourses.push(await courseData.get(x))
+      }
+    } else {
+      return res.render("error", { error: "login again" });
     }
-    // newCourses.push(await courseData.get(x))
-    
-  }
-}
-else
-{
-  return res.render('error', {error : "login again"})
-}
 
-
-  
-  console.log(newcourse);
-  return res.render("index" , {user: user, newcourse:newcourse});
- 
-
-
-})
-.post (async (req, res)=> {
-})
+    console.log(newcourse);
+    return res.render("index", { user: user, newcourse: newcourse });
+  })
+  .post(async (req, res) => {});
 
 export default router;

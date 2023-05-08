@@ -8,105 +8,161 @@ Password
 Confirm password
 }}
 
+<html lang="en">
 
-<html lang=en>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration page</title>
+    <link rel="stylesheet" href="../public/css/lab10.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration page</title>
-  <link rel="stylesheet" href="../public/css/lab10.css">
-</head>
-
-<body>
-  <header>
-    <h1>Signup Page</h1>
-  </header>
-  <main>
-    <form action="/register" method="POST" id="registration-form" enctype="multipart/form-data">
-      <label class="search-label" for="firstNameInput">First Name</label>
-      <input type="text" class="text-area" name="firstNameInput" id="firstNameInput" placeholder="first name" value="{{firstName}}" />
-      {{#if error}}
-      <div id="error" class="error">{{error}}</div>
-      {{/if}}
-      {{#if errorFirstName}}
-      <div id="error" class="error">{{errorFirstName}}</div>
-      {{/if}}
-      <div id="errorFirstName" class="error" hidden>I'm an error. I will change through Client-Side JS</div>
-      <br />
-      <label class="search-label" for="lastNameInput">Last Name</label>
-      <input type="text" class="text-area" name="lastNameInput" id="lastNameInput" placeholder="last name"
-        value="{{lastName}}" />
-      {{#if error}}
-      <div id="error" class="error">{{error}}</div>
-      {{/if}}
-      <div id="errorLastName" class="error" hidden>I'm an error. I will change through Client-Side JS</div>
-      <br />
-      <label class="search-label" for="emailAddressInput">Email</label>
-      <input type="email" class="text-area" name="emailAddressInput" id="emailAddressInput" placeholder="type here"
-        value="{{email}}" />
-      {{#if error}}
-      <div id="error" class="error">{{error}}</div>
-      {{/if}}
-      <br />
-      <label class="search-label" for="userNameInput">User Name</label>
-      <input type="text" class="text-area" name="userNameInput" id="userNameInput" placeholder="username"
-        value="{{userNameInput}}" />
-      {{#if error}}
-      <div id="error" class="error">{{error}}</div>
-      {{/if}}
-      {{#if errorFirstName}}
-      <div id="error" class="error">{{erroruserNameInput}}</div>
-      {{/if}}
-      <div id="errorFirstName" class="error" hidden>I'm an error. I will change through Client-Side JS</div>
-      <br />
-      <label class="search-label" for="graduationYear">Graduation Year</label>
-      <input type="number" class="text-area" name="graduationYear" id="graduationYear" />
-      {{#if graduationYearerror}}
-      <div id="error" class="error">{{graduationYearerror}}</div>
-      {{/if}}
-      <div id="errorEmail" class="error" hidden>I'm an error. I will change through Client-Side JS </div>
-      <br />
-      <label class="search-label" for="passwordInput">Password</label>
-      <input type="password" class="text-area" name="passwordInput" id="passwordInput" placeholder="type here" />
-      Show Password<input type="checkbox" onclick="showPassword1()">
-      {{#if errorPassword}}
-      <div id="error" class="error">{{errorPassword}}</div>
-      {{/if}}
-      <br />
-      <label class="search-label" for="confirmPasswordInput">Confirm Password</label>
-      <input type="password" class="text-area" name="confirmPasswordInput" id="confirmPasswordInput"
-        placeholder="type here" />
-      Show Password<input type="checkbox" onclick="showPassword2()">
-      {{#if errorConfirmPassword}}
-      <div id="error" class="error">{{errorConfirmPassword}}</div>
-      {{/if}}
-      <div id="errorConfirmPassword" class="error" hidden>I'm an error. I will change through Client-Side JS</div>
-      <br />
-      <label for="courseFields">Select number of courses:</label>
-      <select id="courseFields" onchange="showFields()">
-        <option value="0">--Select Courses--</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-      </select>
-      {{#if courseError}}
-      <div id="courseError" class="error">{{courseError}}</div>
-      {{/if}}
-      <input type="hidden" id="courseFieldsInput" name="courseFieldsInput">
-      <div id="fieldsContainer"></div>
-      <br />
-      <label class="search-label" for="uploadPicture">Upload Profile </label>
-      <input type="file" class="text-area" name="uploadPicture" id="uploadPicture" />
-      <br />
-      <input class="submit-button" type="submit" />
-    </form>
-    <div class="register-login">
-      <a href="login">Already have an account? Login here</a>
-    </div>
-  </main>
-  <script src="../public/js/main.js"></script>
-</body>
+  <body>
+    <header>
+      <h1>Signup Page</h1>
+    </header>
+    <main>
+      <form
+        action="/register"
+        method="POST"
+        id="registration-form"
+        enctype="multipart/form-data"
+      >
+        <label class="search-label" for="firstNameInput">First Name</label>
+        <input
+          type="text"
+          class="text-area"
+          name="firstNameInput"
+          id="firstNameInput"
+          placeholder="first name"
+          value="{{firstName}}"
+        />
+        {{!-- {{#if error}}
+          <div id="error" class="error">{{error}}</div>
+        {{/if}} --}}
+        {{#if errorFirstName}}
+          <div id="error" class="error">{{errorFirstName}}</div>
+        {{/if}}
+        <div id="errorFirstName" class="error" hidden>I'm an error. I will
+          change through Client-Side JS</div>
+        <br />
+        <label class="search-label" for="lastNameInput">Last Name</label>
+        <input
+          type="text"
+          class="text-area"
+          name="lastNameInput"
+          id="lastNameInput"
+          placeholder="last name"
+          value="{{lastName}}"
+        />
+        {{#if errorLastName}}
+          <div id="error" class="error">{{errorLastName}}</div>
+        {{/if}}
+        <div id="errorLastName" class="error" hidden>I'm an error. I will change
+          through Client-Side JS</div>
+        <br />
+        <label class="search-label" for="emailAddressInput">Email</label>
+        <input
+          type="email"
+          class="text-area"
+          name="emailAddressInput"
+          id="emailAddressInput"
+          placeholder="type here"
+          value="{{email}}"
+        />
+        {{#if errorEmail}}
+          <div id="error" class="error">{{errorEmail}}</div>
+        {{/if}}
+        <br />
+        <label class="search-label" for="userNameInput">User Name</label>
+        <input
+          type="text"
+          class="text-area"
+          name="userNameInput"
+          id="userNameInput"
+          placeholder="username"
+          value="{{userNameInput}}"
+        />
+        {{#if errorUserName}}
+          <div id="error" class="error">{{errorUserName}}</div>
+        {{/if}}
+        {{!-- {{#if errorFirstName}}
+          <div id="error" class="error">{{erroruserNameInput}}</div>
+        {{/if}} --}}
+        <div id="errorFirstName" class="error" hidden>I'm an error. I will
+          change through Client-Side JS</div>
+        <br />
+        <label class="search-label" for="graduationYear">Graduation Year</label>
+        <input
+          type="number"
+          class="text-area"
+          name="graduationYear"
+          id="graduationYear"
+        />
+        {{#if gradYear}}
+          <div id="error" class="error">{{gradYear}}</div>
+        {{/if}}
+        {{!-- <div id="errorEmail" class="error" hidden>I'm an error. I will change
+          through Client-Side JS
+        </div> --}}
+        <br />
+        <label class="search-label" for="passwordInput">Password</label>
+        <input
+          type="password"
+          class="text-area"
+          name="passwordInput"
+          id="passwordInput"
+          placeholder="type here"
+        />
+        Show Password<input type="checkbox" onclick="showPassword1()" />
+        {{#if errorPassword}}
+          <div id="error" class="error">{{errorPassword}}</div>
+        {{/if}}
+        <br />
+        <label class="search-label" for="confirmPasswordInput">Confirm Password</label>
+        <input
+          type="password"
+          class="text-area"
+          name="confirmPasswordInput"
+          id="confirmPasswordInput"
+          placeholder="type here"
+        />
+        Show Password<input type="checkbox" onclick="showPassword2()" />
+        {{#if errorConfirmPassword}}
+          <div id="error" class="error">{{errorConfirmPassword}}</div>
+        {{/if}}
+        <div id="errorConfirmPassword" class="error" hidden>I'm an error. I will
+          change through Client-Side JS</div>
+        <br />
+        <label for="courseFields">Select number of courses:</label>
+        <select id="courseFields" onchange="showFields()">
+          <option value="0">--Select Courses--</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        {{#if courseError}}
+          <div id="courseError" class="error">{{courseError}}</div>
+        {{/if}}
+        <input type="hidden" id="courseFieldsInput" name="courseFieldsInput" />
+        <div id="fieldsContainer"></div>
+        <br />
+        <label class="search-label" for="uploadPicture">Upload Profile </label>
+        <input
+          type="file"
+          class="text-area"
+          name="uploadPicture"
+          id="uploadPicture"
+        />
+        <br />
+        <input class="submit-button" type="submit" />
+      </form>
+      <div class="register-login">
+        <a href="login">Already have an account? Login here</a>
+      </div>
+    </main>
+    <script src="../public/js/main.js"></script>
+  </body>
 
 </html>
