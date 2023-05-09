@@ -1,41 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-
-    
-        {{#if message}}
-        <h2> Registration Successful, enter details to login</h2>
-        {{/if}}
-    
-
- <form action="/login" method="POST" id="login-form">
-
-   
-    
-   <label for="emailAddressInput">Username:</label>
-    <input type="email" id="emailAddressInput" name="emailAddressInput">
-    <div id="loginErrorEmail" class="error" hidden>Please enter a vaild email address ( ends with @stevens.edu )</div>
-
-    <label for="passwordInput">Password:</label>
-    <input type="password" id="passwordInput" name="passwordInput">
-    <label for="confirmPassword3" style="font-weight: 400;">Show Password</label>
-    <input type="checkbox" onclick="showPassword1()" id="confirmPassword3">
-    <div id="loginErrorPassword" class="error" hidden>Error Invalid Password</div>
-
-    <button id="loginButton" class="loginPageButton" type="submit">Login</button>
-</form>
-
-<div class="register-login">
-    <a href="/register">Click here to register!</a>
-</div>
-<script src="../public/js/main.js"></script> 
-    
-</body>
-</html>
-
+<main>
+    {{#if message}}
+    <h2> Registration Successful, enter details to login</h2>
+    {{/if}}
+    <form action="/login" method="POST" id="login-form">
+        <label for="emailAddressInput">Username:</label>
+        <input type="email" id="emailAddressInput" name="emailAddressInput">
+        <div id="loginErrorEmail" class="error" hidden>Please enter a vaild email address ( ends with @stevens.edu )
+        </div>
+        <label for="passwordInput">Password:</label>
+        <input type="password" id="passwordInput" name="passwordInput">
+        <label for="confirmPassword3" style="font-weight: 400;">Show Password</label>
+        <input type="checkbox" onclick="showPassword1()" id="confirmPassword3">
+        <div id="loginErrorPassword" class="error" hidden>Error Invalid Password</div>
+        <button id="loginButton" class="loginPageButton" type="submit">Login</button>
+    </form>
+    <div class="register-login">
+        <a href="/register">Click here to register!</a>
+    </div>
+    <script src="../public/js/main.js"></script>
+</main>
