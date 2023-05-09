@@ -1,4 +1,4 @@
-//for backend js
+//for backend js and reference from internet 
 import users from "../../data/users.js";
 import session from "express-session";
 
@@ -13,10 +13,9 @@ export default function chat(io, socket, onlineUsers, channels) {
     //for online users
     onlineUsers[username] = socket.id;
     console.log(socket.id);
-    //saving username to socket
+
     socket["username"] = username;
 
-    //console.log(`${username} has joined the chat! ✋`);
     io.emit("new user", username);
   });
   //for the create channel
