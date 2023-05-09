@@ -457,7 +457,7 @@ router.get('/protected', async (req, res) => {
   try {
 
     console.log("hre in protected post")
-      console.log(req.body);
+      console.log(req.session.user);
       // const courseReviews = await coursesData.get(courseName);
 
       // res.render("reviews", {
@@ -491,6 +491,9 @@ router
   //creating a new review
   .post(async (req,res) => {
     try {
+
+      console.log(req.session.user)
+
       const regData = req.body;
 
     const courseId = xss(regData.courseIdInput);
