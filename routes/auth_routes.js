@@ -12,6 +12,7 @@ const __dirname = path.resolve();
 const router = Router();
 
 import multer from "multer";
+import reviews from "../data/reviews.js";
 
 //middlware and initialization for image uploads
 const storage = multer.diskStorage({
@@ -719,10 +720,9 @@ router.route("/test").post(async (req, res)=> {
     const getCourse = await coursesData.get(reqfield)
 
     console.log(getCourse)
-
     
 
-  res.render('reviews', {course: getCourse.reviews})
+  res.render('reviews', {course: getCourse.reviews, courseCode: getCourse.courseCode})
   }
   catch (e)
   {

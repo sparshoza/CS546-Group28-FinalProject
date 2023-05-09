@@ -1,14 +1,13 @@
 <main>
-<div class="course-list">
-      <h2 class="section-title">Course Reviews for {{courseCode}}</h2>
-      <ol>
-        {{#each course}}
-          <li>
-           {{this.reviewText}}
-           {{this.rating}}
-
-          </li>
-        {{/each}}
-      </ol>
-    </div>
+  <div class="course-list">
+    <h2 class="section-title">Course Reviews for {{courseCode}}</h2>
+    <ol>
+      {{#each course}}
+      <li>
+        {{this.reviewText}}
+        <span>{{this.rating}}</span>
+      </li>
+      {{/each}}
+    </ol>
+  </div>
 </main>
