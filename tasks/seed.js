@@ -7,6 +7,7 @@ import users from "../data/users.js";
 import emails from "../data/emails.js";
 
 const db = await dbConnection();//creating connection
+await db.dropDatabase();//dropping database
 
 // const aditya = await users.create('Aditya','Gupta','adityagupta@stevens.edu','lololol','anylink.com','cs', 2024)
 // console.log(aditya);
@@ -46,18 +47,18 @@ const email3 = await emails.create('phill@stevens.edu');
     lets say comments for now
 */
 let test = undefined;
-let user1 = await users.create('testName', 'Robert', 'Miller', 'rmiller6@stevens.edu', 'testTest2@', ['CS555', 'CS546'], 2024);
+//let user1 = await users.create('testName', 'Robert', 'Miller', 'rmiller6@stevens.edu', 'testTest2@', ['CS555', 'CS546'], '2024');
 // let user2 = await users.create('HeresThis', 'Me', 'Miller', 'test@stevens.edu', 'testTest2@', ['CS555', 'CS546'], 2024);
-let review1 = await reviews.create('CS555', user1._id, "test", 1, "Hill");
+//let review1 = await reviews.create('CS555', user1._id, "test", 1, "Hill");
 // let review2 = await reviews.create('CS555', user2._id, "Review 2", 2, "Hill");
 // let group1 = await groups.create('CS555', 'Sparkles', [user2._id.toString()]);
-let group2 = await groups.create('CS555', 'Sparkles2', [user1._id.toString()]);
+//let group2 = await groups.create('CS555', 'Sparkles2', [user1._id.toString()]);
 // console.log(user1);
-try { //test in here, if you dont the db is compromised
-    // test = await reviews.create('CS555', user1._id, "test", 1, "Hill");
-} catch (error) {
-    console.log(error);
-}
+// try { //test in here, if you dont the db is compromised
+//     // test = await reviews.create('CS555', user1._id, "test", 1, "Hill");
+// } catch (error) {
+//     console.log(error);
+// }
     // let allReviews = await reviews.getAll('CS555');
 // console.log(test);
 // await db.dropDatabase();//dropping database
