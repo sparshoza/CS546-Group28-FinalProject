@@ -54,7 +54,7 @@ export const create = async(
         element = element.trim().toLowerCase();
         coursesInput[index] = element;
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
-        if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
+        if(element.substring(0,2) !== 'cs'){throw 'Only courses in the CS section are supported at this time!'};
         toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
         index += 1;
     });
@@ -185,7 +185,7 @@ export const update = async ( //wont be used to add courses, so I will omit that
         coursesInput[index] = element.trim();
         element = element.trim();
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
-        if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
+        if(element.substring(0,2) !== 'cs'){throw 'Only courses in the CS section are supported at this time!'};
         toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
         index += 1;
     });
@@ -293,7 +293,7 @@ export const addCourse = async (id, newCourses) =>{
         newCourses[index] = element.trim();
         element = element.trim();
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
-        if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
+        if(element.substring(0,2) !== 'cs'){throw 'Only courses in the CS section are supported at this time!'};
         toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
         index += 1;
     });
@@ -355,7 +355,7 @@ export const removeCourse = async (id, removeCourses) =>{
         removeCourses[index] = element.trim();
         element = element.trim();
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
-        if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
+        if(element.substring(0,2) !== 'cs'){throw 'Only courses in the CS section are supported at this time!'};
         toValidArr[index] = element; //Can't do an 'await' call in a forEach loop, so IM doing this another loop, sorry
         index += 1;
     });
