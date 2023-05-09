@@ -59,7 +59,29 @@ export const create = async(
         // comments : [] comments are not a core feature, so add I guess if needed
     };
     //INSERT IT FIRST INTO REVIEWS COLLECTION, use that ID to insert into other collections
+   
+    // const review = await reviews.getAll(courseCode)
+
+   
+   
+   
     const reviewCollection = await reviews();
+
+
+
+    //for duplicate reviews 
+    const reviewsList = await reviewCollection.find({}).toArray()
+
+    
+    for (let user of reviewsList)
+    {
+        if (user.userId == userId && user.courseId === courseCode)
+        {
+            throw `Review already exists and cannot add again`
+        }
+    }
+    //ends here
+
     const insertInfo = await reviewCollection.insertOne(newReview);
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
         throw 'Review could not be added to its collection';

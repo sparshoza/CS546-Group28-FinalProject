@@ -65,7 +65,11 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
                 name="professorNameInput"
               /><br />
               <button type="submit">Submit</button>
+                  {{#if errorReview}}
+        <div id = "error" class = "error"> {{errorReview}}</div>
+            {{/if}}
             </form>
+        
 
             {{!-- <div class="reviews-list">
               <h2 class="section-title">Course Reviews:</h2>
