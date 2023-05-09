@@ -75,12 +75,102 @@ app.use(express.static('public', {
   }
 }));
 
-// app.get('/', rootMiddleware);
-// app.get('/login', registerMiddleware);
-// app.get('/protected', protectedMiddleware);
-// app.get('/admin', adminMiddleware);
-// app.get('/logout', logoutMiddleware);
-// app.use(loggingMiddleware)
+//middlewares
+app.get("/", (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/homepage");
+
+    
+  } else if (req.session.user) {
+    return res.redirect("/protected");
+  } else {
+    next();
+  }
+
+ 
+ 
+});
+
+app.get("/login", (req, res, next) => {
+  if (req.session.user) {
+   
+    
+      return res.redirect('/protected')
+    
+  }
+
+
+  next();
+});
+
+app.use("/register", (req, res, next) => {
+  if (!req.session.user) {
+    next();
+    // return res.redirect('/login');
+  }  else if (req.session.user === "user") {
+    return res.redirect("/protected");
+  } else {
+    next();
+  }
+});
+
+app.use("/protected", (req, res, next) => {
+  if (!req.session.user) {
+
+    return res.redirect('/login');
+
+    }
+
+  next();
+});
+
+app.use("/index", (req, res, next)=> 
+{
+  if (!req.session.user)
+  {
+    return res.redirect('/login')
+  }
+
+  next()
+})
+
+
+app.use("/logout", (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  next();
+});
+
+app.use((req, res, next)=> {
+  let method = req.method;
+  let url = req.originalUrl
+  let time = new Date().toUTCString();
+  let auth = '';
+
+  if (req.session.user)
+  {
+    auth = "Authenticated User";
+  }
+  else
+  {
+    auth = "Non-Authenticated User";
+  }
+
+  console.log( `[${time}]: ${method} ${url} (${auth})`);
+
+
+  next();
+
+})
+
+
+
+
+
+
+
 
 
 //websocket final config

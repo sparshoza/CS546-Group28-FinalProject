@@ -36,11 +36,9 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
             <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
             <form action="/reviews" method="POST">
               {{!-- <label for="courseIdInput">Course Code:</label> --}}
-              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" hidden /><br
-              />
-{{!-- 
-              <label for="userIdInput">User ID:</label>
-              <input type="text" id="userIdInput" name="userIdInput" /><br /> --}}
+              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none" />
+              <br />
+
 
               <label for="reviewTextInput">Review Text:</label>
               <textarea
@@ -57,11 +55,13 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
                 <option value="5">5</option>
               </select><br />
 
-              <label for="professorNameInput">Professor Name:</label>
+              {{!-- <label for="professorNameInput">Professor Name:</label> --}}
               <input
                 type="text"
                 id="professorNameInput"
                 name="professorNameInput"
+                style = "display: none;"
+                value = "Pname"
               /><br />
               <button type="submit">Submit</button>
                   {{#if errorReview}}
