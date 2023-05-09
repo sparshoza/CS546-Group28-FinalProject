@@ -492,12 +492,12 @@ router
   .post(async (req,res) => {
     try {
 
-      console.log(req.session.user)
-
-      const regData = req.body;
+      
+      const regData = req.body
+      const reqData = req.session.user;
 
     const courseId = xss(regData.courseIdInput);
-    const userId = xss(regData.userIdInput);
+    const userId = xss(reqData.userId.toString());
     const reviewText = xss(regData.reviewTextInput);
     const rating = xss(regData.ratingInput);
     const professorName = xss(regData.professorNameInput);
@@ -521,14 +521,19 @@ router
         professorName
       );
 
+      
+
       if (createReview) {
-      const allReviews = await reviewData.getAll(courseId);
-      res.render('protected', {
-        title: 'Protected',
-        userData: req.session.user,
-        allReviews: allReviews,
-        message: 'Review created successfully'
-      });
+
+        console.log("here")
+
+      // const allReviews = await reviewData.getAll(courseId);
+      // res.render('protected', {
+      //   title: 'Protected',
+      //   userData: req.session.user,
+      //   allReviews: allReviews,
+      //   message: 'Review created successfully'
+      // });
       } else {
       return res.status(400).json({ error: "Failed to create review" });
       }
