@@ -11,7 +11,8 @@
   <script src="/public/js/socket.js"></script>
 
 
-  <link href='https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css' ></link>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css'>
+  </link>
   <link rel="stylesheet" href="/public/css/main-styles.css">
 </head>
 
@@ -40,8 +41,13 @@
           <h2>Messages</h2>
         </div>
         <div class="text-chat-divide"></div>
-        <div class="chat-box"><textarea id="chat-input" placeholder="Type a message"></textarea><button class="btn"
-            id="send-chat-btn">Send</button></div>
+        <div class="chat-box">
+          <label for="chat-input">
+            Enter Message
+          </label>
+          <textarea id="chat-input" placeholder="Type a message"></textarea>
+          <button class="btn" id="send-chat-btn">Send</button>
+        </div>
       </div>
     </div>
   </div>
