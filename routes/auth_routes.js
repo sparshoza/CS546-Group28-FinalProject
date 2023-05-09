@@ -290,6 +290,7 @@ router
             coursefield: reqfield, regData: regData 
           });
         }
+        reqfield = reqfield.toLowerCase()
 
         courses.push(reqfield); //final array addition
       }
@@ -496,7 +497,8 @@ router
       const regData = req.body
       const reqData = req.session.user;
 
-    const courseId = xss(regData.courseIdInput);
+    let courseId = xss(regData.courseIdInput);
+    courseId = courseId.toLowerCase();
     const userId = xss(reqData.userId.toString());
     const reviewText = xss(regData.reviewTextInput);
     const rating = xss(regData.ratingInput);
@@ -720,14 +722,7 @@ router.route("/test").post(async (req, res)=> {
 
     
 
-    
-
-
-  
-
-
-  
-  res.render('reviews', {reviews: getCourse.reviews, courseCode: getCourse.courseCode})
+  res.render('reviews', {course: getCourse.reviews})
   }
   catch (e)
   {

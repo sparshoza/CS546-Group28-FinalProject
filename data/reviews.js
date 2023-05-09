@@ -15,6 +15,7 @@ export const create = async(
     //if(typeof rating !== 'number' || rating === NaN){throw 'rating must be a valid number!';}
     //trim strings
     courseCode = courseCode.trim();
+    courseCode = courseCode.toLowerCase();
     professorName = professorName.trim();
     userId = userId.trim();
     if(professorName.length > 25 || professorName.length < 2){throw 'professor Name has to be at least 2 characters long and less than 25 characters long';}
