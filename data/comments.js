@@ -1,4 +1,4 @@
-import { comments, users } from "../config/mongoCollections.js";
+import { comments, users, reviews } from "../config/mongoCollections.js";
 import {userData, reviewData} from "./index.js"
 import {ObjectId} from 'mongodb';
 
