@@ -1,31 +1,13 @@
 //for frontend js ajax stuff
 
-// $(document).ready( () => {
-//     //Connect to the socket.io server
-//     const socket = io.connect();
 
-//     $('#create-user-btn').click((e)=>{
-//       e.preventDefault();
-//       let username = $('#username-input').val();
-//       if(username.length > 0){
-//         //Emit to the server the new user
-//         console.log("here in socket")
-//         socket.emit('new user', username);
-//         $('.username-form').remove();
-//       }
-//     });
-//     //socket listeners
-//   socket.on('new user', (username) => {
-//     console.log(`✋ ${username} has joined the chat! ✋`);
-//   })
-
-//   })
 
 $(document).ready(() => {
   const socket = io.connect();
 
   let currentUser = $("#username-input").val();
   socket.emit("get online users");
+  
   socket.emit("user changed channel", "General");
 
   //for creating the user and adding it
@@ -69,7 +51,7 @@ $(document).ready(() => {
   // });
 
   $(document).on("click", ".channel", (e) => {
-    console.log("in .channel");
+    console.log("in .channel  ");
 
     let newChannel = e.target.textContent;
     socket.emit("user changed channel", newChannel);
@@ -78,7 +60,7 @@ $(document).ready(() => {
 
   //for creating the channel
 
-  $("#new-channel-btn").click(() => {
+  // $("#new-channel-btn").click(() => {
     console.log("in new channel button");
 
     let newChannel = $("#new-channel-input").val();
@@ -88,7 +70,7 @@ $(document).ready(() => {
       socket.emit("new channel", newChannel);
       $("#new-channel-input").val("");
     }
-  });
+  // });
 
   //for sending the message
   // $('#send-chat-btn').click((e) => {
@@ -131,6 +113,8 @@ $(document).ready(() => {
     console.log(`${username} has joined the chat`);
     // Add the new user to the online users div
     $(".users-online").append(`<div class="user-online">${username}</div>`);
+
+
   });
 
   //Listen for new messages
