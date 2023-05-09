@@ -35,7 +35,7 @@ Confirm password
           name="firstNameInput"
           id="firstNameInput"
           placeholder="first name"
-          value="{{firstName}}"
+          value= "{{regData.firstNameInput}}"
         />
         {{!-- {{#if error}}
           <div id="error" class="error">{{error}}</div>
@@ -53,7 +53,7 @@ Confirm password
           name="lastNameInput"
           id="lastNameInput"
           placeholder="last name"
-          value="{{lastName}}"
+          value="{{regData.lastNameInput}}"
         />
         {{#if errorLastName}}
           <div id="error" class="error">{{errorLastName}}</div>
@@ -68,7 +68,7 @@ Confirm password
           name="emailAddressInput"
           id="emailAddressInput"
           placeholder="type here"
-          value="{{email}}"
+          value="{{regData.emailAddressInput}}"
         />
         {{#if errorEmail}}
           <div id="error" class="error">{{errorEmail}}</div>
@@ -81,7 +81,7 @@ Confirm password
           name="userNameInput"
           id="userNameInput"
           placeholder="username"
-          value="{{userNameInput}}"
+          value="{{regData.userNameInput}}"
         />
         {{#if errorUserName}}
           <div id="error" class="error">{{errorUserName}}</div>
@@ -98,6 +98,7 @@ Confirm password
           class="text-area"
           name="graduationYear"
           id="graduationYear"
+          value = "{{regData.graduationYear}}"
         />
         {{#if gradYear}}
           <div id="error" class="error">{{gradYear}}</div>
@@ -156,7 +157,13 @@ Confirm password
           id="uploadPicture"
         />
         <br />
+         {{#if error}}
+        <div id = "error" class = "error"> {{error}}</div>
+        {{/if}}
+        <br/>
         <input class="submit-button" type="submit" />
+        <br/>
+       
       </form>
       <div class="register-login">
         <a href="login">Already have an account? Login here</a>

@@ -1,5 +1,24 @@
-<form action="/login" method="POST" id="login-form">
-    <label for="emailAddressInput">Username:</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    
+        {{#if message}}
+        <h2> Registration Successful, enter details to login</h2>
+        {{/if}}
+    
+
+ <form action="/login" method="POST" id="login-form">
+
+   
+    
+   <label for="emailAddressInput">Username:</label>
     <input type="email" id="emailAddressInput" name="emailAddressInput">
     <div id="loginErrorEmail" class="error" hidden>Please enter a vaild email address ( ends with @stevens.edu )</div>
 
@@ -10,7 +29,12 @@
 
     <button id="loginButton" class="loginPageButton" type="submit">Login</button>
 </form>
+
 <div class="register-login">
     <a href="/register">Click here to register!</a>
 </div>
-<script src="../public/js/main.js"></script>
+<script src="../public/js/main.js"></script> 
+    
+</body>
+</html>
+

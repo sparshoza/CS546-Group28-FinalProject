@@ -45,7 +45,14 @@ router
   .route("/register")
   .get(async (req, res) => {
     //code here for GET
+    try
+    {
     return res.render("register");
+    }
+    catch (e)
+    {
+      return res.status(400).render("error", {error:e})
+    }
   })
   .post(upload.single("uploadPicture"), async (req, res, next) => {
     //code here for POST
@@ -53,7 +60,7 @@ router
       const regData = req.body; // getting data from form
 
       //storing individual fields data from the form
-
+    
       let firstName = xss(regData.firstNameInput);
       let lastName = xss(regData.lastNameInput);
       let email = xss(regData.emailAddressInput);
@@ -63,74 +70,83 @@ router
       let confirmPassword = xss(regData.confirmPasswordInput);
       let userName = xss(regData.userNameInput);
 
+      let picture = xss (regData.uploadPicture)
+      console.log(picture)
+
       //error handling for other fields
       //error handling server side including handlebars
+
+      if (!userName)
+      {
+        return res.status(400).render("register", {errorUserName: "Enter username Name", regData: regData });
+
+      }
       if (!firstName)
       {
-        return res.status(400).render("register", {errorFirstName: "Enter First Name" });
+        return res.status(400).render("register", {errorFirstName: "Enter First Name", regData: regData });
 
       }
       if (typeof firstName !== "string" ) {
-        return res.status(400).render("register", { errorFirstName: "Enter Only Strings" });
+        return res.status(400).render("register", { errorFirstName: "Enter Only Strings", regData: regData  });
       }
 
       if (helpers.checkSymbols(firstName) ) {
         return res
           .status(400)
-          .render("register", { errorFirstName: "No symbols in first name" });
+          .render("register", { errorFirstName: "No symbols in first name", regData: regData  });
       }
       if (helpers.checkSymbols(lastName) ) {
         return res
           .status(400)
-          .render("register", { errorLastName: "No symbols in last name" });
+          .render("register", { errorLastName: "No symbols in last name", regData: regData  });
       }
 
 
       if (helpers.checkNumbers(firstName)) {
         return res
           .status(400)
-          .render("register", { errorFirstName: "no numbers in name" });
+          .render("register", { errorFirstName: "no numbers in name", regData: regData  });
       }
       if (helpers.checkNumbers(lastName)) {
         return res
           .status(400)
-          .render("register", { errorLastName: "no numbers in name" });
+          .render("register", { errorLastName: "no numbers in name", regData: regData  });
       }
 
 
       if (firstName.length < 2 || firstName.length > 25) {
         return res
           .status(400)
-          .render("register", { errorFirstName: "First name length betwween 2 and 25" });
+          .render("register", { errorFirstName: "First name length betwween 2 and 25", regData: regData  });
       }
       if (lastName.length < 2 || lastName.length > 25) {
         return res
           .status(400)
-          .render("register", { errorLastName: "Last Name length between 2 and 25" });
+          .render("register", { errorLastName: "Last Name length between 2 and 25", regData: regData  });
       }
 
 
       if (typeof lastName !== "string" ) {
-        return res.status(400).render("register", { errorLastName: "Enter Only Strings" });
+        return res.status(400).render("register", { errorLastName: "Enter Only Strings" , regData: regData });
       }
 
 
       if (!lastName)
       {
-        return res.status(400).render("register", {errorLastName: "Enter Last Name" });
+        return res.status(400).render("register", {errorLastName: "Enter Last Name", regData: regData  });
 
       }
 
 
       if (!password)
       {
-        return res.status(400).render("register", {errorPassword: "Enter Password" });
+        return res.status(400).render("register", {errorPassword: "Enter Password" , regData: regData });
 
       }
 
       if (!confirmPassword)
       {
-        return res.status(400).render("register", {errorConfirmPassword: "Enter Confirm Password" });
+        return res.status(400).render("register", {errorConfirmPassword: "Enter Confirm Password", regData: regData  });
 
 
         
@@ -138,14 +154,14 @@ router
 
       if (!userName)
       {
-        return res.status(400).render("register", {errorUserName: "Enter Username" });
+        return res.status(400).render("register", {errorUserName: "Enter Username" , regData: regData });
 
       }
 
 
       if (!email)
       {
-        return res.status(400).render("register", {errorEmail: "Enter Email" });
+        return res.status(400).render("register", {errorEmail: "Enter Email", regData: regData  });
 
       }
 
@@ -157,7 +173,7 @@ router
       if (!helpers.validateEmail(email)) {
         return res
           .status(400)
-          .render("register", { errorEmail: "wrong email format" });
+          .render("register", { errorEmail: "wrong email format" , regData: regData });
       }
 
      
@@ -167,51 +183,55 @@ router
       if (password.length < 8) {
         return res
           .status(400)
-          .render("register", { errorPassword: "password length less than 8" });
+          .render("register", { errorPassword: "password length less than 8", regData: regData  });
       }
 
       if (!helpers.validatePassword(password)) {
         return res
           .status(400)
           .render("register", {
-            errorPassword: "enter at least one special character",
+            errorPassword: "enter at least one special character",regData: regData 
           });
       }
 
       if (!gradYear) {
         return res
           .status(400)
-          .render("register", { gradYearerror: "Enter Graduation Year" });
+          .render("register", { gradYearerror: "Enter Graduation Year", regData: regData  });
       }
+      gradYear = gradYear.trim()
+
       gradYear = parseInt(gradYear)
       if (
         gradYear < new Date().getFullYear() ||
         gradYear > new Date().getFullYear() + 5
       ) {
         return res.status(400).render("register", {
-          gradYearerror: "Range within 5 years from now",
+          gradYearerror: "Range within 5 years from now", regData: regData 
         });
       }
 
+      gradYear = gradYear.toString()
+
       if (!helpers.checkNumbers(password)) {
-        return res.status(400).render('register',{ errorPassword: "Enter atleast one number" });
+        return res.status(400).render('register',{ errorPassword: "Enter atleast one number", regData: regData });
       }
       if (!helpers.checkLowerCase(password)) {
-        return res.status(400).render('register',{ errorPassword: "Enter atleast one lower case" });
+        return res.status(400).render('register',{ errorPassword: "Enter atleast one lower case", regData: regData  });
       }
       if (!helpers.checkUpperCase(password)) {
-        return res.status(400).render('register',{ errorPassword: "Enter atleast one uppercase" });
+        return res.status(400).render('register',{ errorPassword: "Enter atleast one uppercase", regData: regData  });
       }
 
       if (helpers.checkBlankChars(password)) {
-        return res.status(400).render('register',{ errorPassword: "blank in password" });
+        return res.status(400).render('register',{ errorPassword: "blank in password", regData: regData  });
       }
 
 
 
       if (password !== confirmPassword) {
         return res.status(400).render("register", {
-          errorConfirmPassword: "password did not match",
+          errorConfirmPassword: "password did not match", regData: regData 
         });
       }
 
@@ -224,7 +244,7 @@ router
       if (!courseField || courseField == 0) {
         //checking whether user has selected any courses
         return res.render("register", {
-          courseError: "You have to select atleast one course",
+          courseError: "You have to select atleast one course", regData: regData 
         });
       }
       //further error handling  and adding courses to the array
@@ -238,20 +258,20 @@ router
         if (!reqfield || typeof reqfield === "undefined") {
           return res.render("register", {
             courseError: "enter a CS course (CSXXX) XXX-> course codes",
-            coursefield: reqfield,
+            coursefield: reqfield, regData: regData 
           });
         }
         if (reqfield.length !== 5) {
           return res.render("register", {
             courseError: "incorrect code",
-            coursefield: reqfield,
+            coursefield: reqfield, regData: regData 
           });
         }
 
         if (reqfield.slice(0, 2) !== "cs") {
           return res.render("register", {
             courseError: "ONLY CS COURSES",
-            coursefield: reqfield,
+            coursefield: reqfield, regData: regData 
           });
         }
 
@@ -260,14 +280,14 @@ router
         if (typeof reqfieldCode !== "number") {
           return res.render("register", {
             courseError: "Only numbers as codes",
-            coursefield: reqfield,
+            coursefield: reqfield, regData: regData 
           });
         }
 
         if (reqfieldCode < 101 || reqfieldCode > 900) {
           return res.render("register", {
             courseError: "Code range between 101 and 900",
-            coursefield: reqfield,
+            coursefield: reqfield, regData: regData 
           });
         }
 
@@ -275,14 +295,13 @@ router
       }
       //final error handling
       if (new Set(courses).size !== courses.length) {
-        return res.render("register", { courseError: "No same courses" });
+        return res.render("register", { courseError: "No same courses", regData: regData  });
       }
 
       userName = userName.trim()
       firstName = firstName.trim()
       lastName = lastName.trim()
       email = email.trim()
-      gradYear = gradYear.trim()
 
       //inserting the requested body in db
       const createUser = await user.create(
@@ -297,16 +316,16 @@ router
 
       if (createUser) {
         console.log(createUser);
-        return res.render("login");
+        return res.render("login", {message:"user successfully created"});
       } else {
-        res.render("error", { error: "User already exists." });
+        res.render("register", { error: "User already exists or try again",  regData: regData  });
       }
 
       next();
     } catch (e) {
 
-      console.log(e);
-      res.status(400).render("error", { error: e });
+      const regData = req.body
+      res.render("register", { error: e, regData: regData  });
     }
   });
 
@@ -719,16 +738,22 @@ router.route("/logout").get(async (req, res) => {
 router
   .route("/indexx/:cr")
   .get(async (req, res) => {
+
+    try{
     let paramcourse = req.params.cr;
     // let newCourses = []
     let newcourse;
     const user = req.session.user;
 
+    paramcourse = paramcourse.toLowerCase();
+
     if (user) {
       for (let x of user.courses) {
         let addedCourse = await coursesData.get(x);
-        if (paramcourse === addedCourse.courseCode) {
+        if (paramcourse === addedCourse.courseCode.toLowerCase()) {
           newcourse = addedCourse;
+          console.log(newcourse);
+          return res.render("index", { user: user, newcourse: newcourse });
         }
         // newCourses.push(await courseData.get(x))
       }
@@ -736,9 +761,16 @@ router
       return res.render("error", { error: "login again" });
     }
 
-    console.log(newcourse);
-    return res.render("index", { user: user, newcourse: newcourse });
+
+ 
+  }
+  catch(e)
+  {
+    return res.status(404).render("error", {error:e})
+  }
+ 
   })
+
   .post(async (req, res) => {});
 
 export default router;
