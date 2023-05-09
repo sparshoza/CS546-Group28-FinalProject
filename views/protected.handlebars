@@ -1,26 +1,13 @@
-{{!
-
-If the user is logged in , and 'GET /protected' endpoint is called, you will render this view based on the specs.
-
-}}
-<!DOCTYPE html>
-
-<title>Protected Page</title>
-
-<body>
   <header>
     <h1 class="page-title">Protected Page</h1>
-
   </header>
   <main>
-
     <form id="searchForm" action="/test" method="POST">
       <label for="searchTerm" class='head'>Search Courses (eg: CS555)</label>
       <input type="text" name="searchTerm" id="searchTerm">
       <input class="submit-button" type="submit">
-
     </form>
-    <br />
+    <br>
     <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
     <div class="user-info">
       <img src="../public/images/{{userData.emailAddress}}.jpeg" class="user-image" alt="user-profile-picture">
@@ -35,19 +22,19 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
     <ol>
       {{#each userData.courses}}
       <li>
-        <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
+        <a class="course-review" href="indexx/{{this}}">{{this}}</a>
         <form action="/reviews" method="POST">
           {{!-- <label for="courseIdInput">Course Code:</label> --}}
           <label for="courseIdInput">
             Course Id
           </label>
-          <input id="courseIdInput" type="text" name="courseIdInput" value="{{this}}" hidden /><br />
+          <input id="courseIdInput" type="text" name="courseIdInput" value="{{this}}" hidden><br>
           {{!--
           <label for="userIdInput">User ID:</label>
           <input type="text" id="userIdInput" name="userIdInput" /><br /> --}}
 
           <label for="reviewTextInput">Review Text:</label>
-          <textarea id="reviewTextInput" name="reviewTextInput"></textarea><br />
+          <textarea id="reviewTextInput" name="reviewTextInput"></textarea><br>
 
           <label for="ratingInput">Rating:</label>
           <select id="ratingInput" name="ratingInput">
@@ -56,10 +43,10 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-          </select><br />
+          </select><br>
 
           <label for="professorNameInput">Professor Name:</label>
-          <input type="text" id="professorNameInput" name="professorNameInput" /><br />
+          <input type="text" id="professorNameInput" name="professorNameInput"><br>
           <button type="submit">Submit</button>
           {{#if errorReview}}
           <div id="error" class="error"> {{errorReview}}</div>
@@ -89,7 +76,6 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
       {{/each}}
     </ol>
   </div>
-  </main>
 
   {{! <div class="profile-pic">
     <label class="-label" for="file">
@@ -104,4 +90,3 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
   </footer>
   <div id="results"></div>
   <script src="../public/js/reviews.js"></script>
-</body>
