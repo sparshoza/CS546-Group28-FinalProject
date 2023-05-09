@@ -523,6 +523,7 @@ router
 
       
 
+
       if (createReview) {
 
         console.log("here")
@@ -534,12 +535,15 @@ router
       //   allReviews: allReviews,
       //   message: 'Review created successfully'
       // });
-      } else {
-      return res.status(400).json({ error: "Failed to create review" });
+      } else
+       {
+        return res.status(400).render('protected', {errorReview: "review only once", userData:userData})
       }
     } catch (e) {
-      next(e);
-    }
+      const userData = req.session.user
+      return res.render('protected', {errorReview:e ,userData:userData})
+
+        }
   });
 
 // router
