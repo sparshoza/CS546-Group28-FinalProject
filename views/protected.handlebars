@@ -35,7 +35,7 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
         {{#each userData.courses}}
           <li>
             <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
-            {{!-- <form action="/reviews/new" method="POST">
+            <form action="/reviews" method="POST">
               <label for="courseIdInput">Course Code:</label>
               <input type="text" id="courseIdInput" name="courseIdInput" /><br
               />
@@ -64,8 +64,10 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
                 id="professorNameInput"
                 name="professorNameInput"
               /><br />
+              <button type="submit">Submit</button>
+            </form>
 
-            <div class="reviews-list">
+            {{!-- <div class="reviews-list">
               <h2 class="section-title">Course Reviews:</h2>
               {{#if allReviews}}
                 <ul>

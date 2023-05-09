@@ -463,7 +463,7 @@ router
   .get(async (req,res, next) => {
     try {
       const reviewList = await reviewData.getAll();
-      res.render('reviews', {
+      res.render('protected', {
           title: 'Reviews',
           allReviews: reviewList
         });
