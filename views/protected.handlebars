@@ -17,8 +17,7 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
             <label for="searchTerm" class='head'>Search Courses (eg: CS555)</label>
             <input type="text" name="searchTerm" id="searchTerm" >
             <input class="submit-button" type="submit">
-            {{!-- {{#with searchTerm}}
-            {{/with}} --}}
+            
         </form>
         <br/>
         <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
@@ -36,12 +35,12 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
           <li>
             <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
             <form action="/reviews" method="POST">
-              <label for="courseIdInput">Course Code:</label>
-              <input type="text" id="courseIdInput" name="courseIdInput" value= "{{this}}" /><br
+              {{!-- <label for="courseIdInput">Course Code:</label> --}}
+              <input id="courseIdInput" name="courseIdInput" value= "{{this}}" hidden /><br
               />
-
+{{!-- 
               <label for="userIdInput">User ID:</label>
-              <input type="text" id="userIdInput" name="userIdInput" /><br />
+              <input type="text" id="userIdInput" name="userIdInput" /><br /> --}}
 
               <label for="reviewTextInput">Review Text:</label>
               <textarea
