@@ -51,7 +51,7 @@ export const create = async(
     let toValidArr = [];
     coursesInput.forEach(element => {
         if(typeof element !== 'string' || element.trim().length === 0){throw 'all courses must be non-empty strings'};
-        element = element.trim().toUpperCase();
+        element = element.trim().toLowerCase();
         coursesInput[index] = element;
         if(element.length !== 5){throw 'Course must be in the format of CS### (# = course number)'};
         if(element.substring(0,2) !== 'CS'){throw 'Only courses in the CS section are supported at this time!'};
