@@ -3,7 +3,7 @@
 import { Router } from "express";
 import * as helpers from "../helpers.js";
 import user from "../data/users.js";
-import {reviewData} from "../data/index.js";
+import {reviewData, userData} from "../data/index.js";
 import {coursesData} from "../data/index.js";
 import {protectedMiddleware} from "../middleware.js";
 import xss from "xss";
@@ -528,15 +528,9 @@ router
 
       if (createReview) {
 
-        console.log("here")
+        return res.render('protected',{message:"Successfully created review!", userData:userData})
 
-      // const allReviews = await reviewData.getAll(courseId);
-      // res.render('protected', {
-      //   title: 'Protected',
-      //   userData: req.session.user,
-      //   allReviews: allReviews,
-      //   message: 'Review created successfully'
-      // });
+
       } else
        {
         return res.status(400).render('protected', {errorReview: "review only once", userData:userData})
@@ -548,124 +542,17 @@ router
         }
   });
 
-// router
-// .route("/courses/:courseName")
 
-// .get(protectedMiddleware, async (req, res) => {
-//   try {
-//       const { courseName } = req.params;
-//       const courseReviews = await coursesData.get(courseName);
-
-//       res.render("reviews", {
-//         title: `Reviews for ${courseName}`,
-//         courseName,
-//         reviews: courseReviews,
-//       });
-    
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
-
-
-// router
-// .get('/new', (req, res) => {
-//   res.render("reviews/new");
-// })
-
-// .post('/reviews', (req, res) => {
-//   const newReview = {
-//     courseCode: req.body.courseCode,
-//     userId: req.body.userId,
-//     review: req.body.review,
-//     rating: req.body.rating,
-//     professor: req.body.professor,
-//   };
-//   // save the new review to your database or file system
-//   // ...
-//   res.redirect('/reviews/new');
-// });
-
-// router
-//   .route("/review/create")
-
-  //getting all reviews for a course
-
-
-  // .get(async (req,res, next) => {
-  //   try {
-  //     const reviewList = await reviewData.getAll();
-  //     res.render('reviews', {
-  //         title: 'Reviews',
-  //         allReviews: reviewList
-  //       });
-
-  //     } catch (e) {
-  //         next(e);
-  //       }
-  //     })
-
-  // //creating a new review
-  // .post(async (req,res, next) => {
-  //   try {
-  //       const regData = req.body;
-
-  //     const courseId = xss(regData.courseIdInput);
-  //     const userId = xss(regData.userIdInput);
-  //     const reviewText = xss(regData.reviewTextInput);
-  //     const rating = xss(regData.ratingInput);
-  //     const professorName = xss(regData.professorNameInput);
-
-  //     if (!courseId || !userId || !reviewText || !rating || !professorName) {
-  //       return res.status(400).json({ error: "Missing required fields" });
-  //     }
-      
-  //     // check rating is between 1 and 5
-  //     if (rating < 1 || rating > 5) {
-  //       return res.status(400).json({ error: "Rating must be between 1 and 5" });
-  //     }
-
-  //     const newReview = await reviewData.create(
-  //       courseId, 
-  //       userId, 
-  //       reviewText, 
-  //       rating, 
-  //       professorName
-  //     );
-
-  //     if (newReview) {
-  //       const allReviews = await reviewData.getAll();
-  //       res.render('protected', {
-  //         title: 'Protected',
-  //         userData: req.session.user,
-  //         allReviews: allReviews,
-  //         message: 'Review created successfully'
-  //       });
-  //     } else {
-  //       return res.status(400).json({ error: "Failed to create review" });
-  //     }
-  //   } catch (e) {
-  //     next(e);
-  //   }
-  // });
-
-router.route("/admin").get(async (req, res) => {
-  //code here for GET
-  try {
-    if (req.session.user.role === "admin") {
-      const date = new Date();
-      res.render("admin", { userData: req.session.user, currentTime: date });
-    }
-  } catch (e) {
-    return res
-      .status(400)
-      .render("error", { error: "Can't get access to admin" });
-  }
-});
 
 router.route("/error").get(async (req, res) => {
-  //code here for GET
-  res.render("error");
+  try 
+  {  
+  res.render.status(400)("error", {error: e});
+  }
+  catch (e)
+  {
+    res.render("error", {error:e})
+  }
 });
 
 router.route("/test").post(async (req, res)=> {
@@ -730,6 +617,18 @@ router.route("/test").post(async (req, res)=> {
   }
 })
 
+router.route("/homepage").get(async (req,res)=>{
+
+  try 
+  {
+    return res.render("homepage")
+  }
+  catch(e)
+  {
+    return res.render("error", {error:e})
+  }
+})
+
 
 router.route("/logout").get(async (req, res) => {
   //code here for GET
@@ -749,7 +648,21 @@ router
   .route("/indexx/:cr")
   .get(async (req, res) => {
 
+    try 
+    {
+      if (!req.session.user)
+      {
+        return res.redirect("/login")
+      }
+    }
+    catch(e)
+    {
+        return res.render("error", {error:e})
+    }
+
     try{
+
+    
     let paramcourse = req.params.cr;
     // let newCourses = []
     let newcourse;
