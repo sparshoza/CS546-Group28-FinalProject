@@ -20,7 +20,7 @@ export const create = async(
     if(!username || !firstName || !lastName || !coursesInput || !stevensEmail || !password || !graduationYear){throw 'all fields must be present';}
     if(typeof username !== 'string' || username.trim().length === 0 || typeof firstName !== 'string' || typeof lastName !== 'string' || typeof stevensEmail !== 'string' || typeof password !== 'string' ||firstName.trim().length === 0 || lastName.trim().length === 0 || stevensEmail.trim().length === 0 || password.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     if(typeof graduationYear !== 'string' || graduationYear.trim().length === 0){throw 'graduation year must be a string!';}
-    if(firstName.replace(/[0-9]/gi, "").length !== 0 || lastName.replace(/[0-9]/gi, "").length !== 0){throw 'Graduation year only contains numbers!';}
+    if(graduationYear.replace(/[0-9]/gi, "").length !== 0 ){throw 'Graduation year only contains numbers!';}
     graduationYear = parseInt(graduationYear);
     if(typeof graduationYear !== 'number' || graduationYear === NaN){throw "graduationYear must be a non-zero number";}
     //trim the strings
