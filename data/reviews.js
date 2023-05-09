@@ -7,18 +7,18 @@ export const create = async(
     userId,
     reviewText, //can be null
     rating, //rating will be between 1 and 5, no decimals
-    professorName //perhaps name should be within a certain value?
+    // professorName //perhaps name should be within a certain value?
     //comments will be set as an empty array
 ) =>{
-    if(!courseCode || !rating || !userId || !professorName){throw 'all fields must be present!';}
-    if(typeof userId !== 'string' || userId.trim().length === 0 ||typeof courseCode !== 'string' || typeof professorName !== 'string' || courseCode.trim().length === 0 || professorName.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
+    if(!courseCode || !rating || !userId){throw 'all fields must be present!';}
+    if(typeof userId !== 'string' || userId.trim().length === 0 ||typeof courseCode !== 'string' ||  courseCode.trim().length === 0){throw 'all string inputs must be non-empty strings!';}
     //if(typeof rating !== 'number' || rating === NaN){throw 'rating must be a valid number!';}
     //trim strings
     courseCode = courseCode.trim();
     courseCode = courseCode.toLowerCase();
-    professorName = professorName.trim();
+    // professorName = professorName.trim();
     userId = userId.trim();
-    if(professorName.length > 25 || professorName.length < 2){throw 'professor Name has to be at least 2 characters long and less than 25 characters long';}
+    // if(professorName.length > 25 || professorName.length < 2){throw 'professor Name has to be at least 2 characters long and less than 25 characters long';}
     if(!ObjectId.isValid(userId)){throw 'userid must be valid!';}
     if(rating > 5 || rating < 1){throw 'rating must be an int between 1 and 5'};
     if(reviewText){ //since reviewText can be null, this is error checking in the case that it is given!
@@ -56,7 +56,7 @@ export const create = async(
         userId: userId,
         reviewText : reviewText,
         rating : rating,
-        professorName : professorName,
+        // professorName : professorName,
         // comments : [] comments are not a core feature, so add I guess if needed
     };
     //INSERT IT FIRST INTO REVIEWS COLLECTION, use that ID to insert into other collections
