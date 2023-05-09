@@ -130,64 +130,64 @@ $(document).ready(function () {
   });
 });
 
-// $(document).ready(function () {
-//   $('#login-form').submit(function (event) {
-//     event.preventDefault();
+$(document).ready(function () {
+  $('#login-form').submit(function (event) {
+    event.preventDefault();
 
-//     var email = $('#emailAddressInput').val().trim();
-//     var username = $('#userNameInput').val().trim();
-//     var password = $('#passwordInput').val().trim();
-//     console.log(email)
+    var email = $('#emailAddressInput').val().trim();
+    var username = $('#userNameInput').val().trim();
+    var password = $('#passwordInput').val().trim();
+    console.log(email)
 
-//     if (!email)
-//     {
-//       $('#errorEmail').show();
-//       return false;
-//     } else {
-//       $('#errorEmail').hide();
-//     }
+    if (!email)
+    {
+      $('#errorEmail').show();
+      return false;
+    } else {
+      $('#errorEmail').hide();
+    }
     
-//     if (!email.match(/^[\w-\.]+@stevens\.edu$/)) {
-//       $('#errorEmail').show();
-//       return false;
-//     } else {
-//       $('#errorEmail').hide();
-//     }
+    if (!email.match(/^[\w-\.]+@stevens\.edu$/)) {
+      $('#errorEmail').show();
+      return false;
+    } else {
+      $('#errorEmail').hide();
+    }
 
-//     // if (!username.match(/^[A-Za-z0-9]{6,15}$/)) {
-//     //   $('#errorUsername').show();
-//     //   return false;
-//     // } else {
-//     //   $('#errorUsername').hide();
-//     // }
+    // if (!username.match(/^[A-Za-z0-9]{6,15}$/)) {
+    //   $('#errorUsername').show();
+    //   return false;
+    // } else {
+    //   $('#errorUsername').hide();
+    // }
 
 
-//     if (!password) {
-//       $('#errorPassword').show();
-//       return false;
-//     } else {
-//       $('#errorPassword').hide();
-//     }
+    if (!password) {
+      $('#errorPassword').show();
+      return false;
+    } else {
+      $('#errorPassword').hide();
+    }
 
-//     if (!password.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,16}$/)) {
-//       $('#errorPassword').show();
-//       return false;
-//     } else {
-//       $('#errorPassword').hide();
-//     }
-//     event.target.submit();
-//     // $.ajax({
-//     //   url: $(this).attr('action'),
-//     //   method: $(this).attr('method'),
-//     //   data: new FormData(this),
-//     //   processData: false,
-//     //   contentType: false,
-//     //   success: function (response) {
-//     //     console.log(response);
-//     //   },
-//     //   error: function (error) {
-//     //     console.log(error);
-//     //   }
-//     // });
-//   });
-// });
+    if (!password.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,16}$/)) {
+      $('#errorPassword').show();
+      return false;
+    } else {
+      $('#errorPassword').hide();
+    }
+    event.target.submit();
+    // $.ajax({
+    //   url: $(this).attr('action'),
+    //   method: $(this).attr('method'),
+    //   data: new FormData(this),
+    //   processData: false,
+    //   contentType: false,
+    //   success: function (response) {
+    //     console.log(response);
+    //   },
+    //   error: function (error) {
+    //     console.log(error);
+    //   }
+    // });
+  });
+});

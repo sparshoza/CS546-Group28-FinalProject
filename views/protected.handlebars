@@ -23,7 +23,7 @@ If the user is logged in , and 'GET /protected' endpoint is called, you will ren
         <br/>
         <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
         <div class="user-info">
-            <img src="../public/images/{{userData.emailAddress}}.jpeg" class="user-image"><p>{{userData.firstName}} {{userData.lastName}}</p>
+            <img src="../public/images/{{userData.emailAddress}}.jpeg" class="user-image" alt="user-profile-picture"><p>{{userData.firstName}} {{userData.lastName}}</p>
             <p>{{userData.emailAddress}}</p>
             <a href="/logout" class="logout-link">Logout</a>
         </div>
