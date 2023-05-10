@@ -401,7 +401,15 @@ router
   .route("/login")
   .get(async (req, res) => {
     //code here for GET
+    try 
+    {
+
     res.render("login", {});
+    }
+    catch(e)
+    {
+      return res.render("error", {error:e})
+    }
   })
   .post(async (req, res) => {
     //code here for POST
@@ -444,7 +452,7 @@ router
         return res.redirect("protected");
       } else {
         console.log("here");
-        return res.render("error", { error: "try again " });
+        return res.render("login", { errorMessage: "try again " });
       }
     } catch (e) {
       return res
