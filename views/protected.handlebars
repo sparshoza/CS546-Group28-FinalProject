@@ -1,21 +1,14 @@
-
-<!DOCTYPE html>
-
-<title>Protected Page</title>
-<body>
     <header>
         <h1 class="page-title">Protected Page</h1>
-      
     </header>
     <main>
-
           <form id="searchForm" action="/test" method="POST">
             <label for="searchTerm" class='head'>Search Courses (eg: CS555)</label>
             <input type="text" name="searchTerm" id="searchTerm" >
             <input class="submit-button" type="submit">
             
         </form>
-        <br/>
+        <br>
         <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
         <div class="user-info">
             <img src="../public/images/{{userData.emailAddress}}.jpeg" class="user-image" alt="user-profile-picture"><p>{{userData.firstName}} {{userData.lastName}}</p>
@@ -29,18 +22,19 @@
       <ol>
         {{#each userData.courses}}
           <li>
-            <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
+            <a class="course-review" href="indexx/{{this}}">{{this}}</a>
             <form action="/reviews" method="POST">
               {{!-- <label for="courseIdInput">Course Code:</label> --}}
-              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none" />
-              <br />
+              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none">
+              <br>
 
 
               <label for="reviewTextInput">Review Text:</label>
               <textarea
                 id="reviewTextInput"
                 name="reviewTextInput"
-              ></textarea><br />
+                class="review-textarea"
+              ></textarea><br>
 
               <label for="ratingInput">Rating:</label>
               <select id="ratingInput" name="ratingInput">
@@ -49,7 +43,7 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-              </select><br />
+              </select><br>
 
               {{!-- <label for="professorNameInput">Professor Name:</label> --}}
               {{!-- <input
@@ -59,7 +53,7 @@
                 style = "display: none;"
                 value = "Pname"
               /><br /> --}}
-              <button type="submit">Submit</button>
+              <button type="submit" class="button-homepage">Submit</button>
                   {{#if errorReview}}
         <div id = "error" class = "error"> {{errorReview}}</div>
             {{/if}}
@@ -69,8 +63,6 @@
         {{/each}}
       </ol>
     </div>
-  </main>
-
   {{! <div class="profile-pic">
   <label class="-label" for="file">
     <span class="glyphicon glyphicon-camera"></span>
@@ -83,4 +75,3 @@
   <div id="results"></div>
   <script>
   </script>
-</body>
