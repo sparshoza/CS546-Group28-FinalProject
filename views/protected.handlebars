@@ -1,21 +1,14 @@
-
-<!DOCTYPE html>
-
-<title>Protected Page</title>
-<body>
     <header>
         <h1 class="page-title">Protected Page</h1>
-      
     </header>
     <main>
-
           <form id="searchForm" action="/test" method="POST">
             <label for="searchTerm" class='head'>Search Courses (eg: CS555)</label>
             <input type="text" name="searchTerm" id="searchTerm" >
             <input class="submit-button" type="submit">
             
         </form>
-        <br/>
+        <br>
         <p>Welcome to the Group Study Portal, <span class="user-name">{{userData.firstName}}</span>.</p>
         <div class="user-info">
             <img src="../public/images/{{userData.emailAddress}}.jpeg" class="user-image" alt="user-profile-picture"><p>{{userData.firstName}} {{userData.lastName}}</p>
@@ -42,7 +35,8 @@
               <textarea
                 id="reviewTextInput"
                 name="reviewTextInput"
-              ></textarea><br />
+                class="review-textarea"
+              ></textarea><br>
 
               <label for="ratingInput">Ratings for {{this}}:</label>
               <select id="ratingInput" name="ratingInput">
@@ -51,10 +45,10 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-              </select><br />
+              </select><br>
 
               {{!-- <label for="professorNameInput">Professor Name:</label> --}}
-              <input
+              {{!-- <input
                 type="text"
                 id="professorNameInput"
                 name="professorNameInput"
@@ -63,6 +57,7 @@
               /><br />
               <button type="submit">Submit</button>
          
+
             </form>
         
           </li>
@@ -77,8 +72,6 @@
               
            
     </div>
-  </main>
-
   {{! <div class="profile-pic">
   <label class="-label" for="file">
     <span class="glyphicon glyphicon-camera"></span>
@@ -89,5 +82,5 @@
 
   <footer><h2> protected page </h2></footer>
   <div id="results"></div>
-  <script src="../public/js/reviews.js"></script>
-</body>
+  <script>
+  </script>

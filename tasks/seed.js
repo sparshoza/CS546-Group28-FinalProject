@@ -35,9 +35,13 @@ const course21 = await courses.create('CS423', 'Senior Design', ['Aaron Klapphol
 const course22 = await courses.create('CS513', 'Data Mining', ['Kazi Lutful Kabir']);
 const course23 = await courses.create('CS503', 'Discrete Math for Cryptography', ['Alexander Ushakov']);
 
-const email1 = await emails.create('rmiller6@stevens.edu');
-const email2 = await emails.create('test@stevens.edu');
-const email3 = await emails.create('phill@stevens.edu');
+const email1 = await emails.create('test@stevens.edu');
+const email2 = await emails.create('phill@stevens.edu');
+const email3 = await emails.create('tpak@stevens.edu');
+const email4 = await emails.create('agupta52@stevens.edu');
+const email5 = await emails.create('rmiller6@stevens.edu');
+const email6 = await emails.create('soza4@stevens.edu');
+const email7 = await emails.create('student@stevens.edu');
 
 /*ALL FUNCTIONS TESTED IN :
     Courses
