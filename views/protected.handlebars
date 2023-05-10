@@ -5,7 +5,7 @@
           <form id="searchForm" action="/test" method="POST">
             <label for="searchTerm" class='head'>Search Courses (eg: CS555)</label>
             <input type="text" name="searchTerm" id="searchTerm" >
-            <input class="submit-button" type="submit">
+            <input class="button-homepage" type="submit">
             
         </form>
         <br>
@@ -22,12 +22,12 @@
       <ol>
         {{#each userData.courses}}
           <li>
-            <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
+            <a class="course-review" href="indexx/{{this}}">{{this}}</a>
 
 
             <form action="/reviews" method="POST">
-              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none" />
-              <br />
+              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none">
+              <br>
               
 
 
@@ -54,8 +54,8 @@
                 name="professorNameInput"
                 style = "display: none;"
                 value = "Pname"
-              /><br />
-              <button type="submit">Submit</button>
+              ><br>
+              <button type="submit" class="button-homepage">Submit</button>
          
 
             </form>
