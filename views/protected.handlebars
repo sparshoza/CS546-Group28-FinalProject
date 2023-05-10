@@ -22,21 +22,23 @@
       <ol>
         {{#each userData.courses}}
           <li>
-            <a class="course-review" href="indexx/{{this}}">{{this}}</a>
+            <a class="course-review" href="indexx/{{this}}">{{this}}</a></a>
+
+
             <form action="/reviews" method="POST">
-              {{!-- <label for="courseIdInput">Course Code:</label> --}}
-              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none">
-              <br>
+              <input id="courseIdInput" type="text" name="courseIdInput" value= "{{this}}" style="display: none" />
+              <br />
+              
 
 
-              <label for="reviewTextInput">Review Text:</label>
+              <label for="reviewTextInput">Review Text for {{this}}:</label>
               <textarea
                 id="reviewTextInput"
                 name="reviewTextInput"
                 class="review-textarea"
               ></textarea><br>
 
-              <label for="ratingInput">Rating:</label>
+              <label for="ratingInput">Ratings for {{this}}:</label>
               <select id="ratingInput" name="ratingInput">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -52,16 +54,23 @@
                 name="professorNameInput"
                 style = "display: none;"
                 value = "Pname"
-              /><br /> --}}
-              <button type="submit" class="button-homepage">Submit</button>
-                  {{#if errorReview}}
-        <div id = "error" class = "error"> {{errorReview}}</div>
-            {{/if}}
+              /><br />
+              <button type="submit">Submit</button>
+         
+
             </form>
         
           </li>
         {{/each}}
       </ol>
+             {{#if errorReview}}
+                    <p> {{errorReview}}</p>
+            {{/if}}
+                     {{#if message}}
+        <p> {{message}}</p>
+            {{/if}}
+              
+           
     </div>
   {{! <div class="profile-pic">
   <label class="-label" for="file">
