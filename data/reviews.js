@@ -110,7 +110,7 @@ export const create = async(
     coursesList.forEach(element =>{
         total += element.rating;
         });
-    }
+    
     let overall = Math.floor(total / coursesList.length * 10) / 10;
     //update the overAll
     const updatedInfo3 = await coursesCollection.findOneAndUpdate(
@@ -121,7 +121,7 @@ export const create = async(
     if(updatedInfo3.lastErrorObject.n === 0){throw 'could not update Overall Rating';}
     //end of create
     return newReview;
-};
+}
 
 export const getAll = async(courseCode) =>{
     if(courseCode === undefined || courseCode === null){throw 'courseId must end'};
