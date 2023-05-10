@@ -46,9 +46,9 @@ export const create = async(
             check = true;
         }
     });
-    // if(check){
-    //     throw 'User already reviewed this course!';
-    // }
+    if(check){
+        throw 'User already reviewed this course!';
+    }
 
     //dont need to check courses as its array only contains the id's of the reviews
     let newReview = {
@@ -71,17 +71,17 @@ export const create = async(
 
 
     //for duplicate reviews 
-    const reviewsList = await reviewCollection.find({}).toArray()
+    // const reviewsList = await reviewCollection.find({}).toArray()
 
     
-    for (let user of reviewsList)
-    {
-        if (user.userId == userId && user.courseId === courseCode)
-        {
-            throw `Review already exists and cannot add again`
-        }
-    }
-    //ends here
+    // for (let user of reviewsList)
+    // {
+    //     if (user.userId == userId && user.courseId === courseCode)
+    //     {
+    //         throw `Review already exists and cannot add again`
+    //     }
+    // }
+    // // ends here
 
     const insertInfo = await reviewCollection.insertOne(newReview);
     if(!insertInfo.acknowledged || !insertInfo.insertedId){
