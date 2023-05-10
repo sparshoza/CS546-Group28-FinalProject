@@ -505,8 +505,25 @@ router
     const rating = xss(regData.ratingInput);
     const professorName = xss(regData.professorNameInput);
 
-      if (!courseId || !userId || !reviewText || !rating || !professorName) {
+//error handling
+    if (!courseId || !/^[a-zA-Z]{2,4}\d{3}$/i.test(courseId)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid Course Code. Please enter a valid course code." });
+    }
+
+      if (!courseId || !userId || !reviewText || !rating) {
         return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      if (typeof reviewText !== "string" ) {
+        return res.status(400).render({ error: "Enter Only Strings" });
+      }
+
+      if (reviewText.length < 5 || reviewText.length > 25) {
+        return res
+          .status(400)
+          .render({ error: "Review must be between 5 and 25 characters "});
       }
 
       // check rating is between 1 and 5
