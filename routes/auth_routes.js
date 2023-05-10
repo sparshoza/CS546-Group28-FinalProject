@@ -481,6 +481,12 @@ router
     try {
 
       const userData = req.session.user
+
+      if (!userData)
+      {
+        return res.redirect("/login")
+      }
+
       res.render('protected', { userData:userData});
 
       } catch (e) {
@@ -497,47 +503,46 @@ router
       const regData = req.body
       const reqData = req.session.user;
 
+      if (!regData)
+      {
+        return res.redirect("/login")
+      }
+
     let courseId = xss(regData.courseIdInput);
     courseId = courseId.toLowerCase();
     const userId = xss(reqData.userId.toString());
     const reviewText = xss(regData.reviewTextInput);
     const rating = xss(regData.ratingInput);
-    const professorName = xss(regData.professorNameInput);
 
 //error handling
     if (!courseId || !/^[a-zA-Z]{2,4}\d{3}$/i.test(courseId)) {
-      return res
-        .status(400)
-        .json({ error: "Invalid Course Code. Please enter a valid course code." });
+      return res.status(400).render('protected',{errorReview: "Course id format wrong", reqData:reqData, userData:regData});
     }
 
       if (!courseId || !userId || !reviewText || !rating) {
-        return res.status(400).json({ error: "Missing required fields" });
-      }
+        return res.status(400).render('protected',{errorReview:"Enter the fields", reqData:reqData, userData:regData})      }
 
       if (typeof reviewText !== "string" ) {
-        return res.status(400).render({ error: "Enter Only Strings" });
-      }
+        return res.status(400).render('protected',{errorReview:"Wrong Data type", reqData:reqData, userData:regData})      }
+      
 
-      if (reviewText.length < 5 || reviewText.length > 25) {
-        return res
-          .status(400)
-          .render({ error: "Review must be between 5 and 25 characters "});
-      }
+      if (reviewText.length < 5 || reviewText.length > 100) {
+        return res.status(400).render('protected',{errorReview:"length error", reqData:reqData, userData:regData})      }
+
+      
 
       // check rating is between 1 and 5
-      if (rating < 1 || rating > 5) {
-        return res
-          .status(400)
-          .json({ error: "Rating must be between 1 and 5" });
-      }
+      if (parseInt(rating) < 1 || parseInt(rating) > 5) {
+        return res.status(400).render('protected',{errorReview:"Rating range wrong", reqData:reqData, userData:regData})      }
+
+      
 
       const createReview = await reviewData.create(
         courseId,
         userId,
         reviewText,
         rating,
-        professorName
+        
       );
 
       
@@ -550,7 +555,7 @@ router
 
       } else
        {
-        return res.status(400).render('protected', {errorReview: "review only once", userData:regData})
+        return res.status(400).render('protected', {errorReview: "review only once", userData:regData, reqData:reqData})
       }
     } catch (e) {
       const userData = req.session.user
@@ -627,6 +632,7 @@ router.route("/test").post(async (req, res)=> {
 
   res.render('reviews', {course: getCourse.reviews, courseCode: getCourse.courseCode, courseObj:getCourse})
   }
+
   catch (e)
   {
     return res.render('error', {error: e})
