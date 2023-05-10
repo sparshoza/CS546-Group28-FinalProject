@@ -14,6 +14,15 @@
         <div id="loginErrorPassword" class="error" hidden>Error Invalid Password</div>
         <button id="loginButton" class="loginPageButton" type="submit">Login</button>
     </form>
+   
+    {{#if errorMessage}}
+ <div class="error">
+    <h3>{{errorMessage}}</h3>
+    </div>
+    {{/if}}    
+    
+    
+   
     <div class="register-login">
         <a href="/register">Click here to register!</a>
     </div>
