@@ -107,9 +107,13 @@ export const create = async(
     if(updatedInfo2.lastErrorObject.n === 0){throw 'could not add Review to Course';}
     //have to update the total review of the course now
     let total = 0;
+    let len = 0;    
     coursesList.forEach(element =>{
-        total += element.rating;
+        total += praseInt(element.rating);
+        len += 1;
         });
+    if(len === 0){
+        len = 1;
     }
     let overall = Math.floor(total / coursesList.length * 10) / 10;
     //update the overAll
