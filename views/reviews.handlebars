@@ -1,6 +1,8 @@
 <main>
   <div class="course-list">
-    <h2 class="section-title">Course Reviews for {{courseCode}}</h2>
+    <h2 class="section-title">Course Reviews for {{courseCode}} </h2>
+        <h3 class="section-title">Average Rating for {{courseCode}}:{{courseObj.rating}} </h3>
+
     <ol>
       {{#each course}}
       <li>

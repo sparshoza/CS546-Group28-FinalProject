@@ -477,16 +477,15 @@ router
   .route("/reviews")
 
   //getting all reviews for a course
-  .get(async (req,res, next) => {
+  .get(async (req,res) => {
     try {
-      const reviewList = await reviewData.getAll();
-      res.render('protected', {
-          title: 'Reviews',
-          allReviews: reviewList
-        });
+
+      const userData = req.session.user
+      res.render('protected', { userData:userData});
 
       } catch (e) {
-          next(e);
+
+        return res.render('protected', {error:e})
         }
       })
 
@@ -546,12 +545,12 @@ router
 
       if (createReview) {
 
-        return res.render('protected',{message:"Successfully created review!", userData:userData})
+        return res.render('protected',{message:"Successfully created review!", userData:regData})
 
 
       } else
        {
-        return res.status(400).render('protected', {errorReview: "review only once", userData:userData})
+        return res.status(400).render('protected', {errorReview: "review only once", userData:regData})
       }
     } catch (e) {
       const userData = req.session.user
@@ -626,7 +625,7 @@ router.route("/test").post(async (req, res)=> {
     console.log(getCourse)
     
 
-  res.render('reviews', {course: getCourse.reviews, courseCode: getCourse.courseCode})
+  res.render('reviews', {course: getCourse.reviews, courseCode: getCourse.courseCode, courseObj:getCourse})
   }
   catch (e)
   {
