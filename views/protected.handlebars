@@ -60,15 +60,19 @@
 
             </form>
         
+        
           </li>
         {{/each}}
       </ol>
              {{#if errorReview}}
                     <p> {{errorReview}}</p>
             {{/if}}
-                     {{#if message}}
+
+          {{#if message}}
         <p> {{message}}</p>
             {{/if}}
+
+        
               
            
     </div>
@@ -80,7 +84,7 @@
   <input id="file" type="file" onchange="loadFile(event)"/>
 </div> }}
 
-  <footer><h2> protected page </h2></footer>
+  <footer><h2>  protected page  </h2></footer>
   <div id="results"></div>
   <script>
   </script>
