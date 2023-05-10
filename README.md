@@ -13,3 +13,7 @@ How to test:
 
     Already Made Users are : Phill Harmonic, and Test Test
     
+    Commands: 
+"npm i" 
+"npm run seed" (for populating the database)
+"npm run start" 
