@@ -109,7 +109,7 @@ export const create = async(
     let total = 0;
     let len = 0;    
     coursesList.forEach(element =>{
-        total += praseInt(element.rating);
+        total += parseInt(element.rating);
         len += 1;
         });
 
