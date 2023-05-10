@@ -103,11 +103,25 @@ app.get("/login", (req, res, next) => {
   next();
 });
 
+
+app.get("/homepage", (req, res, next) => {
+  if (req.session.user) {
+   
+    
+      return res.redirect('/protected')
+    
+  }
+
+
+  next();
+});
+
+
 app.use("/register", (req, res, next) => {
   if (!req.session.user) {
     next();
     // return res.redirect('/login');
-  }  else if (req.session.user === "user") {
+  }  else if (req.session.user) {
     return res.redirect("/protected");
   } else {
     next();
