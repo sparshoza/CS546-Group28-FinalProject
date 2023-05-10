@@ -12,9 +12,7 @@ $(document).ready(() => {
 
   //for creating the user and adding it
 
-  // $('#create-user-btn').click((e)=>{
-  //   e.preventDefault();
-
+  
   console.log("in create user button");
   if ($("#username-input").val().length > 0) {
     socket.emit("new user", $("#username-input").val());
@@ -56,11 +54,8 @@ $(document).ready(() => {
     let newChannel = e.target.textContent;
     socket.emit("user changed channel", newChannel);
   });
-  // });
 
-  //for creating the channel
 
-  // $("#new-channel-btn").click(() => {
     console.log("in new channel button");
 
     let newChannel = $("#new-channel-input").val();
@@ -70,23 +65,8 @@ $(document).ready(() => {
       socket.emit("new channel", newChannel);
       $("#new-channel-input").val("");
     }
-  // });
 
-  //for sending the message
-  // $('#send-chat-btn').click((e) => {
-  //   e.preventDefault();
-  //   // Get the message text value
-  //   let message = $('#chat-input').val();
-  //   // Make sure it's not empty
-  //   if(message.length > 0){
-  //     // Emit the message with the current user to the server
-  //     socket.emit('new message', {
-  //       sender : currentUser,
-  //       message : message,
-  //     });
-  //     $('#chat-input').val("");
-  //   }
-  // });
+ 
 
   $("#send-chat-btn").click((e) => {
     console.log("in send chat button");
@@ -111,19 +91,14 @@ $(document).ready(() => {
     console.log("in new user");
 
     console.log(`${username} has joined the chat`);
+
     // Add the new user to the online users div
     $(".users-online").append(`<div class="user-online">${username}</div>`);
 
 
   });
 
-  //Listen for new messages
-  //  socket.on('new message', (data) => {
-  //   // Send that data back to ALL clients
-  //   console.log(`🎤 ${data.sender}: ${data.message} 🎤`)
-  //   io.emit('new message', data);
-
-  // })
+  
 
   socket.on("new message", (data) => {
     console.log("in new message");
@@ -141,8 +116,6 @@ $(document).ready(() => {
   });
 
   socket.on("get online users", (onlineUsers) => {
-    //You may have not have seen this for loop before. It's syntax is for(key in obj)
-    //Our usernames are keys in the object of onlineUsers.
     console.log("in online users");
 
     for (username in onlineUsers) {
@@ -158,14 +131,6 @@ $(document).ready(() => {
     }
   });
 
-  // socket.on("new channel", (newChannel) => {
-  //   console.log("in new channel");
-
-  //   $(".channels").append(`<div class="channel">${newChannel}</div>`);
-  // });
-
-  // Make the channel joined the current channel. Then load the messages.
-  // This only fires for the client who made the channel.
   socket.on("user changed channel", (data) => {
     console.log("in user changed channel");
 
